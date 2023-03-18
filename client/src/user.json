@@ -1,29 +1,26 @@
-[
-  {
-    "1": {
-      "id": 1,
-      "name": "Brandon Ha",
-      "username": "bha99",
-      "email": "test1@gmail.com",
-      "password": "password"
-    }
+{
+  "1": {
+    "id": 1,
+    "name": "Brandon Ha",
+    "username": "bha99",
+    "email": "test1@gmail.com",
+    "image": "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+    "password": "password"
   },
-  {
-    "1": {
-      "id": 2,
-      "name": "John Ngo",
-      "username": "jngo99",
-      "email": "test2@gmail.com",
-      "password": "password"
-    }
+  "2": {
+    "id": 2,
+    "name": "John Ngo",
+    "username": "jngo99",
+    "email": "test2@gmail.com",
+    "image": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+    "password": "password"
   },
-  {
-    "1": {
-      "id": 3,
-      "name": "Samson Poon",
-      "username": "spoon99",
-      "email": "test3@gmail.com",
-      "password": "password"
-    }
+  "3": {
+    "id": 3,
+    "name": "Samson Poon",
+    "username": "spoon99",
+    "email": "test3@gmail.com",
+    "image": "https://images.unsplash.com/photo-1601412436009-d964bd02edbc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGh1bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+    "password": "password"
   }
-]
+}
