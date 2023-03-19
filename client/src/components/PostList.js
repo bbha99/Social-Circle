@@ -1,12 +1,17 @@
 import { Avatar, Box, Card, TextField } from '@mui/material';
 import { styled } from '@mui/system';
+import { useState, useEffect } from "react";
 import React from 'react';
 import Post from './Post';
 import PostForm from './PostForm';
 
+import axios from "axios";
+
 // List of posts
 const PostList = (props) => {
   const [open, setOpen] = React.useState(false);
+
+  const [post, setPost] = React.useState([]);
 
   // Handle dialog open and close event
   const handleClickOpen = () => {
@@ -30,20 +35,30 @@ const PostList = (props) => {
     props.savePost(newPost);
   }
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/posts', { params: { id: 1 } })
+      .then((response) => {
+        // console.log("response.data.posts", response.data.posts)
+        setPost(prev => ({post: response.data.posts}));
+      });
+  }, []);
+
   const Div = styled(Box)({
     backgroundColor: "#DAE0E6",
     flex: "3"
   });
 
-  // Creates the list of posts for display
-  const postList = props.posts.map(post => {
-    return (
-      <Post
-        key={post.id}
-        post={post}
-        user={props.users[post.user_id]}
-      />);
-  });
+  let postList = []
+  if (post.length !== 0) {
+    postList =  post.post.map(post => {
+      return (
+        <Post
+          key={post.id}
+          post={post}
+          // user={props.users[post.user_id]}
+        />);
+    });
+  } 
   return (
 
     <Div p={2}>
@@ -59,7 +74,7 @@ const PostList = (props) => {
 
       </Card>
       <PostForm open={open} handleClose={handleClose} onSave={save} />
-      {postList}
+      {postList.length !== 0 && postList}
     </Div>
 
   );

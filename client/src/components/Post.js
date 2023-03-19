@@ -16,11 +16,11 @@ const Post = (props) => {
   };
 
   return (
-    <Card sx={{ marginBottom: 2, maxHeight: 600 }}>
+    <Card sx={{ marginBottom: 2 }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ width: 50, height: 50 }} src={props.user.image} />
-        }
+        // avatar={
+        //   <Avatar sx={{ width: 50, height: 50 }} src={props.user.image} />
+        // }
         action={
           <div>
             <IconButton onClick={handleClick}>
@@ -40,7 +40,7 @@ const Post = (props) => {
         }
 
         title={props.post.title}
-        subheader={props.user.name + " March 14, 2023"}
+        // subheader={props.user.name + " March 14, 2023"}
       />
 
       <CardContent>
@@ -54,7 +54,7 @@ const Post = (props) => {
         component="img"
         height="400"
         image={props.post.image}
-        alt="green iguana"
+        alt="alternate"
         sx={{ objectFit: "contain" }}
       />
       }
