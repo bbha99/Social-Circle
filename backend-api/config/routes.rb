@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   get '/register' => 'users#new'
   post '/users' => 'users#create'
 
+  resources :posts, only: [:index]
+
   namespace :admin do
     root to: 'dashboard#shows'
     resources :topics, except: [:destroy, :show]
   end
 
-  
 end
