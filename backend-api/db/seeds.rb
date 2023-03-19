@@ -71,10 +71,10 @@ puts "Done creating posts"
 
 puts "creating post_likes"
 
-5.times do 
+5.times do |n|
   PostLike.create!({
-    post_id: rand(1..10),
-    user_id: rand(1..15)
+    post_id: 1,
+    user_id: n + 1
   })
 end
 
@@ -97,11 +97,12 @@ puts "Done creating comments"
 #Create Comment_Likes
 
 puts "Creating comment_likes"
-10.times do 
-CommentLike.create!({
-  comment_id: rand(1..10),
-  user_id: rand(1..15)
-})
+
+10.times do |n|
+  CommentLike.create!({
+    comment_id: 1,
+    user_id: n + 1
+  })
 end
 
 puts "Done creating comment_likes"
@@ -124,10 +125,10 @@ puts "Done creating Chats"
 
 puts "Creating blocked_users"
 
-10.times do 
+10.times do |n|
   BlockedUser.create!({
-    user_id: rand(1..8),
-    blocked_user_id: rand(9..15)
+    user_id: 15,
+    blocked_user_id: n + 1
   })
 end
 
@@ -137,10 +138,10 @@ puts "Done creating blocked_users"
 
 puts "Creating blocked_posts"
 
-10.times do 
+10.times do |n|
   BlockedPost.create!({
-    post_id: rand(1..10),
-    user_id: rand(1..15)
+    post_id: n + 1,
+    user_id: 15
   })
 end
 
