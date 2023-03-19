@@ -1,6 +1,8 @@
 import { AppBar, Toolbar, styled, Typography, Box, InputBase, Avatar, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { Api } from '@mui/icons-material/';
+import { Link } from "react-router-dom";
+
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between"
@@ -36,7 +38,7 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>Discussit</Typography>
+        <Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}><Link to='/'>Discussit</Link></Typography>
         <Api sx={{ display: { xs: "block", sm: "none" } }} />
         <Search><InputBase placeholder='search' /></Search>
         <Icons>
