@@ -4,7 +4,7 @@
     "title": "How to tie your shoes",
     "description": "To tie your shoes, all you need to do is make a knot.",
     "image": "https://images.immediate.co.uk/production/volatile/sites/4/2018/10/Is-there-a-way-to-tie-shoelaces-to-stop-them-coming-undone--240d9de.jpg?quality=90&resize=940,400",
-    "topic_id": 1,
+    "topic_id": 2,
     "user_id": 1,
     "deleted": false
   },
@@ -13,8 +13,8 @@
     "title": "What's the sentence that can melt the girls' heart?",
     "description": "My boyfriend told me the other day, Sometimes the way you still look at me gives me butterflies.",
     "image": "",
-    "topic_id": 1,
-    "user_id": 1,
+    "topic_id": 3,
+    "user_id": 2,
     "deleted": false
   },
   {
@@ -22,8 +22,8 @@
     "title": "View the Balloons",
     "description": "Amazing view of a bunch of balloons",
     "image": "https://plus.unsplash.com/premium_photo-1661629473263-572abf51d7c2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHJhbmRvbXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    "topic_id": 1,
-    "user_id": 1,
+    "topic_id": 2,
+    "user_id": 3,
     "deleted": false
   },
   {
@@ -31,8 +31,8 @@
     "title": "night market fair",
     "description": "Amazing view of the night market entrance!",
     "image": "https://images.unsplash.com/photo-1678737169917-4e19ce734b6d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
-    "topic_id": 1,
-    "user_id": 1,
+    "topic_id": 3,
+    "user_id": 2,
     "deleted": false
   }
 ]

@@ -19,7 +19,7 @@ const Post = (props) => {
     <Card sx={{ marginBottom: 2, maxHeight: 600 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ width: 30, height: 30 }} src='https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80' />
+          <Avatar sx={{ width: 50, height: 50 }} src={props.user.image} />
         }
         action={
           <div>
@@ -40,7 +40,7 @@ const Post = (props) => {
         }
 
         title={props.post.title}
-        subheader={"Brandon Ha March 14, 2023"}
+        subheader={props.user.name + " March 14, 2023"}
       />
 
       <CardContent>
