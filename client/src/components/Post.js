@@ -1,4 +1,4 @@
-import { FavoriteBorder, MoreHoriz, ChatBubbleOutline } from '@mui/icons-material';
+import { FavoriteBorder, MoreHoriz, ChatBubbleOutline, Favorite } from '@mui/icons-material';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Fade, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import React from 'react';
 
@@ -67,8 +67,8 @@ const Post = (props) => {
           variant="text"
           fullWidth={true}
           type="submit">
-          <FavoriteBorder />
-          {/* <Favorite sx={{ color: "red" }} /> */}
+          {props.userLikedPost && <Favorite sx={{ color: "red" }} />}
+          {!props.userLikedPost && <FavoriteBorder />}
           {props.totalLikes} Likes
         </Button>
         <Button
