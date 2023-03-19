@@ -69,7 +69,7 @@ const Post = (props) => {
           type="submit">
           <FavoriteBorder />
           {/* <Favorite sx={{ color: "red" }} /> */}
-          1 Likes
+          {props.totalLikes} Likes
         </Button>
         <Button
           variant="text"
