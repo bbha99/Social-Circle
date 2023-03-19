@@ -38,8 +38,8 @@ const PostList = (props) => {
   useEffect(() => {
     axios.get('http://localhost:3001/posts', { params: { id: 1 } })
       .then((response) => {
-        // console.log("response.data.posts", response.data.posts)
-        setPost(prev => ({post: response.data.posts}));
+        console.log("response:", response.data.postDetails)
+        setPost(response.data.postDetails);
       });
   }, []);
 
@@ -50,11 +50,13 @@ const PostList = (props) => {
 
   let postList = []
   if (post.length !== 0) {
-    postList =  post.post.map(post => {
+    postList =  post.map(post => {
       return (
         <Post
-          key={post.id}
-          post={post}
+          key={post.postsDetails.id}
+          totalLikes = {post.totalLikes}
+          post={post.postsDetails}
+          userLikedPost={post.userLikedPost}
           // user={props.users[post.user_id]}
         />);
     });

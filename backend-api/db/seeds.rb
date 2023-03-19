@@ -55,6 +55,26 @@ puts "Done creating Topics"
 
 puts "Creating Posts..."
 
+2.times do 
+  Post.create!({
+  title: Faker::Quote.singular_siegler,
+  description: Faker::Quote.matz,
+  image: Faker::LoremFlickr.colorized_image,
+  user_id: 1,
+  topic_id: rand(1..3)
+})
+end
+
+3.times do 
+  Post.create!({
+  title: Faker::Quote.singular_siegler,
+  description: Faker::Quote.matz,
+  image: Faker::LoremFlickr.colorized_image,
+  user_id: 2,
+  topic_id: rand(1..3)
+})
+end
+
 10.times do 
   Post.create!({
   title: Faker::Quote.singular_siegler,
@@ -74,6 +94,13 @@ puts "creating post_likes"
 5.times do |n|
   PostLike.create!({
     post_id: 1,
+    user_id: n + 1
+  })
+end
+
+3.times do |n|
+  PostLike.create!({
+    post_id: 2,
     user_id: n + 1
   })
 end
