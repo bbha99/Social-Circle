@@ -1,0 +1,2 @@
+class BlockedUsersController < ApplicationController
+end
