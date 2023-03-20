@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
+import TopicList from './TopicList';
 
 const Leftbar = () => {
 
   const Div = styled(Box)(({ theme }) => ({
-    backgroundColor: "#1A1A1B",
+    backgroundColor: "white",
     flex: "2",
     [theme.breakpoints.down("md")]: {
       display: "none"
@@ -18,6 +19,9 @@ const Leftbar = () => {
   return (
     <Div p={2}>
       <Box position="fixed"></Box>
+      
+      <div>Topics</div>
+      <TopicList> </TopicList>
     </Div>
   );
 };
