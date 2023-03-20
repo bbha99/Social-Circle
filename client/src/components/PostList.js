@@ -10,9 +10,9 @@ import axios from "axios";
 // List of posts
 const PostList = (props) => {
   const [open, setOpen] = React.useState(false);
-
   const [post, setPost] = React.useState([]);
 
+  const user_session_id = 2
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,13 +35,12 @@ const PostList = (props) => {
     props.savePost(newPost);
   }
 
-  // Function to like a post
+  // Creates a liked post row in the database
   function likePost(post_id) {
 
-    return axios.post('http://localhost:3001/post_likes', null, { params: { id: 1, post_id: post_id } })
+    return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
       .then((postLiked) => {
-        console.log("postLiked.data.postLikesCreated", postLiked.data)
-        return postLiked.data
+        return 1;
       })
       .catch((response) => {
         throw new Error(response.status);
@@ -49,16 +48,22 @@ const PostList = (props) => {
   }
 
 
-  // Function to unlike a post
+  // Destroys a liked post row in the database
   function unlikePost(post_id) {
 
-
+    return axios.delete(`http://localhost:3001/post_likes/${user_session_id}`, { params: { id: user_session_id, post_id: post_id } })
+      .then((postUnliked) => {
+        return -1;
+      })
+      .catch((response) => {
+        throw new Error(response.status);
+      });
   }
 
+   // Retrieve all the posts onload
   useEffect(() => {
-    axios.get('http://localhost:3001/posts', { params: { id: 1 } })
+    axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
       .then((response) => {
-        console.log("response:", response.data.postDetails);
         setPost(response.data.postDetails);
       });
   }, []);
@@ -77,7 +82,6 @@ const PostList = (props) => {
           totalLikes={post.totalLikes}
           post={post.postsDetails}
           userLikedPost={post.userLikedPost}
-          userLikedId={post.userLikedId}
           likePost={likePost}
           unlikePost={unlikePost}
         // user={props.users[post.user_id]}

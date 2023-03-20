@@ -8,11 +8,15 @@ class PostLikesController < ApplicationController
       postLikesCreated = true
     end
     puts newPostLikes
-    render json: {postLikeId: newPostLikes, postLikesCreated: postLikesCreated}
+    render json: {userLikedPost: postLikesCreated}
   end
 
   def destroy
-  
+    @likedItem = PostLike.find_by(user_id: params[:id], post_id: params[:post_id])
+    @likedItem.destroy
+
+    render json: {status: "successfully deleted like"}
+
   end
 
 end

@@ -4,9 +4,10 @@ import React from 'react';
 
 // Individual post component
 const Post = (props) => {
+  const [liked, setLiked] = React.useState(0);
+  const [value, setValue] = React.useState(0);
+  const [totalLikes, setTotalLikes] = React.useState(0);
 
-  const [likeIncrement, setLikeIncrement] = React.useState(0);
-  const [likeIdExist, setLikeIdExist] = React.useState({});
 
   // Delete post action
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -20,26 +21,48 @@ const Post = (props) => {
 
   // Allow user to like a post
   function heartPost(event) {
-    // console.log("hearting post...")
     props.likePost(props.post.id)
-    .then((postLiked) => {
-      console.log("thisabfoiebofiew: ", postLiked.postLikeId)
-      const likeId = {post_id: postLiked.postLikeId.post_id, user_id: postLiked.postLikeId.user_id}
-      setLikeIdExist(likeId)
-      setLikeIncrement(1)
-    })
-    .catch(error => console.log(error));
+      .then((postLiked) => {
+        setLiked(postLiked);
+        setTotalLikes((prev) => prev + 1);
+      })
+      .catch(error => console.log(error));
 
   }
 
   // Allow user to unlike a liked post
   function unheartPost(event) {
-    // console.log("unhearting post...")
-    // props.unlikePost(props.post.id)
-    // .then((postUnliked) => {
-    //   setLikeIncrement(-1)
-    // })
-    // .catch(error => console.log(error));
+    props.unlikePost(props.post.id)
+      .then((postNotLiked) => {
+        setLiked(postNotLiked);
+        setTotalLikes((prev) => prev - 1);
+      })
+      .catch(error => console.log(error));
+  }
+
+  if (value === 0) {
+    setValue(1);
+    setTotalLikes(props.totalLikes);
+  }
+
+
+
+  // Checks whether post has been liked during user session or defaults to state onload
+  let likeButton;
+  if ((props.userLikedPost && liked === 0) || liked === 1) {
+    likeButton = <Button
+      fullWidth={true}
+      onClick={unheartPost}>
+      <Favorite sx={{ color: "red" }} />
+      {totalLikes} Likes
+    </Button>;
+  } else {
+    likeButton = <Button
+      fullWidth={true}
+      onClick={heartPost}>
+      <FavoriteBorder />
+      {totalLikes} Likes
+    </Button>;
   }
 
   return (
@@ -67,7 +90,7 @@ const Post = (props) => {
         }
 
         title={props.post.title}
-        // subheader={props.user.name + " March 14, 2023"}
+      // subheader={props.user.name + " March 14, 2023"}
       />
 
       <CardContent>
@@ -78,25 +101,18 @@ const Post = (props) => {
 
       {props.post.image &&
         <CardMedia
-        component="img"
-        height="400"
-        image={props.post.image}
-        alt="alternate"
-        sx={{ objectFit: "contain" }}
-      />
+          component="img"
+          height="400"
+          image={props.post.image}
+          alt="alternate"
+          sx={{ objectFit: "contain" }}
+        />
       }
 
       <Divider variant="middle" sx={{ marginTop: 0.5 }} />
 
       <CardActions>
-        <Button
-          variant="text"
-          fullWidth={true}
-          type="submit">
-          { (props.userLikedId.length || Object.keys(likeIdExist).length !== 0 ) > 0 && <Favorite onClick={unheartPost} sx={{ color: "red" }} />}
-          {(props.userLikedId.length === 0 && Object.keys(likeIdExist).length === 0 ) && <FavoriteBorder onClick={heartPost}/>}
-          {props.totalLikes + likeIncrement} Likes
-        </Button>
+        {likeButton}
         <Button
           variant="text"
           fullWidth={true}
