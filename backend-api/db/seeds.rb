@@ -101,7 +101,7 @@ end
 3.times do |n|
   PostLike.create!({
     post_id: 2,
-    user_id: n + 1
+    user_id: n + 1 + 1
   })
 end
 
