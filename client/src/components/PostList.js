@@ -35,10 +35,30 @@ const PostList = (props) => {
     props.savePost(newPost);
   }
 
+  // Function to like a post
+  function likePost(post_id) {
+
+    return axios.post('http://localhost:3001/post_likes', null, { params: { id: 1, post_id: post_id } })
+      .then((postLiked) => {
+        console.log("postLiked.data.postLikesCreated", postLiked.data)
+        return postLiked.data
+      })
+      .catch((response) => {
+        throw new Error(response.status);
+      });
+  }
+
+
+  // Function to unlike a post
+  function unlikePost(post_id) {
+
+
+  }
+
   useEffect(() => {
     axios.get('http://localhost:3001/posts', { params: { id: 1 } })
       .then((response) => {
-        console.log("response:", response.data.postDetails)
+        console.log("response:", response.data.postDetails);
         setPost(response.data.postDetails);
       });
   }, []);
@@ -48,19 +68,22 @@ const PostList = (props) => {
     flex: "3"
   });
 
-  let postList = []
+  let postList = [];
   if (post.length !== 0) {
-    postList =  post.map(post => {
+    postList = post.map(post => {
       return (
         <Post
           key={post.postsDetails.id}
-          totalLikes = {post.totalLikes}
+          totalLikes={post.totalLikes}
           post={post.postsDetails}
           userLikedPost={post.userLikedPost}
-          // user={props.users[post.user_id]}
+          userLikedId={post.userLikedId}
+          likePost={likePost}
+          unlikePost={unlikePost}
+        // user={props.users[post.user_id]}
         />);
     });
-  } 
+  }
   return (
 
     <Div p={2}>
