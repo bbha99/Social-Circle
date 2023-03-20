@@ -6,7 +6,7 @@ import { List, ListItem, ListItemText, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   listItem: {
     cursor: "pointer",
@@ -28,7 +28,7 @@ const TopicList = (props) => {
         setTopics(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching topics: ", error);
+        console.error(error);
       });
   }, []);
 

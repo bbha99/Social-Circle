@@ -20,7 +20,6 @@ const Leftbar = () => {
     <Div p={2}>
       <Box position="fixed"></Box>
       
-      <div>Topics</div>
       <TopicList> </TopicList>
     </Div>
   );
