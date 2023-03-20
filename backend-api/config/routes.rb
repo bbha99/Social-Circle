@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#shows'
     resources :topics, except: [:destroy, :show]
+    get 'login' => 'sessions#new'
+    get 'dashboard' => 'dashboard#index'
   end
 
 end
