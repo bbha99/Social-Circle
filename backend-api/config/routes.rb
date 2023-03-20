@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resources :posts, only: [:index]
 
-  resources :post_likes, only: [:create, :destroy]
+  resources :post_likes, only: [:create]
+  post '/post_likes/delete' => 'post_likes#destroy'
 
   namespace :admin do
     root to: 'dashboard#shows'

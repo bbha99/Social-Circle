@@ -51,7 +51,7 @@ const PostList = (props) => {
   // Destroys a liked post row in the database
   function unlikePost(post_id) {
 
-    return axios.delete(`http://localhost:3001/post_likes/${user_session_id}`, { params: { id: user_session_id, post_id: post_id } })
+    return axios.post(`http://localhost:3001/post_likes/delete`, null,  { params: { id: user_session_id, post_id: post_id } })
       .then((postUnliked) => {
         return -1;
       })
