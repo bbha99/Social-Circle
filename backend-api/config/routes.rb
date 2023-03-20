@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :posts, only: [:index]
 
+  resources :post_likes, only: [:create, :destroy]
+
   namespace :admin do
     root to: 'dashboard#shows'
     resources :topics, except: [:destroy, :show]

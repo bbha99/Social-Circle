@@ -1,13 +1,9 @@
 class PostsController < ApplicationController
   def index
-    @posts = Post.all
-    # @likes = PostLike.all
-    
-    postsDetails = []
 
     sessionUser = User.find(params[:id])
-    puts sessionUser.id
-    p = @posts[0]
+    @posts = Post.all
+    postsDetails = []
 
     for post in @posts do
       userLikedPost = false
@@ -20,12 +16,9 @@ class PostsController < ApplicationController
 
       postsDetails.push({postsDetails: post, totalLikes: post.post_likes.count, userLikedPost: userLikedPost})
     end
-    # puts postsDetails
 
     render json: {postDetails: postsDetails}
   end
-
-  def show
-  end
+  
 
 end

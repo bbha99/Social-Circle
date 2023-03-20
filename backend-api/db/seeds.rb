@@ -28,7 +28,7 @@ puts "Creating Users"
   User.create!({
     username: Faker::Name.unique.name,
     email: Faker::Internet.email,
-    password: Faker::Internet.password(min_length: 5, max_length: 8),
+    password_digest: '$2a$12$LPELaHk1lzIiGL4ax3Axlu4MsuYfqqGL3Z/LF34WfokLUlSgi6KpO',
     image: Faker::LoremFlickr.colorized_image
 })
 end
@@ -101,7 +101,7 @@ end
 3.times do |n|
   PostLike.create!({
     post_id: 2,
-    user_id: n + 1
+    user_id: n + 1 + 1
   })
 end
 
