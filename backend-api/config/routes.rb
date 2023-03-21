@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   get '/admin' => 'admin/topics#index'
   resources :posts, only: [:index]
 
-  resources :post_likes, only: [:create, :destroy]
+  resources :post_likes, only: [:create]
+  post '/post_likes/delete' => 'post_likes#destroy'
 
   namespace :admin do
     root to: 'dashboard#shows'
