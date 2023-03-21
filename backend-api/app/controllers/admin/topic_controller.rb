@@ -1,5 +1,5 @@
 class Admin::TopicController < ApplicationController
-  before_action :authenticate_admin_credentials
+
 
   def index
     @topics = Topic.all
@@ -18,12 +18,6 @@ class Admin::TopicController < ApplicationController
 
   private
 
-  def authenticate_admin_credentials
-    authenticate_or_request_with_http_basic do |username, password|
-      username == 'spoon' && password == '1113'
-    end
-  end
-  
   def topic_params
     params.require(:topic).permit(:name)
   end

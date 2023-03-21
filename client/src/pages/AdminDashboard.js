@@ -28,6 +28,7 @@ const AdminDashboard = () => {
       .then(response => {
         setTopics([...topics, response.data]);
         setName('');
+        console.log("Successfully added")
       })
       .catch(error => {
         console.log(error);
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
         ))}
       </ul>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Name" value={name} onChange={handleNameChange} />
+        <input type="text" placeholder="Topic Name" value={name} onChange={handleNameChange} />
         <button type="submit">Add Topic</button>
       </form>
     </div>
