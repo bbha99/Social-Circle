@@ -6,12 +6,11 @@ class UsersController < ApplicationController
     if @users
       render json: {
         users: @users
-      }
+      }, status: 200
     else
       render json: {
-        status: 500,
         errors: ['no users found']
-      }
+      }, status: 500
     end
   end
   
@@ -24,12 +23,12 @@ class UsersController < ApplicationController
       render json: {
         status: :created,
         user: @user
-      }
+      }, status: 201
     else
       render json: {
-        status: 500,
         errors: @user.errors.full_messages
-      }
+      }, status: 500
+    end
   end
 
   def show
@@ -38,12 +37,11 @@ class UsersController < ApplicationController
     if @user
       render json: {
         user: @user
-      }
+      }, status: 200
     else
       render json: {
-        status: 500,
         errors: ['user not found']
-      }
+      }, status: 500
     end
   end
 

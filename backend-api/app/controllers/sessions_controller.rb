@@ -8,12 +8,11 @@ class SessionsController < ApplicationController
       render json: {
         logged_in: true,
         user: @user
-      }
+      }, status: 200
     else
       render json: {
-        status: 401,
         errors: ['Incorrect email or password']
-      }
+      }, status: 401
     end
   end
 
@@ -22,21 +21,20 @@ class SessionsController < ApplicationController
       render json: {
         logged_in: true,
         user: current_user
-      }
+      }, status: 200
     else
       render json: {
         logged_in: false,
         message: 'no such user'
-      }
+      }, status: 200
     end
   end
 
   def destroy
     logout!
     render json: {
-      status: 200,
       logged_out: true
-    }
+    }, status: 200
   end
 
   private
