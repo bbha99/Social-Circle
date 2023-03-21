@@ -20,25 +20,12 @@ const ListTopics = styled(ListItem)(({ theme }) => ({
 }));
 
 const TopicList = (props) => {
-  const [topics, setTopics] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/admin/topics")
-      .then((response) => {
-        console.log("topic response", response.data);
-        setTopics(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   return (
     <Div>
       <TitleTypography>Topics</TitleTypography>
       <List>
-        {topics.map((topic) => (
+        {props.topics.map((topic) => (
           <ListTopics
             key={topic.id}
             component={Link}
