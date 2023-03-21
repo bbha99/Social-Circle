@@ -28,7 +28,8 @@ puts "Creating Users"
   User.create!({
     username: Faker::Name.unique.name,
     email: Faker::Internet.email,
-    password_digest: '$2a$12$LPELaHk1lzIiGL4ax3Axlu4MsuYfqqGL3Z/LF34WfokLUlSgi6KpO',
+    password: 'password',
+    password_confirmation: 'password',
     image: Faker::LoremFlickr.colorized_image
 })
 end
