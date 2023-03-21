@@ -8,12 +8,18 @@ import users from "../user.json";
 import posts from "../post.json";
 import { ThemeProvider } from '@emotion/react';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const Home = () => {
 
-  const savePost = (newPost) => {
-    console.log("length: ", posts.length + 1);
-    posts.unshift({ ...newPost, id: posts.length + 1 });
+  const savePost = (newPostDetails) => {
+    return axios.post('http://localhost:3001/posts', null, { params: { newPostDetails: newPostDetails } })
+    .then((newPost) => {
+      return newPost;
+    })
+    .catch((response) => {
+      throw new Error(response.status);
+    });
   };
 
   const theme = createTheme({

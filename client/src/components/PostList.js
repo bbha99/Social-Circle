@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import React from 'react';
 import Post from './Post';
 import PostForm from './PostForm';
@@ -11,8 +11,10 @@ import axios from "axios";
 const PostList = (props) => {
   const [open, setOpen] = React.useState(false);
   const [post, setPost] = React.useState([]);
+  const [topics, setTopics] = React.useState([]);
+  const [newPost, setNewPost] = React.useState({});
 
-  const user_session_id = 2
+  const user_session_id = 2;
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,16 +25,18 @@ const PostList = (props) => {
   };
 
   // Adds the created post to the list of posts
-  function save(title, description, image) {
-    const newPost = {
+  function save(title, topicId, description, image) {
+    const newPostDetails = {
       title,
       description,
       image,
-      "topic_id": 2,
-      "user_id": 1,
-      "deleted": false
+      "topic_id": topicId,
+      "user_id": user_session_id
     };
-    props.savePost(newPost);
+    props.savePost(newPostDetails)
+      .then((newPost) => {
+        setNewPost(newPost.data);
+      });
   }
 
   // Creates a liked post row in the database
@@ -47,11 +51,10 @@ const PostList = (props) => {
       });
   }
 
-
   // Destroys a liked post row in the database
   function unlikePost(post_id) {
 
-    return axios.delete(`http://localhost:3001/post_likes/${user_session_id}`, { params: { id: user_session_id, post_id: post_id } })
+    return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
       .then((postUnliked) => {
         return -1;
       })
@@ -60,12 +63,18 @@ const PostList = (props) => {
       });
   }
 
-   // Retrieve all the posts onload
+  // Retrieve all the posts onload
   useEffect(() => {
     axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
       .then((response) => {
         setPost(response.data.postDetails);
       });
+
+    axios.get('http://localhost:3001/admin/topics')
+      .then((response) => {
+        setTopics(response.data);
+      });
+
   }, []);
 
   const Div = styled(Box)({
@@ -88,10 +97,11 @@ const PostList = (props) => {
         />);
     });
   }
+
   return (
 
     <Div p={2}>
-      <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }} onClick={handleClickOpen}>
+      <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
         <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
         <TextField
           id="outlined-textarea"
@@ -102,8 +112,17 @@ const PostList = (props) => {
         />
 
       </Card>
-      <PostForm open={open} handleClose={handleClose} onSave={save} />
-      {postList.length !== 0 && postList}
+      <PostForm open={open} handleClose={handleClose} onSave={save} topics={topics} />
+      {Object.keys(newPost).length !== 0 && <Post
+        key={newPost.id}
+        totalLikes={0}
+        post={newPost}
+        userLikedPost={false}
+        likePost={likePost}
+        unlikePost={unlikePost}
+      // user={props.users[post.user_id]}
+      />}
+      {postList}
     </Div>
 
   );
