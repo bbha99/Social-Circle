@@ -1,13 +1,9 @@
-class Admin::TopicController < ApplicationController
-
-
+class Admin::TopicsController < ApplicationController
   def index
     @topics = Topic.all
     render json: @topics
   end
   
-  
-
   def create
     @topic = Topic.new(topic_params)
 
@@ -21,6 +17,8 @@ class Admin::TopicController < ApplicationController
   def topic_params
     params.require(:topic).permit(:name)
   end
+
   def show
   end
+  
 end
