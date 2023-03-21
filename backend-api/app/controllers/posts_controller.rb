@@ -19,6 +19,18 @@ class PostsController < ApplicationController
 
     render json: {postDetails: postsDetails}
   end
+
+  def create
+
+    postDetails = params[:newPostDetails]
+
+    newPost = Post.new(title: postDetails["title"], description: postDetails["description"], image: postDetails["image"], deleted: false, topic_id: postDetails["topic_id"].to_i, user_id:postDetails["user_id"].to_i )
+    
+    if newPost.save
+      render json: newPost
+    end
+
+  end
   
 
 end

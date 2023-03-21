@@ -92,7 +92,7 @@ const PostForm = (props) => {
           
           {props.topics.map((option) => (
             <MenuItem key={option.id} value={option.id}>
-              {option.label}
+              {option.name}
             </MenuItem>
           ))}
         </TextField>
