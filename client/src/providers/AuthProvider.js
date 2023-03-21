@@ -4,8 +4,8 @@ import axios from "axios";
 export const authContext = createContext();
 
 const AuthProvider = (props) => {
-  const [auth, setAuth] = useState(false);
-  const [user, setUser] = useState(null);
+  const [auth, setAuth] = useState(sessionStorage.getItem("auth") === "true");
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
 
   const register = (username, email, password, password_confirmation) => {
     const user = { username, email, password, password_confirmation };
@@ -27,6 +27,9 @@ const AuthProvider = (props) => {
         setUser(response.data.user);
         setAuth(true);
 
+        sessionStorage.setItem("user", JSON.stringify(response.data.user));
+        sessionStorage.setItem("auth", true);
+
         return;
       })
       .catch(error => {
@@ -39,6 +42,9 @@ const AuthProvider = (props) => {
       .then(() => {
         setUser(null);
         setAuth(false);
+
+        sessionStorage.setItem("user", null);
+        sessionStorage.setItem("auth", false);
 
         return;
       })
