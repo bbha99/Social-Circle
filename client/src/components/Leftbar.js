@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import React from 'react';
 import TopicList from './TopicList';
 
-const Leftbar = () => {
+const Leftbar = (props) => {
 
   const Div = styled(Box)(({ theme }) => ({
     backgroundColor: "white",
@@ -20,7 +20,7 @@ const Leftbar = () => {
     <Div p={2}>
       <Box position="fixed"></Box>
       
-      <TopicList> </TopicList>
+      <TopicList topics={props.topics} />
     </Div>
   );
 };

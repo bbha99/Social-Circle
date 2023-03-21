@@ -1,20 +1,27 @@
 import { Avatar, Box, Card, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import React from 'react';
 import Post from './Post';
 import PostForm from './PostForm';
-
 import axios from "axios";
+import { authContext } from '../providers/AuthProvider';
 
 // List of posts
 const PostList = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [post, setPost] = React.useState([]);
-  const [topics, setTopics] = React.useState([]);
   const [newPost, setNewPost] = React.useState({});
 
-  const user_session_id = 2;
+  // Current user
+  const { user } = useContext(authContext);
+  let user_session_id;
+  if (user) {
+    console.log("user session inuse", user.id)
+    user_session_id = user.id;
+  } else {
+    user_session_id = 2
+  }
+
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,11 +40,21 @@ const PostList = (props) => {
       "topic_id": topicId,
       "user_id": user_session_id
     };
-    props.savePost(newPostDetails)
+    savePost(newPostDetails)
       .then((newPost) => {
         setNewPost(newPost.data);
       });
   }
+
+  const savePost = (newPostDetails) => {
+    return axios.post('http://localhost:3001/posts', null, { params: { newPostDetails: newPostDetails } })
+    .then((newPost) => {
+      return newPost;
+    })
+    .catch((response) => {
+      throw new Error(response.status);
+    });
+  };
 
   // Creates a liked post row in the database
   function likePost(post_id) {
@@ -63,28 +80,14 @@ const PostList = (props) => {
       });
   }
 
-  // Retrieve all the posts onload
-  useEffect(() => {
-    axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
-      .then((response) => {
-        setPost(response.data.postDetails);
-      });
-
-    axios.get('http://localhost:3001/admin/topics')
-      .then((response) => {
-        setTopics(response.data);
-      });
-
-  }, []);
-
   const Div = styled(Box)({
     backgroundColor: "#DAE0E6",
     flex: "3"
   });
 
   let postList = [];
-  if (post.length !== 0) {
-    postList = post.map(post => {
+  if (props.posts.length !== 0) {
+    postList = props.posts.map(post => {
       return (
         <Post
           key={post.postsDetails.id}
@@ -112,7 +115,7 @@ const PostList = (props) => {
         />
 
       </Card>
-      <PostForm open={open} handleClose={handleClose} onSave={save} topics={topics} />
+      <PostForm open={open} handleClose={handleClose} onSave={save} topics={props.topics} />
       {Object.keys(newPost).length !== 0 && <Post
         key={newPost.id}
         totalLikes={0}
