@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import React from 'react';
 import Post from './Post';
 import PostForm from './PostForm';
@@ -12,7 +12,17 @@ const PostList = (props) => {
   const [open, setOpen] = React.useState(false);
   const [post, setPost] = React.useState([]);
 
-  const user_session_id = 2
+  const user_session_id = 2;
+  const topics = [
+    {
+      id: 1,
+      label: 'Gaming',
+    },
+    {
+      id: 2,
+      label: 'Sports',
+    }
+  ];
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,9 +33,11 @@ const PostList = (props) => {
   };
 
   // Adds the created post to the list of posts
-  function save(title, description, image) {
+  function save(title, topic, description, image) {
+    console.log("post values:", title, topic, description, image);
     const newPost = {
       title,
+      topic,
       description,
       image,
       "topic_id": 2,
@@ -51,7 +63,7 @@ const PostList = (props) => {
   // Destroys a liked post row in the database
   function unlikePost(post_id) {
 
-    return axios.delete(`http://localhost:3001/post_likes/${user_session_id}`, { params: { id: user_session_id, post_id: post_id } })
+    return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
       .then((postUnliked) => {
         return -1;
       })
@@ -60,7 +72,7 @@ const PostList = (props) => {
       });
   }
 
-   // Retrieve all the posts onload
+  // Retrieve all the posts onload
   useEffect(() => {
     axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
       .then((response) => {
@@ -91,7 +103,7 @@ const PostList = (props) => {
   return (
 
     <Div p={2}>
-      <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }} onClick={handleClickOpen}>
+      <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
         <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
         <TextField
           id="outlined-textarea"
@@ -102,7 +114,7 @@ const PostList = (props) => {
         />
 
       </Card>
-      <PostForm open={open} handleClose={handleClose} onSave={save} />
+      <PostForm open={open} handleClose={handleClose} onSave={save} topics={topics} />
       {postList.length !== 0 && postList}
     </Div>
 
