@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
+import AdminDashboard from '../pages/AdminDashboard';
 
 const Main = () => {
   return (
@@ -10,6 +11,8 @@ const Main = () => {
       <Route path='/' element={<Home />}></Route>
       <Route path='*' element={<NotFound />} />
       <Route path='/home' element={<Home />}></Route>
+      <Route path='/admin/dashboard' element={<AdminDashboard />}></Route>
+
       {/* <Route path='/register' element={<Register />}></Route>
       <Route path='/login' element={<Login />}></Route> */}
     </Routes>
