@@ -1,25 +1,27 @@
 import { Avatar, Box, Card, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import React from 'react';
 import Post from './Post';
 import PostForm from './PostForm';
 import axios from "axios";
 import { authContext } from '../providers/AuthProvider';
-
+import { topicContext } from '../providers/TopicProvider';
 // List of posts
-const PostList = (props) => {
+const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
   const [newPost, setNewPost] = React.useState({});
 
   // Current user
   const { user } = useContext(authContext);
+  const { topicList } = useContext(topicContext);
+
   let user_session_id;
   if (user) {
-    console.log("user session inuse", user.id)
+    console.log("user session inuse", user.id);
     user_session_id = user.id;
   } else {
-    user_session_id = 2
+    user_session_id = 2;
   }
 
   // Handle dialog open and close event
@@ -48,12 +50,12 @@ const PostList = (props) => {
 
   const savePost = (newPostDetails) => {
     return axios.post('http://localhost:3001/posts', null, { params: { newPostDetails: newPostDetails } })
-    .then((newPost) => {
-      return newPost;
-    })
-    .catch((response) => {
-      throw new Error(response.status);
-    });
+      .then((newPost) => {
+        return newPost;
+      })
+      .catch((response) => {
+        throw new Error(response.status);
+      });
   };
 
   // Creates a liked post row in the database
@@ -115,7 +117,7 @@ const PostList = (props) => {
         />
 
       </Card>
-      <PostForm open={open} handleClose={handleClose} onSave={save} topics={props.topics} />
+      <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />
       {Object.keys(newPost).length !== 0 && <Post
         key={newPost.id}
         totalLikes={0}
@@ -131,5 +133,5 @@ const PostList = (props) => {
   );
 };
 
-export default PostList;
+export default Feed;
 
