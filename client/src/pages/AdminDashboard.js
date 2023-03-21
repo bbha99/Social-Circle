@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   const [name, setName] = useState('');
 
   useEffect(() => {
-    axios.get('/admin/topics')
+    axios.get('http://localhost:3001/admin/topics')
       .then(response => {
         setTopics(response.data);
       })
@@ -22,7 +22,7 @@ const AdminDashboard = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios.post('/admin/topics', {
+    axios.post('http://localhost:3001/admin/topics', {
       name: name
     })
       .then(response => {
