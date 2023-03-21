@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { useContext } from "react";
+import { topicContext } from '../providers/TopicProvider';
 
 const Div = styled('div')({
   margin: (theme) => theme.spacing(1),
@@ -20,12 +20,12 @@ const ListTopics = styled(ListItem)(({ theme }) => ({
 }));
 
 const TopicList = (props) => {
-
+  const { topicList } = useContext(topicContext);
   return (
     <Div>
       <TitleTypography>Topics</TitleTypography>
       <List>
-        {props.topics.map((topic) => (
+        {topicList.map((topic) => (
           <ListTopics
             key={topic.id}
             component={Link}
