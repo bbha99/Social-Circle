@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/register' => 'users#new'
   post '/users' => 'users#create'
   get '/admin' => 'admin/topics#index'
-  resources :posts, only: [:index]
+  resources :posts, only: [:index, :create]
 
   resources :post_likes, only: [:create]
   post '/post_likes/delete' => 'post_likes#destroy'

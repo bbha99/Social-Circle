@@ -11,18 +11,10 @@ import axios from "axios";
 const PostList = (props) => {
   const [open, setOpen] = React.useState(false);
   const [post, setPost] = React.useState([]);
+  const [topics, setTopics] = React.useState([]);
+  const [newPost, setNewPost] = React.useState({});
 
   const user_session_id = 2;
-  const topics = [
-    {
-      id: 1,
-      label: 'Gaming',
-    },
-    {
-      id: 2,
-      label: 'Sports',
-    }
-  ];
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,18 +25,18 @@ const PostList = (props) => {
   };
 
   // Adds the created post to the list of posts
-  function save(title, topic, description, image) {
-    console.log("post values:", title, topic, description, image);
-    const newPost = {
+  function save(title, topicId, description, image) {
+    const newPostDetails = {
       title,
-      topic,
       description,
       image,
-      "topic_id": 2,
-      "user_id": 1,
-      "deleted": false
+      "topic_id": topicId,
+      "user_id": user_session_id
     };
-    props.savePost(newPost);
+    props.savePost(newPostDetails)
+      .then((newPost) => {
+        setNewPost(newPost.data);
+      });
   }
 
   // Creates a liked post row in the database
@@ -58,7 +50,6 @@ const PostList = (props) => {
         throw new Error(response.status);
       });
   }
-
 
   // Destroys a liked post row in the database
   function unlikePost(post_id) {
@@ -78,6 +69,12 @@ const PostList = (props) => {
       .then((response) => {
         setPost(response.data.postDetails);
       });
+
+    axios.get('http://localhost:3001/admin/topics')
+      .then((response) => {
+        setTopics(response.data);
+      });
+
   }, []);
 
   const Div = styled(Box)({
@@ -100,6 +97,7 @@ const PostList = (props) => {
         />);
     });
   }
+
   return (
 
     <Div p={2}>
@@ -115,7 +113,16 @@ const PostList = (props) => {
 
       </Card>
       <PostForm open={open} handleClose={handleClose} onSave={save} topics={topics} />
-      {postList.length !== 0 && postList}
+      {Object.keys(newPost).length !== 0 && <Post
+        key={newPost.id}
+        totalLikes={0}
+        post={newPost}
+        userLikedPost={false}
+        likePost={likePost}
+        unlikePost={unlikePost}
+      // user={props.users[post.user_id]}
+      />}
+      {postList}
     </Div>
 
   );
