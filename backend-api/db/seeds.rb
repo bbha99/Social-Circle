@@ -49,6 +49,13 @@ Topic.create!({
 Topic.create!({
   name: 'Gaming'
 })
+Topic.create!({
+  name: 'Pets'
+})
+Topic.create!({
+  name: 'Movies'
+})
+
 # SELECT "posts".* FROM "posts" INNER JOIN "users" ON "users"."id
 # " = "posts"."user_id"
 puts "Done creating Topics"
@@ -92,6 +99,13 @@ puts "creating post_likes"
 end
 
 3.times do |n|
+  PostLike.create!({
+    post_id: 3,
+    user_id: n + 1 + 1
+  })
+end
+
+1.times do |n|
   PostLike.create!({
     post_id: 2,
     user_id: n + 1 + 1

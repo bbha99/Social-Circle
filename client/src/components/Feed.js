@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, TextField } from '@mui/material';
+import { Avatar, Box, Card, Tab, Tabs, TextField } from '@mui/material';
 import { styled } from '@mui/system';
 import { useContext } from "react";
 import React from 'react';
@@ -7,10 +7,12 @@ import PostForm from './PostForm';
 import axios from "axios";
 import { authContext } from '../providers/AuthProvider';
 import { topicContext } from '../providers/TopicProvider';
+
 // List of posts
 const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
   const [newPost, setNewPost] = React.useState({});
+  const [sortValue, setSortValue] = React.useState(0);
 
   // Current user
   const { user } = useContext(authContext);
@@ -20,6 +22,11 @@ const Feed = (props) => {
   if (user) {
     user_session_id = user.id;
   }
+
+  // Sort filtering
+  const handleSort = (event, newValue) => {
+    setSortValue(newValue);
+  };
 
   // Handle dialog open and close event
   const handleClickOpen = () => {
@@ -85,21 +92,48 @@ const Feed = (props) => {
     }
   }
 
+  // Sort by category
+  function filterSort(arr, sortValue) {
+    // sort by post date
+    if (sortValue === 0) {
+      return arr.sort(function (a, b) {
+        const firstDate = new Date(b.postsDetails.created_at);
+        const secondDate = new Date(a.postsDetails.created_at);
+        return firstDate - secondDate;
+      });
+    }
+    if (sortValue === 1) {
+      return arr.sort(function (a, b) {
+        return b.totalLikes - a.totalLikes;
+      });
+    }
+
+    if (sortValue === 2) {
+      return arr.sort(function (a, b) {
+        const firstDate = new Date(b.postsDetails.created_at);
+        const secondDate = new Date(a.postsDetails.created_at);
+        return firstDate - secondDate;
+      });
+    }
+  }
+
   const Div = styled(Box)({
     backgroundColor: "#DAE0E6",
     flex: "3"
   });
 
 
-  let arr = []
+  let arr = [];
   if (Object.keys(newPost).length !== 0) {
     arr = [...props.posts, newPost];
   } else {
-    arr = [...props.posts]
+    arr = [...props.posts];
   }
 
   let postList = [];
   if (arr.length !== 0) {
+
+    arr = filterSort(arr, sortValue);
     postList = arr.map(post => {
       return (
         <Post
@@ -127,6 +161,15 @@ const Feed = (props) => {
           onClick={handleClickOpen}
         />
       </Card>}
+      <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
+        <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+          <Tabs value={sortValue} onChange={handleSort} centered>
+            <Tab label="Latest Post" />
+            <Tab label="Most Liked" />
+            <Tab label="Most Commented" />
+          </Tabs>
+        </Box>
+      </Card>
       {user && <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />}
       {postList}
     </Div>
