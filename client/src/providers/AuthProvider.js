@@ -37,7 +37,7 @@ const AuthProvider = (props) => {
       });
   };
 
-  const logout = () => {
+  const logout = async () => {
     return axios.post(`http://localhost:3001/logout`, {}, { withCredentials: true })
       .then(() => {
         setUser(null);

@@ -90,8 +90,8 @@ const Navbar = () => {
         }}
       >
         <MenuItem>Profile</MenuItem>
-        <MenuItem onClick={() => {
-          logout();
+        <MenuItem onClick={async () => {
+          await logout();
           window.location.reload();
         }}>Logout</MenuItem>
       </Menu>

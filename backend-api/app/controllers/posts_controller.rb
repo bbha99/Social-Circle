@@ -1,16 +1,20 @@
 class PostsController < ApplicationController
   def index
 
-    sessionUser = User.find(params[:id])
+    # Check if user is logged in or not
+    if params[:id].to_i != -1
+      sessionUser = User.find(params[:id])
+    end
     @posts = Post.all
     postsDetails = []
 
+    # Create a list of posts
     for post in @posts do
       userLikedPost = false
       
       # https://guides.rubyonrails.org/active_record_querying.html#existence-of-objects
       #  Query if user liked the post
-      if PostLike.where(user_id: sessionUser.id, post_id: post.id).exists?
+      if params[:id].to_i != -1 && PostLike.where(user_id: sessionUser.id, post_id: post.id).exists?
         userLikedPost = true
       end
 
