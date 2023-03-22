@@ -24,13 +24,13 @@ end
 
 puts "Creating Users"
 
-15.times do 
+5.times do 
   User.create!({
     username: Faker::Name.unique.name,
     email: Faker::Internet.email,
     password: 'password',
     password_confirmation: 'password',
-    image: Faker::LoremFlickr.colorized_image
+    image: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
 })
 end
 
@@ -49,7 +49,8 @@ Topic.create!({
 Topic.create!({
   name: 'Gaming'
 })
-
+# SELECT "posts".* FROM "posts" INNER JOIN "users" ON "users"."id
+# " = "posts"."user_id"
 puts "Done creating Topics"
 
 # Create Posts
@@ -71,17 +72,8 @@ end
   title: Faker::Quote.singular_siegler,
   description: Faker::Quote.matz,
   image: Faker::LoremFlickr.colorized_image,
+  deleted: false,
   user_id: 2,
-  topic_id: rand(1..3)
-})
-end
-
-10.times do 
-  Post.create!({
-  title: Faker::Quote.singular_siegler,
-  description: Faker::Quote.matz,
-  image: Faker::LoremFlickr.colorized_image,
-  user_id: rand(1..15),
   topic_id: rand(1..3)
 })
 end
@@ -115,8 +107,8 @@ puts "Creating Comments"
 10.times do 
   Comment.create!({
     description: Faker::Quotes::Shakespeare.hamlet_quote,
-    user_id: rand(1..15),
-    post_id: rand(1..10) 
+    user_id: 1,
+    post_id: rand(1..4) 
   })
 end
 
@@ -126,7 +118,7 @@ puts "Done creating comments"
 
 puts "Creating comment_likes"
 
-10.times do |n|
+3.times do |n|
   CommentLike.create!({
     comment_id: 1,
     user_id: n + 1
@@ -139,11 +131,11 @@ puts "Done creating comment_likes"
 
 puts "Creating chats"
 
-10.times do 
+1.times do 
   Chat.create!({
     message: Faker::Quote.yoda,
-    sender_id: rand(1..8),
-    receiver_id: rand(8..15)
+    sender_id: 1,
+    receiver_id: 2
   })
 end
 
@@ -153,9 +145,9 @@ puts "Done creating Chats"
 
 puts "Creating blocked_users"
 
-10.times do |n|
+3.times do |n|
   BlockedUser.create!({
-    user_id: 15,
+    user_id: 5,
     blocked_user_id: n + 1
   })
 end
@@ -166,10 +158,10 @@ puts "Done creating blocked_users"
 
 puts "Creating blocked_posts"
 
-10.times do |n|
+3.times do |n|
   BlockedPost.create!({
     post_id: n + 1,
-    user_id: 15
+    user_id: 4
   })
 end
 

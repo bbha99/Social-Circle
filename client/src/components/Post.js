@@ -1,6 +1,9 @@
 import { FavoriteBorder, MoreHoriz, ChatBubbleOutline, Favorite } from '@mui/icons-material';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Fade, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import React from 'react';
+import { useContext } from "react";
+import { authContext } from '../providers/AuthProvider';
+import moment from 'moment';
 
 // Individual post component
 const Post = (props) => {
@@ -8,6 +11,8 @@ const Post = (props) => {
   const [value, setValue] = React.useState(0);
   const [totalLikes, setTotalLikes] = React.useState(0);
 
+  // Current user
+  const { user } = useContext(authContext);
 
   // Delete post action
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -59,6 +64,7 @@ const Post = (props) => {
   } else {
     likeButton = <Button
       fullWidth={true}
+      disabled={!user ? true : false}
       onClick={heartPost}>
       <FavoriteBorder />
       {totalLikes} Likes
@@ -68,10 +74,10 @@ const Post = (props) => {
   return (
     <Card sx={{ marginBottom: 2 }}>
       <CardHeader
-        // avatar={
-        //   <Avatar sx={{ width: 50, height: 50 }} src={props.user.image} />
-        // }
-        action={
+        avatar={
+          <Avatar sx={{ width: 50, height: 50 }} src={props.userDetails.image} />
+        }
+        action={user === props.userDetails.id &&
           <div>
             <IconButton onClick={handleClick}>
               <MoreHoriz />
@@ -90,7 +96,7 @@ const Post = (props) => {
         }
 
         title={props.post.title}
-      // subheader={props.user.name + " March 14, 2023"}
+      subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow() }
       />
 
       <CardContent>
