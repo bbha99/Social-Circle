@@ -77,7 +77,7 @@ const Post = (props) => {
         avatar={
           <Avatar sx={{ width: 50, height: 50 }} src={props.userDetails.image} />
         }
-        action={user === props.userDetails.id &&
+        action={user && user.id === props.userDetails.id &&
           <div>
             <IconButton onClick={handleClick}>
               <MoreHoriz />
