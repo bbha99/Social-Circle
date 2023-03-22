@@ -18,10 +18,9 @@ const Feed = (props) => {
 
   let user_session_id = -1;
   if (user) {
-    console.log("user session inuse", user);
     user_session_id = user.id;
   }
-  console.log("user_session_id", user_session_id);
+
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,9 +90,17 @@ const Feed = (props) => {
     flex: "3"
   });
 
+
+  let arr = []
+  if (Object.keys(newPost).length !== 0) {
+    arr = [...props.posts, newPost];
+  } else {
+    arr = [...props.posts]
+  }
+
   let postList = [];
-  if (props.posts.length !== 0) {
-    postList = props.posts.map(post => {
+  if (arr.length !== 0) {
+    postList = arr.map(post => {
       return (
         <Post
           key={post.postsDetails.id}
@@ -102,7 +109,7 @@ const Feed = (props) => {
           userLikedPost={post.userLikedPost}
           likePost={likePost}
           unlikePost={unlikePost}
-        // user={props.users[post.user_id]}
+          userDetails={post.postsDetails.user}
         />);
     });
   }
@@ -121,16 +128,6 @@ const Feed = (props) => {
         />
       </Card>}
       {user && <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />}
-
-      {Object.keys(newPost).length !== 0 && <Post
-        key={newPost.id}
-        totalLikes={0}
-        post={newPost}
-        userLikedPost={false}
-        likePost={likePost}
-        unlikePost={unlikePost}
-      // user={props.users[post.user_id]}
-      />}
       {postList}
     </Div>
 
