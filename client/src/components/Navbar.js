@@ -90,7 +90,10 @@ const Navbar = () => {
         }}
       >
         <MenuItem>Profile</MenuItem>
-        <MenuItem onClick={logout}>Logout</MenuItem>
+        <MenuItem onClick={() => {
+          logout();
+          window.location.reload();
+        }}>Logout</MenuItem>
       </Menu>
     </AppBar>
   );

@@ -9,19 +9,33 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const { login } = useContext(authContext);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
 
   const onSubmit = (event) => {
     event.preventDefault();
 
+    setErrors([]);
+
     login(email, password)
-      .then((errors) => {
-        if (errors) {
-          console.log(errors);
+      .then((e) => {
+        if (e) {
+          setErrors(e);
         } else {
           navigate('/');
         }
       });
   };
+
+  const errorComponent = errors.map(e => {
+    return (
+      <Typography
+        variant="body1"
+        style={{ color: "red", marginTop: 10 }}
+      >
+        {e}
+      </Typography>
+    );
+  });
 
   const theme = createTheme();
 
@@ -68,6 +82,7 @@ const Login = () => {
                 />
               </Grid>
             </Grid>
+            {errorComponent}
             <Button
               type="submit"
               variant="contained"
