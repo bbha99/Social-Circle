@@ -17,17 +17,17 @@ const Home = () => {
   const { user } = useContext(authContext);
   const { getTopics } = useContext(topicContext);
 
-  let user_session_id;
+  let user_session_id = -1;
   if (user) {
     user_session_id = user.id;
-  } else {
-    user_session_id = 2;
   }
 
   // Retrieve all the posts onload
   useEffect(() => {
+    console.log("user_session_id", user_session_id)
     axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
       .then((response) => {
+        console.log("user_session_id2", user_session_id)
         setPosts(response.data.postDetails);
       });
       getTopics();

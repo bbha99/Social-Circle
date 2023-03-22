@@ -16,14 +16,12 @@ const Feed = (props) => {
   const { user } = useContext(authContext);
   const { topicList } = useContext(topicContext);
 
-  let user_session_id;
+  let user_session_id = -1;
   if (user) {
-    console.log("user session inuse", user.id);
+    console.log("user session inuse", user);
     user_session_id = user.id;
-  } else {
-    user_session_id = 2;
   }
-
+  console.log("user_session_id", user_session_id);
   // Handle dialog open and close event
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,51 +33,57 @@ const Feed = (props) => {
 
   // Adds the created post to the list of posts
   function save(title, topicId, description, image) {
-    const newPostDetails = {
-      title,
-      description,
-      image,
-      "topic_id": topicId,
-      "user_id": user_session_id
-    };
-    savePost(newPostDetails)
-      .then((newPost) => {
-        setNewPost(newPost.data);
-      });
+    if (user) {
+      const newPostDetails = {
+        title,
+        description,
+        image,
+        "topic_id": topicId,
+        "user_id": user_session_id
+      };
+      savePost(newPostDetails)
+        .then((newPost) => {
+          setNewPost(newPost.data);
+        });
+    }
   }
 
   const savePost = (newPostDetails) => {
-    return axios.post('http://localhost:3001/posts', null, { params: { newPostDetails: newPostDetails } })
-      .then((newPost) => {
-        return newPost;
-      })
-      .catch((response) => {
-        throw new Error(response.status);
-      });
+    if (user) {
+      return axios.post('http://localhost:3001/posts', null, { params: { newPostDetails: newPostDetails } })
+        .then((newPost) => {
+          return newPost;
+        })
+        .catch((response) => {
+          throw new Error(response.status);
+        });
+    }
   };
 
   // Creates a liked post row in the database
   function likePost(post_id) {
-
-    return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
-      .then((postLiked) => {
-        return 1;
-      })
-      .catch((response) => {
-        throw new Error(response.status);
-      });
+    if (user) {
+      return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
+        .then((postLiked) => {
+          return 1;
+        })
+        .catch((response) => {
+          throw new Error(response.status);
+        });
+    }
   }
 
   // Destroys a liked post row in the database
   function unlikePost(post_id) {
-
-    return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
-      .then((postUnliked) => {
-        return -1;
-      })
-      .catch((response) => {
-        throw new Error(response.status);
-      });
+    if (user) {
+      return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
+        .then((postUnliked) => {
+          return -1;
+        })
+        .catch((response) => {
+          throw new Error(response.status);
+        });
+    }
   }
 
   const Div = styled(Box)({
@@ -106,18 +110,18 @@ const Feed = (props) => {
   return (
 
     <Div p={2}>
-      <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
-        <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" />
+      {user && <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
+        <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src={user.image} />
         <TextField
           id="outlined-textarea"
-          placeholder="What's on your mind, User?"
+          placeholder={`What's on your mind, ${user.username}?`}
           rows={1}
           fullWidth={true}
           onClick={handleClickOpen}
         />
+      </Card>}
+      {user && <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />}
 
-      </Card>
-      <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />
       {Object.keys(newPost).length !== 0 && <Post
         key={newPost.id}
         totalLikes={0}
