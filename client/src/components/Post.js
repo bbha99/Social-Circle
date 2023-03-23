@@ -9,9 +9,6 @@ import { Box } from '@mui/system';
 
 // Individual post component
 const Post = (props) => {
-  const [liked, setLiked] = React.useState(0);
-  const [value, setValue] = React.useState(0);
-  const [totalLikes, setTotalLikes] = React.useState(0);
   const [displayComment, setDisplayComment] = React.useState(false);
   const [newComment, setNewComment] = React.useState("");
 
@@ -28,36 +25,24 @@ const Post = (props) => {
     setAnchorEl(null);
   };
 
-  // Allow user to like a post
-  function heartPost(event) {
-    props.likePost(props.post.id)
-      .then((postLiked) => {
-        setLiked(postLiked);
-        setTotalLikes((prev) => prev + 1);
-      })
-      .catch(error => console.log(error));
-
-  }
-
-  // Allow user to unlike a liked post
-  function unheartPost(event) {
-    props.unlikePost(props.post.id)
-      .then((postNotLiked) => {
-        setLiked(postNotLiked);
-        setTotalLikes((prev) => prev - 1);
-      })
-      .catch(error => console.log(error));
-  }
-
-  if (value === 0) {
-    setValue(1);
-    setTotalLikes(props.totalLikes);
+  // Allow user to like or unlike a post
+  function changeLikedPostState(liked) {
+    if (liked) {
+      props.likePost(props.post.id, props.totalLikes)
+        .then((postLiked) => {
+        })
+        .catch(error => console.log(error));
+    } else {
+      props.unlikePost(props.post.id, props.totalLikes)
+        .then((postNotLiked) => {
+        })
+        .catch(error => console.log(error));
+    }
   }
 
   // Allows user to create a new comment for a post
   const handleCommentSubmit = (event) => {
     event.preventDefault();
-    console.log("displaycomment", newComment);
     setNewComment("");
   };
 
@@ -70,26 +55,25 @@ const Post = (props) => {
     }
   };
 
-
+  const postId = props.post.id;
   // Checks whether post has been liked during user session or defaults to state onload
   let likeButton;
-  if ((props.userLikedPost && liked === 0) || liked === 1) {
+  if (props.sessionLikedPosts[postId] === true || (props.userLikedPost && !(postId in props.sessionLikedPosts))) {
     likeButton = <Button
       fullWidth={true}
-      onClick={unheartPost}>
+      onClick={() => { changeLikedPostState(false); }}>
       <Favorite sx={{ color: "red" }} />
-      {totalLikes} Likes
+      {postId in props.sessionTotalLikes ? props.sessionTotalLikes[postId] : props.totalLikes} Likes
     </Button>;
   } else {
     likeButton = <Button
       fullWidth={true}
       disabled={!user ? true : false}
-      onClick={heartPost}>
+      onClick={() => { changeLikedPostState(true); }}>
       <FavoriteBorder />
-      {totalLikes} Likes
+      {postId in props.sessionTotalLikes ? props.sessionTotalLikes[postId] : props.totalLikes } Likes
     </Button>;
   }
-
 
   const commentList = props.postComments.map(comment => {
     return (
@@ -161,7 +145,7 @@ const Post = (props) => {
 
       <Divider />
       {displayComment && <CardContent>
-        <form onSubmit={handleCommentSubmit}>
+        {user && <form onSubmit={handleCommentSubmit}>
           <Box sx={{ display: 'flex', marginBottom: 2 }}>
             <TextField
               id="outlined-textarea"
@@ -175,7 +159,7 @@ const Post = (props) => {
               Comment
             </Button>
           </Box>
-        </form>
+        </form>}
         {commentList}
       </CardContent>}
     </Card>

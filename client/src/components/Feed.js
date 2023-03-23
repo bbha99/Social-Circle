@@ -13,6 +13,8 @@ const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
   const [newPost, setNewPost] = React.useState({});
   const [sortValue, setSortValue] = React.useState(0);
+  const [sessionLikedPosts, setSessionLikedPosts] = React.useState({});
+  const [sessionTotalLikes, setSessionTotalLikes] = React.useState({});
 
   // Current user
   const { user } = useContext(authContext);
@@ -67,11 +69,26 @@ const Feed = (props) => {
   };
 
   // Creates a liked post row in the database
-  function likePost(post_id) {
+  function likePost(post_id, totalLikes) {
     if (user) {
       return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
         .then((postLiked) => {
-          return 1;
+            // Add to list of liked post in current session
+          setSessionLikedPosts((prev) => {
+            const newLikeObj = {};
+            newLikeObj[post_id] = true;
+            return { ...prev, ...newLikeObj };
+          });
+          setSessionTotalLikes((prev) => {
+            const newLikeObj = {};
+            if (post_id in prev) {
+              newLikeObj[post_id] = prev[post_id] + 1;
+              return { ...prev, ...newLikeObj};
+            }
+            newLikeObj[post_id] = totalLikes + 1;
+            return { ...prev, ...newLikeObj };
+          });
+          return true;
         })
         .catch((response) => {
           throw new Error(response.status);
@@ -80,11 +97,26 @@ const Feed = (props) => {
   }
 
   // Destroys a liked post row in the database
-  function unlikePost(post_id) {
+  function unlikePost(post_id, totalLikes) {
     if (user) {
       return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
         .then((postUnliked) => {
-          return -1;
+          setSessionLikedPosts((prev) => {
+            const newLikeObj = {};
+            newLikeObj[post_id] = false;
+            return { ...prev, ...newLikeObj };
+          });
+          setSessionTotalLikes((prev) => {
+            const newLikeObj = {};
+            if (post_id in prev) {
+              newLikeObj[post_id] = prev[post_id] - 1;
+              return { ...prev, ...newLikeObj};
+            } else {
+              newLikeObj[post_id] = totalLikes - 1;
+              return { ...prev, ...newLikeObj };
+            }
+          });
+          return true;
         })
         .catch((response) => {
           throw new Error(response.status);
@@ -110,18 +142,16 @@ const Feed = (props) => {
 
     if (sortValue === 2) {
       return arr.sort(function (a, b) {
-        const firstDate = new Date(b.postsDetails.created_at);
-        const secondDate = new Date(a.postsDetails.created_at);
-        return firstDate - secondDate;
+        return b.postCommentLength - a.postCommentLength;
       });
     }
   }
 
   function filterTopic(arr, selectedTopicId) {
-    if (selectedTopicId === 0) return arr
+    if (selectedTopicId === 0) return arr;
     return arr.filter((item) => {
-      return item.postsDetails.topic_id === selectedTopicId
-    })
+      return item.postsDetails.topic_id === selectedTopicId;
+    });
   }
 
   const Div = styled(Box)({
@@ -141,7 +171,7 @@ const Feed = (props) => {
   if (arr.length !== 0) {
 
     arr = filterSort(arr, sortValue);
-    arr = filterTopic(arr, selectedTopicId)
+    arr = filterTopic(arr, selectedTopicId);
 
     postList = arr.map(post => {
       return (
@@ -154,11 +184,11 @@ const Feed = (props) => {
           unlikePost={unlikePost}
           userDetails={post.postsDetails.user}
           postComments={post.postComments}
+          sessionLikedPosts={sessionLikedPosts}
+          sessionTotalLikes={sessionTotalLikes}
         />);
     });
   }
-
-  // console.log("post details: ", props.posts)
 
   return (
 
