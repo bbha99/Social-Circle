@@ -9,7 +9,7 @@ import { Box } from '@mui/system';
 
 // Individual post component
 const Post = (props) => {
-  const [displayComment, setDisplayComment] = React.useState(false);
+  // const [displayComment, setDisplayComment] = React.useState(false);
   const [newComment, setNewComment] = React.useState("");
 
   // Current user
@@ -48,11 +48,7 @@ const Post = (props) => {
 
   // Toggle comment display
   const handleCommentVisibility = () => {
-    if (displayComment) {
-      setDisplayComment(false);
-    } else {
-      setDisplayComment(true);
-    }
+    props.changeCommentVisibility(props.post.id)
   };
 
   const postId = props.post.id;
@@ -144,7 +140,7 @@ const Post = (props) => {
       </CardActions>
 
       <Divider />
-      {displayComment && <CardContent>
+      {props.displayComment[props.post.id] === true && <CardContent>
         {user && <form onSubmit={handleCommentSubmit}>
           <Box sx={{ display: 'flex', marginBottom: 2 }}>
             <TextField

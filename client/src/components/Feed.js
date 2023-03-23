@@ -15,6 +15,8 @@ const Feed = (props) => {
   const [sortValue, setSortValue] = React.useState(0);
   const [sessionLikedPosts, setSessionLikedPosts] = React.useState({});
   const [sessionTotalLikes, setSessionTotalLikes] = React.useState({});
+  const [displayComment, setDisplayComment] = React.useState({});
+  const [newComment, setNewComment] = React.useState({});
 
   // Current user
   const { user } = useContext(authContext);
@@ -37,6 +39,26 @@ const Feed = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const changeCommentVisibility = (post_id) => {
+
+    setDisplayComment((prev) => {
+      const showCommentObj = {};
+      showCommentObj[post_id] = true;
+      if (post_id in prev) {
+        if (prev[post_id] === true) {
+          showCommentObj[post_id] = false;
+          return { ...prev, ...showCommentObj };
+        } else {
+          return { ...prev, ...showCommentObj };
+        }
+      } else {
+        return { ...prev, ...showCommentObj };
+      }
+    });
+
+
   };
 
   // Adds the created post to the list of posts
@@ -73,7 +95,7 @@ const Feed = (props) => {
     if (user) {
       return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
         .then((postLiked) => {
-            // Add to list of liked post in current session
+          // Add to list of liked post in current session
           setSessionLikedPosts((prev) => {
             const newLikeObj = {};
             newLikeObj[post_id] = true;
@@ -83,7 +105,7 @@ const Feed = (props) => {
             const newLikeObj = {};
             if (post_id in prev) {
               newLikeObj[post_id] = prev[post_id] + 1;
-              return { ...prev, ...newLikeObj};
+              return { ...prev, ...newLikeObj };
             }
             newLikeObj[post_id] = totalLikes + 1;
             return { ...prev, ...newLikeObj };
@@ -110,7 +132,7 @@ const Feed = (props) => {
             const newLikeObj = {};
             if (post_id in prev) {
               newLikeObj[post_id] = prev[post_id] - 1;
-              return { ...prev, ...newLikeObj};
+              return { ...prev, ...newLikeObj };
             } else {
               newLikeObj[post_id] = totalLikes - 1;
               return { ...prev, ...newLikeObj };
@@ -186,6 +208,8 @@ const Feed = (props) => {
           postComments={post.postComments}
           sessionLikedPosts={sessionLikedPosts}
           sessionTotalLikes={sessionTotalLikes}
+          displayComment={displayComment}
+          changeCommentVisibility={changeCommentVisibility}
         />);
     });
   }
