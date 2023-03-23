@@ -1,15 +1,19 @@
 import { FavoriteBorder, MoreHoriz, ChatBubbleOutline, Favorite } from '@mui/icons-material';
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Fade, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Fade, IconButton, Menu, MenuItem, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useContext } from "react";
 import { authContext } from '../providers/AuthProvider';
 import moment from 'moment';
+import Comment from './Comment';
+import { Box } from '@mui/system';
 
 // Individual post component
 const Post = (props) => {
   const [liked, setLiked] = React.useState(0);
   const [value, setValue] = React.useState(0);
   const [totalLikes, setTotalLikes] = React.useState(0);
+  const [displayComment, setDisplayComment] = React.useState(false);
+  const [newComment, setNewComment] = React.useState("");
 
   // Current user
   const { user } = useContext(authContext);
@@ -50,6 +54,21 @@ const Post = (props) => {
     setTotalLikes(props.totalLikes);
   }
 
+  // Allows user to create a new comment for a post
+  const handleCommentSubmit = (event) => {
+    event.preventDefault();
+    console.log("displaycomment", newComment);
+    setNewComment("");
+  };
+
+  // Toggle comment display
+  const handleCommentVisibility = () => {
+    if (displayComment) {
+      setDisplayComment(false);
+    } else {
+      setDisplayComment(true);
+    }
+  };
 
 
   // Checks whether post has been liked during user session or defaults to state onload
@@ -70,6 +89,17 @@ const Post = (props) => {
       {totalLikes} Likes
     </Button>;
   }
+
+
+  const commentList = props.postComments.map(comment => {
+    return (
+      <Comment
+        key={comment.id}
+        description={comment.description}
+        commentOwner={comment.user}
+        created_at={comment.created_at}
+      />);
+  });
 
   return (
     <Card sx={{ marginBottom: 2 }}>
@@ -96,7 +126,7 @@ const Post = (props) => {
         }
 
         title={props.post.title}
-      subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow() }
+        subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow()}
       />
 
       <CardContent>
@@ -122,11 +152,32 @@ const Post = (props) => {
         <Button
           variant="text"
           fullWidth={true}
+          onClick={() => { handleCommentVisibility(); }}
           type="submit">
           <ChatBubbleOutline />
-          1 Comments
+          {props.postComments.length} Comments
         </Button>
       </CardActions>
+
+      <Divider />
+      {displayComment && <CardContent>
+        <form onSubmit={handleCommentSubmit}>
+          <Box sx={{ display: 'flex', marginBottom: 2 }}>
+            <TextField
+              id="outlined-textarea"
+              placeholder={`Write a comment...`}
+              rows={1}
+              fullWidth={true}
+              value={newComment}
+              onChange={(event) => setNewComment(event.target.value)}
+            />
+            <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
+              Comment
+            </Button>
+          </Box>
+        </form>
+        {commentList}
+      </CardContent>}
     </Card>
   );
 };

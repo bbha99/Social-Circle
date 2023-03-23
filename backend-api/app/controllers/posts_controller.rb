@@ -19,8 +19,10 @@ class PostsController < ApplicationController
       end
 
       # User.includes(:post).where("id = #{post.user_id}")
+  
+      postComments = post.comment.order(created_at: :desc)
 
-      postsDetails.push({postsDetails: post.as_json(include: :user), totalLikes: post.post_likes.count, userLikedPost: userLikedPost})
+      postsDetails.push({postsDetails: post.as_json(include: :user), totalLikes: post.post_likes.count, userLikedPost: userLikedPost, postComments: postComments.as_json(include: :user)})
     end
 
     render json: {postDetails: postsDetails}

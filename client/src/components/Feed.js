@@ -153,9 +153,12 @@ const Feed = (props) => {
           likePost={likePost}
           unlikePost={unlikePost}
           userDetails={post.postsDetails.user}
+          postComments={post.postComments}
         />);
     });
   }
+
+  // console.log("post details: ", props.posts)
 
   return (
 
