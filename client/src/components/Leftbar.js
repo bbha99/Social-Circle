@@ -18,9 +18,9 @@ const Leftbar = (props) => {
 
   return (
     <Div p={2}>
-      <Box position="fixed"></Box>
-      
-      <TopicList topics={props.topics} />
+      <Box position="fixed" sx={{width: "25%"}}>
+        <TopicList />
+      </Box>
     </Div>
   );
 };

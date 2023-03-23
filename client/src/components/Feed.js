@@ -16,7 +16,7 @@ const Feed = (props) => {
 
   // Current user
   const { user } = useContext(authContext);
-  const { topicList } = useContext(topicContext);
+  const { topicList, selectedTopicId } = useContext(topicContext);
 
   let user_session_id = -1;
   if (user) {
@@ -117,6 +117,13 @@ const Feed = (props) => {
     }
   }
 
+  function filterTopic(arr, selectedTopicId) {
+    if (selectedTopicId === 0) return arr
+    return arr.filter((item) => {
+      return item.postsDetails.topic_id === selectedTopicId
+    })
+  }
+
   const Div = styled(Box)({
     backgroundColor: "#DAE0E6",
     flex: "3"
@@ -134,6 +141,8 @@ const Feed = (props) => {
   if (arr.length !== 0) {
 
     arr = filterSort(arr, sortValue);
+    arr = filterTopic(arr, selectedTopicId)
+
     postList = arr.map(post => {
       return (
         <Post
