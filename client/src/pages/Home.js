@@ -21,6 +21,7 @@ const Home = () => {
   if (user) {
     user_session_id = user.id;
   }
+  // console.log("posts details: ", posts)
 
   // Retrieve all the posts onload
   useEffect(() => {
