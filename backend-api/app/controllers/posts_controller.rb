@@ -22,7 +22,7 @@ class PostsController < ApplicationController
   
       postComments = post.comment.order(created_at: :desc)
 
-      postsDetails.push({postsDetails: post.as_json(include: :user), totalLikes: post.post_likes.count, userLikedPost: userLikedPost, postComments: postComments.as_json(include: :user)})
+      postsDetails.push({postsDetails: post.as_json(include: :user), totalLikes: post.post_likes.count, userLikedPost: userLikedPost, postComments: postComments.as_json(include: :user), postCommentLength: postComments.length})
     end
 
     render json: {postDetails: postsDetails}
@@ -35,7 +35,7 @@ class PostsController < ApplicationController
     newPost = Post.new(title: postDetails["title"], description: postDetails["description"], image: postDetails["image"], deleted: nil, topic_id: postDetails["topic_id"].to_i, user_id:postDetails["user_id"].to_i )
     
     if newPost.save
-      render json: {postsDetails: newPost.as_json(include: :user), totalLikes: 0, userLikedPost: false}
+      render json: {postsDetails: newPost.as_json(include: :user), totalLikes: 0, userLikedPost: false, postComments: [], postCommentLength: 0}
     end
 
   end
