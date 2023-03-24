@@ -118,11 +118,28 @@ puts "done creating post_likes"
 
 puts "Creating Comments"
 
-10.times do 
+5.times do |n|
   Comment.create!({
     description: Faker::Quotes::Shakespeare.hamlet_quote,
     user_id: 1,
-    post_id: rand(1..4) 
+    post_id: n + 1
+  })
+end
+
+3.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 2,
+    post_id: n + 1
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    parent_comment_id: 1,
+    user_id: 1,
+    post_id: n + 1
   })
 end
 

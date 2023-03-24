@@ -1,15 +1,17 @@
 import { FavoriteBorder, MoreHoriz, ChatBubbleOutline, Favorite } from '@mui/icons-material';
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Fade, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Divider, Fade, IconButton, Menu, MenuItem, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useContext } from "react";
 import { authContext } from '../providers/AuthProvider';
 import moment from 'moment';
+import Comment from './Comment';
+import { Box } from '@mui/system';
+import axios from "axios";
 
 // Individual post component
 const Post = (props) => {
-  const [liked, setLiked] = React.useState(0);
-  const [value, setValue] = React.useState(0);
-  const [totalLikes, setTotalLikes] = React.useState(0);
+  const [newComment, setNewComment] = React.useState("");
+  const [commentVisibility, setCommentVisibility] = React.useState(false);
 
   // Current user
   const { user } = useContext(authContext);
@@ -24,51 +26,108 @@ const Post = (props) => {
     setAnchorEl(null);
   };
 
-  // Allow user to like a post
-  function heartPost(event) {
-    props.likePost(props.post.id)
-      .then((postLiked) => {
-        setLiked(postLiked);
-        setTotalLikes((prev) => prev + 1);
-      })
-      .catch(error => console.log(error));
-
+  // Allow user to like or unlike a post
+  function changeLikedPostState(liked) {
+    if (liked) {
+      props.likePost(props.post.id, props.totalLikes)
+        .then((postLiked) => {
+        })
+        .catch(error => console.log(error));
+    } else {
+      props.unlikePost(props.post.id, props.totalLikes)
+        .then((postNotLiked) => {
+        })
+        .catch(error => console.log(error));
+    }
   }
 
-  // Allow user to unlike a liked post
-  function unheartPost(event) {
-    props.unlikePost(props.post.id)
-      .then((postNotLiked) => {
-        setLiked(postNotLiked);
-        setTotalLikes((prev) => prev - 1);
-      })
-      .catch(error => console.log(error));
-  }
+  // Allows user to create a new comment for a post
+  const handleCommentSubmit = (event) => {
+    event.preventDefault();
 
-  if (value === 0) {
-    setValue(1);
-    setTotalLikes(props.totalLikes);
-  }
+    if (user) {
+      const newCommentDetails = {
+        "description": newComment,
+        "post_id": props.post.id,
+        "user_id": user.id,
+        "deleted": false,
+        "parent_comment_id": null
+      };
+      axios.post('http://localhost:3001/comments', null, { params: { newCommentDetails: newCommentDetails } })
+        .then((newCommentData) => {
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (props.post.id === post.postsDetails.id) {
+                post.postComments.push(newCommentData.data.userCommentOnPost);
+              }
+            });
+            return newPost;
+          });
+        })
+        .catch((response) => {
+          throw new Error(response.status);
+        });
+    }
+    setNewComment("");
+  };
 
+  // Toggle comment display
+  const handleCommentVisibility = () => {
+    setCommentVisibility(!commentVisibility);
+  };
 
-
+  const postId = props.post.id;
   // Checks whether post has been liked during user session or defaults to state onload
   let likeButton;
-  if ((props.userLikedPost && liked === 0) || liked === 1) {
+  if (props.userLikedPost) {
     likeButton = <Button
       fullWidth={true}
-      onClick={unheartPost}>
+      onClick={() => { changeLikedPostState(false); }}>
       <Favorite sx={{ color: "red" }} />
-      {totalLikes} Likes
+      {props.totalLikes} Likes
     </Button>;
   } else {
     likeButton = <Button
       fullWidth={true}
       disabled={!user ? true : false}
-      onClick={heartPost}>
+      onClick={() => { changeLikedPostState(true); }}>
       <FavoriteBorder />
-      {totalLikes} Likes
+      {props.totalLikes} Likes
     </Button>;
+  }
+
+  // Sort comments by date
+  function sortByDate(commentArr) {
+    // sort by post date
+    return commentArr.sort(function (a, b) {
+      const firstDate = new Date(b.created_at);
+      const secondDate = new Date(a.created_at);
+      return firstDate - secondDate;
+    });
+  }
+
+
+  let commentArr = [];
+  // if (Object.keys(props.newCommentList).length !== 0) {
+  //   commentArr = [...props.postComments, props.newCommentList];
+  // } else {
+  commentArr = [...props.postComments];
+  // }
+
+  // console.log("props.postComments", props.postComments)
+  let commentList = [];
+  if (commentArr.length !== 0) {
+    commentArr = sortByDate(commentArr);
+    commentList = commentArr.map(comment => {
+      return (
+        <Comment
+          key={comment.id}
+          description={comment.description}
+          commentOwner={comment.user}
+          created_at={comment.created_at}
+        />);
+    });
   }
 
   return (
@@ -96,7 +155,7 @@ const Post = (props) => {
         }
 
         title={props.post.title}
-      subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow() }
+        subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow()}
       />
 
       <CardContent>
@@ -122,11 +181,32 @@ const Post = (props) => {
         <Button
           variant="text"
           fullWidth={true}
+          onClick={() => { handleCommentVisibility(); }}
           type="submit">
           <ChatBubbleOutline />
-          1 Comments
+          {props.postComments.length} Comments
         </Button>
       </CardActions>
+
+      <Divider />
+      {commentVisibility === true && <CardContent>
+        {user && <form onSubmit={handleCommentSubmit}>
+          <Box sx={{ display: 'flex', marginBottom: 2 }}>
+            <TextField
+              id="outlined-textarea"
+              placeholder={`Write a comment...`}
+              rows={1}
+              fullWidth={true}
+              value={newComment}
+              onChange={(event) => { setNewComment(event.target.value); }}
+            />
+            <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
+              Comment
+            </Button>
+          </Box>
+        </form>}
+        {commentList}
+      </CardContent>}
     </Card>
   );
 };

@@ -8,11 +8,16 @@ import axios from "axios";
 import { authContext } from '../providers/AuthProvider';
 import { topicContext } from '../providers/TopicProvider';
 
+const Div = styled(Box)({
+  backgroundColor: "#DAE0E6",
+  flex: "3"
+});
+
 // List of posts
 const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [newPost, setNewPost] = React.useState({});
   const [sortValue, setSortValue] = React.useState(0);
+  const [newCommentList, setNewCommentList] = React.useState({});
 
   // Current user
   const { user } = useContext(authContext);
@@ -48,8 +53,11 @@ const Feed = (props) => {
         "user_id": user_session_id
       };
       savePost(newPostDetails)
-        .then((newPost) => {
-          setNewPost(newPost.data);
+        .then((newPostData) => {
+          props.setPosts((prev) => {
+            const newPost = [...prev, newPostData.data];
+            return newPost;
+          });
         });
     }
   }
@@ -67,11 +75,21 @@ const Feed = (props) => {
   };
 
   // Creates a liked post row in the database
-  function likePost(post_id) {
+  function likePost(post_id, totalLikes) {
     if (user) {
       return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
         .then((postLiked) => {
-          return 1;
+          // Add to list of liked post in current session
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (post_id === post.postsDetails.id) {
+                post.totalLikes += 1;
+                post.userLikedPost = true;
+              }
+            });
+            return newPost;
+          });
         })
         .catch((response) => {
           throw new Error(response.status);
@@ -80,11 +98,20 @@ const Feed = (props) => {
   }
 
   // Destroys a liked post row in the database
-  function unlikePost(post_id) {
+  function unlikePost(post_id, totalLikes) {
     if (user) {
       return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
         .then((postUnliked) => {
-          return -1;
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (post_id === post.postsDetails.id) {
+                post.totalLikes -= 1;
+                post.userLikedPost = false;
+              }
+            });
+            return newPost;
+          });
         })
         .catch((response) => {
           throw new Error(response.status);
@@ -110,55 +137,42 @@ const Feed = (props) => {
 
     if (sortValue === 2) {
       return arr.sort(function (a, b) {
-        const firstDate = new Date(b.postsDetails.created_at);
-        const secondDate = new Date(a.postsDetails.created_at);
-        return firstDate - secondDate;
+        return b.postCommentLength - a.postCommentLength;
       });
     }
   }
 
   function filterTopic(arr, selectedTopicId) {
-    if (selectedTopicId === 0) return arr
+    if (selectedTopicId === 0) return arr;
     return arr.filter((item) => {
-      return item.postsDetails.topic_id === selectedTopicId
-    })
-  }
-
-  const Div = styled(Box)({
-    backgroundColor: "#DAE0E6",
-    flex: "3"
-  });
-
-
-  let arr = [];
-  if (Object.keys(newPost).length !== 0) {
-    arr = [...props.posts, newPost];
-  } else {
-    arr = [...props.posts];
-  }
-
-  let postList = [];
-  if (arr.length !== 0) {
-
-    arr = filterSort(arr, sortValue);
-    arr = filterTopic(arr, selectedTopicId)
-
-    postList = arr.map(post => {
-      return (
-        <Post
-          key={post.postsDetails.id}
-          totalLikes={post.totalLikes}
-          post={post.postsDetails}
-          userLikedPost={post.userLikedPost}
-          likePost={likePost}
-          unlikePost={unlikePost}
-          userDetails={post.postsDetails.user}
-        />);
+      return item.postsDetails.topic_id === selectedTopicId;
     });
   }
 
-  return (
+  let arr = [...props.posts];
 
+  let postList = [];
+  arr = filterSort(arr, sortValue);
+  arr = filterTopic(arr, selectedTopicId);
+
+  postList = arr.map(post => {
+    return (
+      <Post
+        key={post.postsDetails.id}
+        totalLikes={post.totalLikes}
+        post={post.postsDetails}
+        userLikedPost={post.userLikedPost}
+        likePost={likePost}
+        unlikePost={unlikePost}
+        userDetails={post.postsDetails.user}
+        postComments={post.postComments}
+        setPosts={props.setPosts}
+      />);
+  });
+
+  // console.log("post.props", props.posts)
+
+  return (
     <Div p={2}>
       {user && <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
         <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src={user.image} />
@@ -182,6 +196,7 @@ const Feed = (props) => {
       {user && <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />}
       {postList}
     </Div>
+
 
   );
 };
