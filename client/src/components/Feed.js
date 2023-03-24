@@ -16,7 +16,6 @@ const Div = styled(Box)({
 // List of posts
 const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [newPost, setNewPost] = React.useState({});
   const [sortValue, setSortValue] = React.useState(0);
   const [newCommentList, setNewCommentList] = React.useState({});
 
@@ -54,8 +53,11 @@ const Feed = (props) => {
         "user_id": user_session_id
       };
       savePost(newPostDetails)
-        .then((newPost) => {
-          setNewPost(newPost.data);
+        .then((newPostData) => {
+          props.setPosts((prev) => {
+            const newPost = [...prev, newPostData.data];
+            return newPost;
+          });
         });
     }
   }
@@ -147,34 +149,25 @@ const Feed = (props) => {
     });
   }
 
-  let arr = [];
-  if (Object.keys(newPost).length !== 0) {
-    arr = [...props.posts, newPost];
-  } else {
-    arr = [...props.posts];
-  }
+  let arr = [...props.posts];
 
   let postList = [];
-  if (arr.length !== 0) {
+  arr = filterSort(arr, sortValue);
+  arr = filterTopic(arr, selectedTopicId);
 
-
-    arr = filterSort(arr, sortValue);
-    arr = filterTopic(arr, selectedTopicId);
-
-    postList = arr.map(post => {
-      return (
-        <Post
-          key={post.postsDetails.id}
-          totalLikes={post.totalLikes}
-          post={post.postsDetails}
-          userLikedPost={post.userLikedPost}
-          likePost={likePost}
-          unlikePost={unlikePost}
-          userDetails={post.postsDetails.user}
-          postComments={post.postComments}
-        />);
-    });
-  }
+  postList = arr.map(post => {
+    return (
+      <Post
+        key={post.postsDetails.id}
+        totalLikes={post.totalLikes}
+        post={post.postsDetails}
+        userLikedPost={post.userLikedPost}
+        likePost={likePost}
+        unlikePost={unlikePost}
+        userDetails={post.postsDetails.user}
+        postComments={post.postComments}
+      />);
+  });
 
   return (
     <Div p={2}>
