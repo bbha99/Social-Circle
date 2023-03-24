@@ -9,8 +9,8 @@ import { Box } from '@mui/system';
 
 // Individual post component
 const Post = (props) => {
-  // const [displayComment, setDisplayComment] = React.useState(false);
   const [newComment, setNewComment] = React.useState("");
+  const [commentVisibility, setCommentVisibility] = React.useState(false);
 
   // Current user
   const { user } = useContext(authContext);
@@ -43,23 +43,25 @@ const Post = (props) => {
   // Allows user to create a new comment for a post
   const handleCommentSubmit = (event) => {
     event.preventDefault();
+    // newComment
     setNewComment("");
   };
 
   // Toggle comment display
   const handleCommentVisibility = () => {
-    props.changeCommentVisibility(props.post.id)
+    setCommentVisibility(!commentVisibility)
+    // props.changeCommentVisibility(props.post.id);
   };
 
   const postId = props.post.id;
   // Checks whether post has been liked during user session or defaults to state onload
   let likeButton;
-  if (props.sessionLikedPosts[postId] === true || (props.userLikedPost && !(postId in props.sessionLikedPosts))) {
+  if (props.userLikedPost) {
     likeButton = <Button
       fullWidth={true}
       onClick={() => { changeLikedPostState(false); }}>
       <Favorite sx={{ color: "red" }} />
-      {postId in props.sessionTotalLikes ? props.sessionTotalLikes[postId] : props.totalLikes} Likes
+      {props.totalLikes} Likes
     </Button>;
   } else {
     likeButton = <Button
@@ -67,19 +69,42 @@ const Post = (props) => {
       disabled={!user ? true : false}
       onClick={() => { changeLikedPostState(true); }}>
       <FavoriteBorder />
-      {postId in props.sessionTotalLikes ? props.sessionTotalLikes[postId] : props.totalLikes } Likes
+      {props.totalLikes} Likes
     </Button>;
   }
 
-  const commentList = props.postComments.map(comment => {
-    return (
-      <Comment
-        key={comment.id}
-        description={comment.description}
-        commentOwner={comment.user}
-        created_at={comment.created_at}
-      />);
-  });
+  // Sort comments by date
+  function sortByDate(commentArr) {
+    // sort by post date
+    return commentArr.sort(function (a, b) {
+      const firstDate = new Date(b.created_at);
+      const secondDate = new Date(a.created_at);
+      return firstDate - secondDate;
+    });
+  }
+
+
+  let commentArr = [];
+  // if (Object.keys(props.newCommentList).length !== 0) {
+  //   commentArr = [...props.postComments, props.newCommentList];
+  // } else {
+  commentArr = [...props.postComments];
+  // }
+
+  // console.log("props.postComments", props.postComments)
+  let commentList = [];
+  if (commentArr.length !== 0) {
+    commentArr = sortByDate(commentArr);
+    commentList = commentArr.map(comment => {
+      return (
+        <Comment
+          key={comment.id}
+          description={comment.description}
+          commentOwner={comment.user}
+          created_at={comment.created_at}
+        />);
+    });
+  }
 
   return (
     <Card sx={{ marginBottom: 2 }}>
@@ -140,7 +165,8 @@ const Post = (props) => {
       </CardActions>
 
       <Divider />
-      {props.displayComment[props.post.id] === true && <CardContent>
+      {/* {props.displayComment[props.post.id] === true && <CardContent> */}
+      {commentVisibility === true && <CardContent>
         {user && <form onSubmit={handleCommentSubmit}>
           <Box sx={{ display: 'flex', marginBottom: 2 }}>
             <TextField
@@ -148,12 +174,20 @@ const Post = (props) => {
               placeholder={`Write a comment...`}
               rows={1}
               fullWidth={true}
-              value={newComment}
-              onChange={(event) => setNewComment(event.target.value)}
-            />
-            <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
-              Comment
-            </Button>
+              // value={props.newComment ? props.newComment : ""}
+              // onChange={(event) => props.setNewComment((prev) => {
+              //   const newCommentObj = {};
+              //   newCommentObj[props.post.id] = event.target.value;
+              //   return { ...prev, ...newCommentObj };
+              // })}
+                // value={props.post.id in props.newComment ? props.newComment[props.post.id] : ""}
+                // onChange={(event) => props.setNewComment(props.post.id, event.target.value)}
+                value={newComment}
+                onChange={(event)=> {setNewComment(event.target.value)}}
+                />
+                <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
+                  Comment
+                </Button>
           </Box>
         </form>}
         {commentList}

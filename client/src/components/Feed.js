@@ -8,15 +8,17 @@ import axios from "axios";
 import { authContext } from '../providers/AuthProvider';
 import { topicContext } from '../providers/TopicProvider';
 
+const Div = styled(Box)({
+  backgroundColor: "#DAE0E6",
+  flex: "3"
+});
+
 // List of posts
 const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
   const [newPost, setNewPost] = React.useState({});
   const [sortValue, setSortValue] = React.useState(0);
-  const [sessionLikedPosts, setSessionLikedPosts] = React.useState({});
-  const [sessionTotalLikes, setSessionTotalLikes] = React.useState({});
-  const [displayComment, setDisplayComment] = React.useState({});
-  const [newComment, setNewComment] = React.useState({});
+  const [newCommentList, setNewCommentList] = React.useState({});
 
   // Current user
   const { user } = useContext(authContext);
@@ -39,26 +41,6 @@ const Feed = (props) => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const changeCommentVisibility = (post_id) => {
-
-    setDisplayComment((prev) => {
-      const showCommentObj = {};
-      showCommentObj[post_id] = true;
-      if (post_id in prev) {
-        if (prev[post_id] === true) {
-          showCommentObj[post_id] = false;
-          return { ...prev, ...showCommentObj };
-        } else {
-          return { ...prev, ...showCommentObj };
-        }
-      } else {
-        return { ...prev, ...showCommentObj };
-      }
-    });
-
-
   };
 
   // Adds the created post to the list of posts
@@ -96,21 +78,16 @@ const Feed = (props) => {
       return axios.post('http://localhost:3001/post_likes', null, { params: { id: user_session_id, post_id: post_id } })
         .then((postLiked) => {
           // Add to list of liked post in current session
-          setSessionLikedPosts((prev) => {
-            const newLikeObj = {};
-            newLikeObj[post_id] = true;
-            return { ...prev, ...newLikeObj };
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (post_id === post.postsDetails.id) {
+                post.totalLikes += 1;
+                post.userLikedPost = true;
+              }
+            });
+            return newPost;
           });
-          setSessionTotalLikes((prev) => {
-            const newLikeObj = {};
-            if (post_id in prev) {
-              newLikeObj[post_id] = prev[post_id] + 1;
-              return { ...prev, ...newLikeObj };
-            }
-            newLikeObj[post_id] = totalLikes + 1;
-            return { ...prev, ...newLikeObj };
-          });
-          return true;
         })
         .catch((response) => {
           throw new Error(response.status);
@@ -123,22 +100,16 @@ const Feed = (props) => {
     if (user) {
       return axios.post(`http://localhost:3001/post_likes/delete`, null, { params: { id: user_session_id, post_id: post_id } })
         .then((postUnliked) => {
-          setSessionLikedPosts((prev) => {
-            const newLikeObj = {};
-            newLikeObj[post_id] = false;
-            return { ...prev, ...newLikeObj };
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (post_id === post.postsDetails.id) {
+                post.totalLikes -= 1;
+                post.userLikedPost = false;
+              }
+            });
+            return newPost;
           });
-          setSessionTotalLikes((prev) => {
-            const newLikeObj = {};
-            if (post_id in prev) {
-              newLikeObj[post_id] = prev[post_id] - 1;
-              return { ...prev, ...newLikeObj };
-            } else {
-              newLikeObj[post_id] = totalLikes - 1;
-              return { ...prev, ...newLikeObj };
-            }
-          });
-          return true;
         })
         .catch((response) => {
           throw new Error(response.status);
@@ -176,12 +147,6 @@ const Feed = (props) => {
     });
   }
 
-  const Div = styled(Box)({
-    backgroundColor: "#DAE0E6",
-    flex: "3"
-  });
-
-
   let arr = [];
   if (Object.keys(newPost).length !== 0) {
     arr = [...props.posts, newPost];
@@ -191,6 +156,7 @@ const Feed = (props) => {
 
   let postList = [];
   if (arr.length !== 0) {
+
 
     arr = filterSort(arr, sortValue);
     arr = filterTopic(arr, selectedTopicId);
@@ -206,16 +172,11 @@ const Feed = (props) => {
           unlikePost={unlikePost}
           userDetails={post.postsDetails.user}
           postComments={post.postComments}
-          sessionLikedPosts={sessionLikedPosts}
-          sessionTotalLikes={sessionTotalLikes}
-          displayComment={displayComment}
-          changeCommentVisibility={changeCommentVisibility}
         />);
     });
   }
 
   return (
-
     <Div p={2}>
       {user && <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
         <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src={user.image} />
@@ -239,6 +200,7 @@ const Feed = (props) => {
       {user && <PostForm open={open} handleClose={handleClose} onSave={save} topics={topicList} />}
       {postList}
     </Div>
+
 
   );
 };
