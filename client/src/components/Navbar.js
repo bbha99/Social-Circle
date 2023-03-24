@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, styled, Typography, Box, InputBase, Avatar, Menu, MenuItem, Button, Stack } from '@mui/material';
+import { AppBar, Toolbar, styled, Typography, Box, Avatar, Menu, MenuItem, Button, Stack } from '@mui/material';
 import React, { useState, useContext } from 'react';
 import { Api } from '@mui/icons-material/';
 import { Link as RouterLink } from "react-router-dom";

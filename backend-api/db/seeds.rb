@@ -136,10 +136,28 @@ end
 
 1.times do |n|
   Comment.create!({
-    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    description: "Testing this nested comment.",
     parent_comment_id: 1,
     user_id: 1,
-    post_id: n + 1
+    post_id: 1
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: "Testing this nested comment2.",
+    parent_comment_id: 1,
+    user_id: 3,
+    post_id: 1
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: "Testing this nested nested comment.",
+    parent_comment_id: 9,
+    user_id: 2,
+    post_id: 1
   })
 end
 

@@ -107,27 +107,39 @@ const Post = (props) => {
     });
   }
 
+  // Create nested comments
+  function buildChildCommentTree(commentArr, parentId, marginLeft) {
+    const list = [];
+    for (const comment in commentArr) {
+      if (parentId === commentArr[comment].parent_comment_id) {
+        list.push([<Comment
+          key={commentArr[comment].id}
+          commentDetails={commentArr[comment]}
+          setPosts={props.setPosts}
+          marginLeft={marginLeft}
+        />,
+        buildChildCommentTree(commentArr, commentArr[comment].id, marginLeft + 3)]
+        );
+      }
+    }
+    return list;
+  }
 
-  let commentArr = [];
-  // if (Object.keys(props.newCommentList).length !== 0) {
-  //   commentArr = [...props.postComments, props.newCommentList];
-  // } else {
-  commentArr = [...props.postComments];
-  // }
+  let commentArr = [...props.postComments];
+  commentArr = sortByDate(commentArr);
 
-  // console.log("props.postComments", props.postComments)
   let commentList = [];
-  if (commentArr.length !== 0) {
-    commentArr = sortByDate(commentArr);
-    commentList = commentArr.map(comment => {
-      return (
-        <Comment
-          key={comment.id}
-          description={comment.description}
-          commentOwner={comment.user}
-          created_at={comment.created_at}
-        />);
-    });
+  for (const comment in commentArr) {
+    // if top level parent comment
+    if (commentArr[comment].parent_comment_id === null) {
+      commentList.push(<Comment
+        key={commentArr[comment].id}
+        commentDetails={commentArr[comment]}
+        setPosts={props.setPosts}
+        marginLeft={0}
+      />);
+      commentList.push(buildChildCommentTree(commentArr, commentArr[comment].id, 3));
+    }
   }
 
   return (
@@ -205,6 +217,7 @@ const Post = (props) => {
             </Button>
           </Box>
         </form>}
+        {/* {commentList} */}
         {commentList}
       </CardContent>}
     </Card>
