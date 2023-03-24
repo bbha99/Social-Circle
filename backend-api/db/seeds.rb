@@ -134,6 +134,15 @@ end
   })
 end
 
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    parent_comment_id: 1,
+    user_id: 1,
+    post_id: n + 1
+  })
+end
+
 puts "Done creating comments"
 
 #Create Comment_Likes

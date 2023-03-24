@@ -6,6 +6,7 @@ import { authContext } from '../providers/AuthProvider';
 import moment from 'moment';
 import Comment from './Comment';
 import { Box } from '@mui/system';
+import axios from "axios";
 
 // Individual post component
 const Post = (props) => {
@@ -43,14 +44,37 @@ const Post = (props) => {
   // Allows user to create a new comment for a post
   const handleCommentSubmit = (event) => {
     event.preventDefault();
-    // newComment
+
+    if (user) {
+      const newCommentDetails = {
+        "description": newComment,
+        "post_id": props.post.id,
+        "user_id": user.id,
+        "deleted": false,
+        "parent_comment_id": null
+      };
+      axios.post('http://localhost:3001/comments', null, { params: { newCommentDetails: newCommentDetails } })
+        .then((newCommentData) => {
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (props.post.id === post.postsDetails.id) {
+                post.postComments.push(newCommentData.data.userCommentOnPost);
+              }
+            });
+            return newPost;
+          });
+        })
+        .catch((response) => {
+          throw new Error(response.status);
+        });
+    }
     setNewComment("");
   };
 
   // Toggle comment display
   const handleCommentVisibility = () => {
-    setCommentVisibility(!commentVisibility)
-    // props.changeCommentVisibility(props.post.id);
+    setCommentVisibility(!commentVisibility);
   };
 
   const postId = props.post.id;
@@ -165,7 +189,6 @@ const Post = (props) => {
       </CardActions>
 
       <Divider />
-      {/* {props.displayComment[props.post.id] === true && <CardContent> */}
       {commentVisibility === true && <CardContent>
         {user && <form onSubmit={handleCommentSubmit}>
           <Box sx={{ display: 'flex', marginBottom: 2 }}>
@@ -174,20 +197,12 @@ const Post = (props) => {
               placeholder={`Write a comment...`}
               rows={1}
               fullWidth={true}
-              // value={props.newComment ? props.newComment : ""}
-              // onChange={(event) => props.setNewComment((prev) => {
-              //   const newCommentObj = {};
-              //   newCommentObj[props.post.id] = event.target.value;
-              //   return { ...prev, ...newCommentObj };
-              // })}
-                // value={props.post.id in props.newComment ? props.newComment[props.post.id] : ""}
-                // onChange={(event) => props.setNewComment(props.post.id, event.target.value)}
-                value={newComment}
-                onChange={(event)=> {setNewComment(event.target.value)}}
-                />
-                <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
-                  Comment
-                </Button>
+              value={newComment}
+              onChange={(event) => { setNewComment(event.target.value); }}
+            />
+            <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
+              Comment
+            </Button>
           </Box>
         </form>}
         {commentList}

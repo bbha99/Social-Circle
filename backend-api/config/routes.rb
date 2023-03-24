@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :post_likes, only: [:create]
   post '/post_likes/delete' => 'post_likes#destroy'
 
-  resources :comment, only: [:create]
+  resources :comments, only: [:create]
 
   namespace :admin do
     root to: 'dashboard#shows'

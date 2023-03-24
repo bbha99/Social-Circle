@@ -166,8 +166,11 @@ const Feed = (props) => {
         unlikePost={unlikePost}
         userDetails={post.postsDetails.user}
         postComments={post.postComments}
+        setPosts={props.setPosts}
       />);
   });
+
+  // console.log("post.props", props.posts)
 
   return (
     <Div p={2}>
