@@ -36,7 +36,8 @@ class UsersController < ApplicationController
 
     if @user
       render json: {
-        user: @user
+        user: @user,
+        post: @user.post
       }, status: 200
     else
       render json: {
