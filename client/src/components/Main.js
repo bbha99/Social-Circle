@@ -17,7 +17,7 @@ const Main = () => {
       <Route path='/register' element={<Register />}></Route>
       <Route path='/login' element={<Login />}></Route>
       <Route path='/admin/dashboard' element={<AdminDashboard />}></Route>
-      <Route path='/users/:userId' element={<User />}></Route>
+      <Route path='/users/:id' element={<User />}></Route>
     </Routes>
   );
 };
