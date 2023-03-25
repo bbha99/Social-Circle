@@ -17,7 +17,7 @@ const Div = styled(Box)({
 const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
   const [sortValue, setSortValue] = React.useState(0);
-  const [newCommentList, setNewCommentList] = React.useState({});
+  // const [newCommentList, setNewCommentList] = React.useState({});
 
   // Current user
   const { user } = useContext(authContext);

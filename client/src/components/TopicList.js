@@ -3,15 +3,7 @@ import { styled } from '@mui/system';
 import { useContext } from "react";
 import * as React from 'react';
 import { topicContext } from '../providers/TopicProvider';
-
-import Box from '@mui/material/Box';
-
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-
-import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 
 const Div = styled('div')({
   margin: (theme) => theme.spacing(1),
