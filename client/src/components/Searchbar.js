@@ -3,7 +3,7 @@ import axios from "axios";
 import { Box, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { shadows } from "@mui/system";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -17,11 +17,12 @@ const SearchBar = () => {
       setSearchResults([]);
       return;
     }
+
     axios
-      .get(`http://localhost:3001/admin/topics`)
+      .get(`http://localhost:3001/users`)
       .then((response) => {
-        const filteredData = response.data.filter((topic) =>
-          topic.name.toLowerCase().includes(searchTerm.toLowerCase())
+        const filteredData = response.data.users.filter((user) =>
+          user.username.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setSearchResults(filteredData.slice(0, 5));
       })
@@ -43,7 +44,7 @@ const SearchBar = () => {
       }}
     >
       <TextField
-        placeholder="Search for stuff here..."
+        placeholder="Search for users here..."
         value={search}
         onChange={handleChange}
         InputProps={{
@@ -71,7 +72,7 @@ const SearchBar = () => {
       >
         {searchResults.map((result) => (
           <Box key={result.id} p={2}>
-            <div>{result.name}</div>
+            <Link to={`/users/${result.id}`}>{result.username}</Link>
           </Box>
         ))}
       </Box>
