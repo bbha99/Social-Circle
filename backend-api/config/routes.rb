@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   post '/create_message' => 'chats#create_message'
   post '/chat_history' => 'chats#chat_history'
+  
+  resources :comments, only: [:create]
 
   namespace :admin do
     root to: 'dashboard#shows'

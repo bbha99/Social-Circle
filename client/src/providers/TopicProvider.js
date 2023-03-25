@@ -5,6 +5,7 @@ export const topicContext = createContext();
 
 const TopicProvider = (props) => {
   const [topicList, setTopicList] = useState([]);
+  const [selectedTopicId, setSelectedTopicId] = useState(0);
 
   const getTopics = async () => {
     return axios.get('http://localhost:3001/admin/topics')
@@ -16,7 +17,11 @@ const TopicProvider = (props) => {
       });
   };
 
-  const topicData = { topicList, getTopics };
+  const displayTopicPosts = (topicChosen) => {
+    setSelectedTopicId(topicChosen);
+  };
+
+  const topicData = { topicList, getTopics, selectedTopicId, setSelectedTopicId };
 
   return (
     <topicContext.Provider value={topicData}>
