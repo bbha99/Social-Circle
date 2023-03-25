@@ -1,40 +1,46 @@
 import styled from '@emotion/styled';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, List, ListItemButton, ListItemText, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardActionArea, CardContent, CardMedia, List, ListItemButton, ListItemText, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Div = styled('div')({
   margin: (theme) => theme.spacing(1),
 });
 
 const SuggestedUser = (props) => {
-  // const { topicList, setSelectedTopicId, selectedTopicId } = useContext(topicContext);
+  const [searchResults, setSearchResults] = useState([]);
 
-  const handleListItemClick = (index) => {
-    // setSelectedTopicId(index);
-  };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/users`)
+      .then((response) => {
+        setSearchResults(response.data.users.slice(0, 5));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const suggestedPeople = searchResults.map((person) => {
+    return (
+      <Box key={person.id}>
+        <Link to={`/users/${person.id}`}>
+          <Avatar sx={{ width: 30, height: 30 }} src={person.image} /> {person.username}</Link>
+      </Box>
+    );
+  });
 
   return (
-    <Div>
-      <List>
-        <ListItemButton
-          key={0}
-          // selected={selectedTopicId === 0}
-          onClick={(event) => handleListItemClick(0)}
-        >
-          <ListItemText primary="All Topics" />
-        </ListItemButton>
-        {/* {topicList.map((topic) => (
-          <ListItemButton
-            key={topic.id}
-            selected={selectedTopicId === topic.id}
-            onClick={(event) => handleListItemClick(topic.id)}
-          >
-            <ListItemText primary={topic.name} />
-          </ListItemButton>
-        ))} */}
-      </List>
-    </Div>
+    <Card sx={{ marginTop: "20px" }}>
+      <CardContent>
+        <Typography variant="h3">
+          Find Discussers
+        </Typography>
+        {suggestedPeople}
+      </CardContent>
+    </Card>
   );
 };
 
