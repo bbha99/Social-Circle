@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import TopicList from './TopicList';
+import Weather from './Weather';
 
 const Div = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
@@ -20,6 +21,7 @@ const Leftbar = (props) => {
     <Div p={2}>
       <Box position="fixed" sx={{width: "25%"}}>
         <TopicList />
+        <Weather />
       </Box>
     </Div>
   );
