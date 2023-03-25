@@ -39,8 +39,9 @@ const SearchBar = () => {
   return (
     <Box
       sx={{
-        position: "relative",
+        // position: "relative",
         backgroundColor: "#FFFFFF",
+        marginTop: "60px"
       }}
     >
       <TextField
@@ -57,8 +58,9 @@ const SearchBar = () => {
       />
       <Box
         sx={{
+          // display: "inline",
           position: "absolute",
-          width: "100%",
+          width: "80%",
           overflowY: "scroll",
           overflow: "hidden",
           backgroundColor: "#A020F0",

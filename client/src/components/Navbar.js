@@ -3,7 +3,6 @@ import React, { useState, useContext } from 'react';
 import { Api } from '@mui/icons-material/';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { authContext } from '../providers/AuthProvider';
-import SearchBar from './Searchbar';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -49,7 +48,6 @@ const Navbar = () => {
           Discussit
         </Typography>
         <Api sx={{ display: { xs: "block", sm: "none" } }} />
-        <SearchBar  />
 
         <Stack
           direction="row"
