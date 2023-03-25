@@ -1,8 +1,17 @@
-import { Link } from 'react-router-dom';
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { useContext } from "react";
+import * as React from 'react';
 import { topicContext } from '../providers/TopicProvider';
+
+import Box from '@mui/material/Box';
+
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+
+import Divider from '@mui/material/Divider';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
 
 const Div = styled('div')({
   margin: (theme) => theme.spacing(1),
@@ -20,19 +29,30 @@ const ListTopics = styled(ListItem)(({ theme }) => ({
 }));
 
 const TopicList = (props) => {
-  const { topicList } = useContext(topicContext);
+  const { topicList, setSelectedTopicId, selectedTopicId } = useContext(topicContext);
+
+  const handleListItemClick = (index) => {
+    setSelectedTopicId(index);
+  };
+
   return (
     <Div>
-      <TitleTypography>Topics</TitleTypography>
       <List>
+        <ListItemButton
+          key={0}
+          selected={selectedTopicId === 0}
+          onClick={(event) => handleListItemClick(0)}
+        >
+          <ListItemText primary="All Topics" />
+        </ListItemButton>
         {topicList.map((topic) => (
-          <ListTopics
+          <ListItemButton
             key={topic.id}
-            component={Link}
-            to={`/topics/${topic.id}`}
+            selected={selectedTopicId === topic.id}
+            onClick={(event) => handleListItemClick(topic.id)}
           >
             <ListItemText primary={topic.name} />
-          </ListTopics>
+          </ListItemButton>
         ))}
       </List>
     </Div>

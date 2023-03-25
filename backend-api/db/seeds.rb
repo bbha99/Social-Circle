@@ -30,9 +30,22 @@ puts "Creating Users"
     email: Faker::Internet.email,
     password: 'password',
     password_confirmation: 'password',
-    image: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
-})
+  })
 end
+
+User.create!({
+  username: 'john',
+  email: 'ngoxd97@gmail.com',
+  password: '1234567890',
+  password_confirmation: '1234567890',
+})
+
+User.create!({
+  username: 'euna',
+  email: 'euna@howe.org',
+  password: '1234567890',
+  password_confirmation: '1234567890',
+})
 
 puts "Done seeding users"
 
@@ -49,6 +62,13 @@ Topic.create!({
 Topic.create!({
   name: 'Gaming'
 })
+Topic.create!({
+  name: 'Pets'
+})
+Topic.create!({
+  name: 'Movies'
+})
+
 # SELECT "posts".* FROM "posts" INNER JOIN "users" ON "users"."id
 # " = "posts"."user_id"
 puts "Done creating Topics"
@@ -59,23 +79,23 @@ puts "Creating Posts..."
 
 2.times do 
   Post.create!({
-  title: Faker::Quote.singular_siegler,
-  description: Faker::Quote.matz,
-  image: Faker::LoremFlickr.colorized_image,
-  user_id: 1,
-  topic_id: rand(1..3)
-})
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: Faker::LoremFlickr.colorized_image,
+    user_id: 1,
+    topic_id: rand(1..3)
+  })
 end
 
 3.times do 
   Post.create!({
-  title: Faker::Quote.singular_siegler,
-  description: Faker::Quote.matz,
-  image: Faker::LoremFlickr.colorized_image,
-  deleted: false,
-  user_id: 2,
-  topic_id: rand(1..3)
-})
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: Faker::LoremFlickr.colorized_image,
+    deleted: false,
+    user_id: 2,
+    topic_id: rand(1..3)
+  })
 end
 
 puts "Done creating posts"
@@ -93,6 +113,13 @@ end
 
 3.times do |n|
   PostLike.create!({
+    post_id: 3,
+    user_id: n + 1 + 1
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
     post_id: 2,
     user_id: n + 1 + 1
   })
@@ -104,11 +131,28 @@ puts "done creating post_likes"
 
 puts "Creating Comments"
 
-10.times do 
+5.times do |n|
   Comment.create!({
     description: Faker::Quotes::Shakespeare.hamlet_quote,
     user_id: 1,
-    post_id: rand(1..4) 
+    post_id: n + 1
+  })
+end
+
+3.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 2,
+    post_id: n + 1
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    parent_comment_id: 1,
+    user_id: 1,
+    post_id: n + 1
   })
 end
 
@@ -134,8 +178,8 @@ puts "Creating chats"
 1.times do 
   Chat.create!({
     message: Faker::Quote.yoda,
-    sender_id: 1,
-    receiver_id: 2
+    sender_id: 6,
+    receiver_id: 7
   })
 end
 

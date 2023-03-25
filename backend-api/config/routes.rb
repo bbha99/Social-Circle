@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  mount ActionCable.server => '/cable'
   
   resources :users, only: [:index, :show, :create]
 
@@ -13,6 +15,13 @@ Rails.application.routes.draw do
 
   resources :post_likes, only: [:create]
   post '/post_likes/delete' => 'post_likes#destroy'
+
+  post '/conversations' => 'users#conversations'
+
+  post '/create_message' => 'chats#create_message'
+  post '/chat_history' => 'chats#chat_history'
+  
+  resources :comments, only: [:create]
 
   namespace :admin do
     root to: 'dashboard#shows'

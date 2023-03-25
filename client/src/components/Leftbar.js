@@ -3,24 +3,24 @@ import { styled } from '@mui/system';
 import React from 'react';
 import TopicList from './TopicList';
 
-const Leftbar = (props) => {
+const Div = styled(Box)(({ theme }) => ({
+  backgroundColor: "white",
+  flex: "2",
+  [theme.breakpoints.down("md")]: {
+    display: "none"
+  },
+  [theme.breakpoints.up("md")]: {
+    display: "block"
+  }
+}));
 
-  const Div = styled(Box)(({ theme }) => ({
-    backgroundColor: "white",
-    flex: "2",
-    [theme.breakpoints.down("md")]: {
-      display: "none"
-    },
-    [theme.breakpoints.up("md")]: {
-      display: "block"
-    }
-  }));
+const Leftbar = (props) => {
 
   return (
     <Div p={2}>
-      <Box position="fixed"></Box>
-      
-      <TopicList topics={props.topics} />
+      <Box position="fixed" sx={{width: "25%"}}>
+        <TopicList />
+      </Box>
     </Div>
   );
 };
