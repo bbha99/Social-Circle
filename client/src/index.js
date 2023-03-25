@@ -5,16 +5,20 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import AuthProvider from './providers/AuthProvider';
 import TopicProvider from './providers/TopicProvider';
+import actionCable from 'actioncable';
+
+const CableApp = {};
+CableApp.cable = actionCable.createConsumer('ws://localhost:3001/cable');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <TopicProvider>
-          <App />
+          <App cable={CableApp.cable} />
         </TopicProvider>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

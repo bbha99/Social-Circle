@@ -33,16 +33,28 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    
+    keys = [:id, :username, :image]
+    info = @user.slice(*keys)
 
     if @user
-      render json: {
-        user: @user
-      }, status: 200
+      render json: info, status: 200
     else
       render json: {
         errors: ['user not found']
       }, status: 500
     end
+  end
+
+  def conversations
+    @users = User.find_conversations(params)
+    
+    keys = [:id, :username, :image]
+    info = @users.map { |user| user.slice(*keys) }
+
+    render json: {
+      users: info
+    }, status: 200
   end
 
   private
