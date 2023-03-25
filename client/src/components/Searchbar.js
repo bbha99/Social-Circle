@@ -3,6 +3,7 @@ import axios from "axios";
 import { Box, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -16,6 +17,7 @@ const SearchBar = () => {
       setSearchResults([]);
       return;
     }
+
     axios
       .get(`http://localhost:3001/users`)
       .then((response) => {
@@ -70,7 +72,7 @@ const SearchBar = () => {
       >
         {searchResults.map((result) => (
           <Box key={result.id} p={2}>
-            <div>{result.username}</div>
+            <Link to={`/users/${result.id}`}>{result.username}</Link>
           </Box>
         ))}
       </Box>
