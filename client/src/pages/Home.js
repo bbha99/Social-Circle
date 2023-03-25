@@ -54,7 +54,7 @@ const Home = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box className="App">
+      <Box className="App" sx={{bgcolor: "#DAE0E6"}}>
         <Navbar />
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Leftbar />

@@ -27,26 +27,26 @@ const Weather = (props) => {
   useEffect(() => {
     axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
       .then((response) => {
-        console.log("response.data: ", response.data);
+        // console.log("response.data: ", response.data);
         setData(response.data);
       });
 
   }, [search]);
 
-  let emoji = null;
+  let weatherIcon = null;
   if (typeof data.main != "undefined") {
     if (data.weather[0].main == "Clouds") {
-      emoji = "bi-cloud";
+      weatherIcon = "bi-cloud";
     } else if (data.weather[0].main == "Thunderstorm") {
-      emoji = "bi-bolt";
+      weatherIcon = "bi-cloud-lightning";
     } else if (data.weather[0].main == "Drizzle") {
-      emoji = "bi-cloud-rain";
+      weatherIcon = "bi-cloud-drizzle";
     } else if (data.weather[0].main == "Rain") {
-      emoji = "bi-cloud-shower-heavy";
+      weatherIcon = "bi-cloud-rain";
     } else if (data.weather[0].main == "Snow") {
-      emoji = "bi-snow-flake";
+      weatherIcon = "bi-cloud-snow";
     } else {
-      emoji = "bi-smog";
+      weatherIcon = "bi-cloud-sun";
     }
   }
 
@@ -62,12 +62,6 @@ const Weather = (props) => {
   let year = d.getFullYear();
   let month = d.toLocaleString("default", { month: 'long' });
   let day = d.toLocaleString("default", { weekday: 'long' });
-
-  let time = d.toLocaleString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -92,18 +86,14 @@ const Weather = (props) => {
           <SearchIcon />
           </Button>
         </form>
-        <Typography variant="h3">
+        <Typography variant="h4">
           {data.name}
         </Typography>
-        <Typography variant="h4">
+        <Typography variant="h5">
           {day}, {month} {date}, {year}
         </Typography>
-        <Typography variant="h4">
-          {time}
-        </Typography>
-        {/* <CloudIcon /> */}
         <div>
-          <i className={`bi ${emoji}`}></i>
+          <i className={`bi ${weatherIcon}`}></i>
         </div>
         <Typography variant="body1">
           {temp} &deg;C
@@ -112,7 +102,7 @@ const Weather = (props) => {
           {data.length !== 0 && data.weather[0].main}
         </Typography>
         <Typography variant="body1">
-          {temp_min} &deg;C | {temp_max} &deg;C
+        H:{temp_max} &deg;C L:{temp_min} &deg;C
         </Typography>
       </CardContent>
     </CardContainer>
