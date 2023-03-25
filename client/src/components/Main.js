@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Register from '../pages/Register';
 import AdminDashboard from '../pages/AdminDashboard';
+import User from '../pages/User';
 import ChatPage from '../pages/ChatPage';
 
 const Main = ({ cable }) => {
@@ -17,6 +18,7 @@ const Main = ({ cable }) => {
       <Route path='/register' element={<Register />}></Route>
       <Route path='/login' element={<Login />}></Route>
       <Route path='/admin/dashboard' element={<AdminDashboard />}></Route>
+      <Route path='/users/:id' element={<User />}></Route>
       <Route path='/chats' element={<ChatPage cable={cable} />}></Route>
       <Route path='/chat_container' element={<ChatPage cable={cable} />}></Route>
     </Routes >

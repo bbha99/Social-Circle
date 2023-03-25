@@ -38,6 +38,10 @@ class UsersController < ApplicationController
     info = @user.slice(*keys)
 
     if @user
+      render json: {
+        user: @user,
+        post: @user.post
+      }, status: 200
       render json: info, status: 200
     else
       render json: {
