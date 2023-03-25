@@ -12,7 +12,7 @@ const UserProfile = () => {
       .get(`http://localhost:3001/users/${id}`)
       .then((response) => {
         setUser(response.data);
-        console.log(response.data.post)
+        console.log('response', response.data.post)
       })
       .catch((error) => {
         console.error(error);
