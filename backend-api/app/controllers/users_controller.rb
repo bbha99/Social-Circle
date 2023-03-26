@@ -14,6 +14,16 @@ class UsersController < ApplicationController
     end
   end
   
+  def update
+    @user = User.find(params[:id])
+  
+    if @user.update(user_params)
+      render json: @user, status: 200
+    else
+      render json: { error: @user.errors.full_messages }, status: 500
+    end
+  end
+  
   def create
     @user = User.new(user_params)
     @user.email = @user.email.downcase.strip
@@ -34,7 +44,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   
-    keys = [:id, :username, :image]
+    keys = [:id, :username, :image, :email, :password_digest]
     info = @user.slice(*keys)
   
     if @user
@@ -67,7 +77,7 @@ class UsersController < ApplicationController
       :username,
       :email,
       :password,
-      :password_confirmation
+      :password_confirmation,
     )
   end
 
