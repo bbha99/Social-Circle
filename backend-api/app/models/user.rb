@@ -2,14 +2,19 @@ class User < ApplicationRecord
   
   has_secure_password
 
-  validates :username, :email, :password, :password_confirmation, presence: true
+  validates :username, :email, presence: true
   validates :username, :email, uniqueness: true
   validates :username, length: { minimum: 4 }
-  validates :password, :password_confirmation, length: { minimum: 8 }
+  validates :password, :password_confirmation, presence: true, if: :password_required?
+  validates :password, :password_confirmation, length: { minimum: 8 }, if: :password_required?
 
   has_many :post
   has_many :comment
 
+  def password_required?
+    new_record? || !password.nil?
+  end
+  
   def self.find_conversations(params)
     ids = [];
 
