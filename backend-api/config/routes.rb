@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/admin' => 'admin/topics#index'
   
   resources :posts, only: [:index, :create]
+  resources :images_gallery, only: [:index]
 
   resources :post_likes, only: [:create]
   post '/post_likes/delete' => 'post_likes#destroy'

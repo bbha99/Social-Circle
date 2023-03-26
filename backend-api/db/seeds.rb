@@ -251,3 +251,38 @@ puts "Creating blocked_posts"
 end
 
 puts "Done creating blocked_posts"
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 8,
+    image: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 6,
+    image: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 3,
+    image: "https://images.unsplash.com/photo-1522770179533-24471fcdba45"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 1,
+    image: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 2,
+    image: "https://images.unsplash.com/photo-1533827432537-70133748f5c8"
+  })
+end
