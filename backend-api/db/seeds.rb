@@ -47,6 +47,13 @@ User.create!({
   password_confirmation: '1234567890',
 })
 
+User.create!({
+  username: 'bbha',
+  email: 'bran@gmail.com',
+  password: 'password',
+  password_confirmation: 'password',
+})
+
 puts "Done seeding users"
 
 # Create Topics
@@ -198,6 +205,22 @@ puts "Creating chats"
     message: Faker::Quote.yoda,
     sender_id: 6,
     receiver_id: 7
+  })
+end
+
+3.times do 
+  Chat.create!({
+    message: Faker::Quote.yoda,
+    sender_id: 6,
+    receiver_id: 8
+  })
+end
+
+2.times do |n|
+  Chat.create!({
+    message: Faker::Quote.yoda,
+    sender_id: n + 1,
+    receiver_id: 8
   })
 end
 

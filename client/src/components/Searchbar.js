@@ -40,8 +40,7 @@ const SearchBar = () => {
     <Box
       sx={{
         // position: "relative",
-        backgroundColor: "#FFFFFF",
-        marginTop: "60px"
+        backgroundColor: "#FFFFFF"
       }}
     >
       <TextField
