@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import {
-  Avatar,
-  Box,
-  Grid,
-  Paper,
-  Typography,
-  Container,
-  Button,
-} from "@mui/material";
+import { Avatar,Box, Grid, Paper, Typography, Container, Button} from "@mui/material";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
 import UserEditForm from "./UserEditForm";
@@ -74,7 +66,7 @@ const UserProfile = () => {
               />
             ) : (
               <>
-                <Button variant="outlined" onClick={handleEdit}>
+                <Button variant="outlined" onClick={handleEdit} startIcon={<EditIcon />}>
                   Edit Profile
                 </Button>
               </>
