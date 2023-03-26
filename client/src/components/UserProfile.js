@@ -18,7 +18,6 @@ const UserProfile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
     axios
