@@ -1,4 +1,5 @@
 import { Card, CardMedia, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 import React, { useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
 
@@ -13,6 +14,7 @@ const ImageGallery = (props) => {
       items.push(
         <Card key={i.toString()} sx={{ paddingLeft: 2, paddingBottom: 2, paddingTop: 2 }}>
           <Grid container spacing={0} wrap="nowrap" // --> add this line to disable wrap
+          
           >
             {dataItems.slice(i, i + sliderItems).map((da, index) => {
               return <Item key={index} item={da} />;
@@ -23,25 +25,23 @@ const ImageGallery = (props) => {
     }
   }
 
+  console.log("images: ", dataItems)
   return (
-    // <Box sx={{display: "flex"}}>
-    // <Card sx={{ marginBottom: 2, paddingTop: 2, paddingBottom: 2 }}>
-    //   <Carousel height={"350px"} autoPlay={false} navButtonsAlwaysVisible={true} indicators={false} >
-    //     {items}
-    //   </Carousel>
-    // </Card>
-    <Carousel
-      autoPlay={false}
-      animation="fade"
-      indicators={false}
-      duration={500}
-      navButtonsAlwaysVisible={false}
-      navButtonsAlwaysInvisible={false}
-      cycleNavigation={false}
-      fullHeightHover={true}
-      swipe={true}>
-      {items}
-    </Carousel>
+    <Box height={"300px"}>
+      <Carousel
+        autoPlay={false}
+        animation="fade"
+        indicators={false}
+        duration={500}
+        navButtonsAlwaysVisible={false}
+        navButtonsAlwaysInvisible={false}
+        cycleNavigation={false}
+        fullHeightHover={true}
+        swipe={true}>
+        {items}
+      </Carousel>
+
+    </Box>
   );
 };
 
@@ -52,17 +52,9 @@ function Item(props) {
         sx={{ height: "300px" }}
         component="img"
         image={props.item.image}
-      // title="test"
       >
-        {/* <Typography className="MediaCaption">
-          test
-        </Typography> */}
       </CardMedia>
-
     </Grid>
-    // <Paper sx={{ marginRight: 2, marginLeft: 2 }}>
-    // {/* <img src={`${props.item.image}`} alt="" height={"350px"} width={"220px"} /> */ }
-    // </Paper>
   );
 }
 
