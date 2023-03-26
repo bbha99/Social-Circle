@@ -4,48 +4,26 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { authContext } from '../providers/AuthProvider';
 import { Link } from 'react-router-dom';
-import SearchBar from './Searchbar';
 
 const Div = styled('div')({
   margin: (theme) => theme.spacing(1),
 });
 
-const SuggestedUser = (props) => {
-  const [searchResults, setSearchResults] = useState([]);
+const ConversationProfile = (props) => {
   const [receivers, setReceivers] = useState([]);
 
   const { user } = useContext(authContext);
 
   useEffect(() => {
-    if (user) {
-      axios.post(`http://localhost:3001/meet_people`, {
-        id: user.id
-      }, { withCredentials: true })
-        .then((response) => {
-          setReceivers(response.data.users);
-        });
-    } else {
-      axios
-      .get(`http://localhost:3001/users`)
-      .then((response) => {
-        setSearchResults(response.data.users.slice(0, 5));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    }
-
-    axios
-      .get(`http://localhost:3001/users`)
+    axios.post(`http://localhost:3001/conversations`, {
+      id: user.id
+    }, { withCredentials: true })
       .then((response) => {
         setReceivers(response.data.users.slice(0, 5));
-      })
-      .catch((error) => {
-        console.error(error);
       });
   }, []);
-  
-  const suggestedPeople = receivers.slice(0, 5).map((person) => {
+
+  const suggestedChatPeople = receivers.map((person) => {
     return (
       <Box key={person.id}>
         <Link to={`/users/${person.id}`}>
@@ -55,16 +33,15 @@ const SuggestedUser = (props) => {
   });
 
   return (
-    <Card sx={{ marginTop: "40px" }}>
+    <Card sx={{marginTop: "70px"}}>
       <CardContent>
         <Typography variant="h5">
-          {user ? "Meet New People" : "Meet People"}
+          View Conversation Profiles
         </Typography>
-        <SearchBar />
-        {suggestedPeople}
+        {suggestedChatPeople}
       </CardContent>
     </Card>
   );
 };
 
-export default SuggestedUser;
+export default ConversationProfile;

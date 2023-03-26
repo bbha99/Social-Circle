@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post '/post_likes/delete' => 'post_likes#destroy'
 
   post '/conversations' => 'users#conversations'
+  post '/meet_people' => 'users#meet_people'
 
   post '/create_message' => 'chats#create_message'
   post '/chat_history' => 'chats#chat_history'

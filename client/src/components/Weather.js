@@ -1,11 +1,8 @@
 import styled from '@emotion/styled';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
-import CloudIcon from '@mui/icons-material/Cloud';
-import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 
 const CardContainer = styled(Card)(({ theme }) => ({
   backgroundImage:

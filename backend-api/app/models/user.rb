@@ -36,4 +36,21 @@ class User < ApplicationRecord
     users = User.where(id: ids.uniq)
   end
 
+  def self.meet_new_people(params)
+    ids = [];
+
+    senders = Chat.select(:sender_id).distinct.where(receiver_id: params[:id])
+    receivers = Chat.select(:receiver_id).distinct.where(sender_id: params[:id])
+
+    senders.each do |user|
+      ids.push(user.sender_id)
+    end
+
+    receivers.each do |user|
+      ids.push(user.receiver_id)
+    end
+
+    users = User.where.not(id: ids.uniq)
+  end
+
 end

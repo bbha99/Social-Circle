@@ -70,6 +70,17 @@ class UsersController < ApplicationController
     }, status: 200
   end
 
+  def meet_people
+    @users = User.meet_new_people(params)
+    
+    keys = [:id, :username, :image]
+    info = @users.map { |user| user.slice(*keys) }
+
+    render json: {
+      users: info
+    }, status: 200
+  end
+
   private
 
   def user_params
