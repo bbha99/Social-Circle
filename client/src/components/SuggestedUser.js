@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { Avatar, Box, Button, Card, CardActionArea, CardContent, CardMedia, List, ListItemButton, ListItemText, TextField, Typography } from '@mui/material';
+import { Avatar, Card, CardContent, List, ListItemText, Typography, ListItem, ListItemIcon } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { authContext } from '../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from './Searchbar';
 
 const Div = styled('div')({
@@ -13,6 +13,7 @@ const Div = styled('div')({
 const SuggestedUser = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [receivers, setReceivers] = useState([]);
+  const navigate = useNavigate();
 
   const { user } = useContext(authContext);
 
@@ -26,13 +27,13 @@ const SuggestedUser = (props) => {
         });
     } else {
       axios
-      .get(`http://localhost:3001/users`)
-      .then((response) => {
-        setSearchResults(response.data.users.slice(0, 3));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .get(`http://localhost:3001/users`)
+        .then((response) => {
+          setSearchResults(response.data.users.slice(0, 3));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
 
     axios
@@ -44,13 +45,19 @@ const SuggestedUser = (props) => {
         console.error(error);
       });
   }, []);
-  
+
   const suggestedPeople = receivers.slice(0, 3).map((person) => {
     return (
-      <Box key={person.id}>
-        <Link to={`/users/${person.id}`}>
-          <Avatar sx={{ width: 30, height: 30 }} src={person.image} /> {person.username}</Link>
-      </Box>
+      <ListItem button
+        key={person.id}
+        onClick={() => navigate(`/users/${person.id}`)}
+        sx={{ padding: '0px', marginBottom: '10px' }}
+      >
+        <ListItemIcon>
+          <Avatar alt={person.username} src={person.image} />
+        </ListItemIcon>
+        <ListItemText primary={person.username} />
+      </ListItem>
     );
   });
 
@@ -61,7 +68,9 @@ const SuggestedUser = (props) => {
           {user ? "Meet New People" : "Meet People"}
         </Typography>
         <SearchBar />
-        {suggestedPeople}
+        <List>
+          {suggestedPeople}
+        </List>
       </CardContent>
     </Card>
   );
