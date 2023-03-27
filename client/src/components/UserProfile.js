@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -21,12 +21,14 @@ const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
   const { user: loggedInUser } = useContext(authContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get(`http://localhost:3001/users/${id}`)
       .then((response) => {
         setUser(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -68,6 +70,11 @@ const UserProfile = () => {
           />
           <Typography variant="h4">{user.user.username}</Typography>
           <br></br>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/chats', { state: user.user })}
+          >Start conversation</Button>
+          <br></br>
           <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>
             {editing ? (
               <UserEditForm
@@ -77,7 +84,7 @@ const UserProfile = () => {
               />
             ) : (
               <>
-                {isOwnProfile && ( 
+                {isOwnProfile && (
                   <Button
                     variant="outlined"
                     onClick={handleEdit}

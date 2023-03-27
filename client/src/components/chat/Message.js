@@ -10,7 +10,7 @@ const convertDateTime = (datetime) => {
   if (minutes.length === 1) {
     minutes = 0 + minutes;
   }
-  return `${month}-${day} ${hours}:${minutes}`;
+  return `${month} ${day} at ${hours}:${minutes}`;
 };
 
 const MessageBlue = styled(Grid)({
@@ -18,7 +18,7 @@ const MessageBlue = styled(Grid)({
   position: "relative",
   marginRight: "20px",
   marginBottom: "10px",
-  padding: "10px",
+  padding: "0px 10px",
   backgroundColor: "#a8ddfd",
   maxWidth: "60%",
   textAlign: "right",
@@ -29,7 +29,7 @@ const MessageGrey = styled(Grid)({
   position: "relative",
   marginLeft: "20px",
   marginBottom: "10px",
-  padding: "10px",
+  padding: "0px 10px",
   backgroundColor: "#d1d1e0",
   maxWidth: "60%",
   textAlign: "left",

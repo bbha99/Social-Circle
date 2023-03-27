@@ -30,12 +30,6 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  const testUser = {
-    "id": 2,
-    "username": "Mrs. Jeremy Klein",
-    "image": "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3\u0026ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8\u0026auto=format\u0026fit=crop\u0026w=1180\u0026q=80"
-  };
-
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -152,7 +146,7 @@ const Navbar = () => {
       >
 
         <MenuItem onClick={() => navigate(`/users/${user.id}`)}>Profile</MenuItem>
-        <MenuItem onClick={() => navigate('/chats', { state: testUser })}>Chats</MenuItem>
+        <MenuItem onClick={() => navigate('/chats')}>Chats</MenuItem>
         <MenuItem onClick={async () => {
           await logout();
           navigate('/');
