@@ -151,7 +151,7 @@ const Navbar = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
 
-        <MenuItem>Profile</MenuItem>
+        <MenuItem onClick={() => navigate(`/users/${user.id}`)}>Profile</MenuItem>
         <MenuItem onClick={() => navigate('/chats', { state: testUser })}>Chats</MenuItem>
         <MenuItem onClick={async () => {
           await logout();
