@@ -64,23 +64,6 @@ const Comment = (props) => {
         avatar={
           <Avatar sx={{ width: 30, height: 30 }} src={props.commentDetails.user.image} />
         }
-        action={user && user.id === props.commentDetails.user.id &&
-          <div>
-            <IconButton onClick={handleClick}>
-              <MoreHoriz />
-            </IconButton>
-            <Menu
-              id="fade-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Fade}
-            >
-              <MenuItem onClick={handleClose} sx={{ color: "blue", fontWeight: 500 }}>Edit</MenuItem>
-              <MenuItem onClick={handleClose} sx={{ color: "red", fontWeight: 500 }}>Delete</MenuItem>
-            </Menu>
-          </div>
-        }
         subheader={props.commentDetails.user.username + " " + moment(props.commentDetails.created_at).fromNow()}
       />
       <CardContent>

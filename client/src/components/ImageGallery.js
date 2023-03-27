@@ -64,17 +64,17 @@ const ImageGallery = (props) => {
     <Box height={"250px"}>
       <Card sx={{ paddingLeft: 2, paddingBottom: 2, paddingTop: 2 }}>
         <Grid container spacing={0} wrap="nowrap">
-          <Grid item xs={4} style={{ display: 'flex' }} sx={{ marginRight: 2, borderRadius: "10px", height: "250px", backgroundImage: `url(${"images/flowers.png"})`, display: "flex", justifyContent: "center", alignItems: "center" }}
+          <Grid item xs={4} style={{ display: 'flex' }} sx={{ marginRight: 2, borderRadius: "10px", height: "250px", backgroundImage: `url(${"images/path.png"})`, display: "flex", justifyContent: "space-evenly", alignItems: "center", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}
             component="form" onSubmit={(e) => handleSubmit(e)}>
             <Button
               component="label"
               style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px', color:"white" }}
             >
-              <AddCircleOutlineIcon />
+              <AddCircleOutlineIcon sx={{transform: "scale(1.4)"}} />
               <input type="file" name="image" id="image" hidden onChange={handleFileChange} />
             </Button>
             <Button style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px', color: "white" }} type="submit">
-              <PublishIcon />
+              <PublishIcon sx={{transform: "scale(1.4)"}} />
             </Button>
           </Grid>
           {items}

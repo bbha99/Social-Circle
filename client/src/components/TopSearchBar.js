@@ -56,7 +56,7 @@ const TopSearchBar = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "#add8e6",
+        backgroundColor: "white"
       }}
     >
       <TextField
@@ -74,10 +74,10 @@ const TopSearchBar = () => {
       <Box
         sx={{
           position: "absolute",
-          width: "80%",
+          width: "312px",
           overflowY: "scroll",
           overflow: "hidden",
-          backgroundColor: "#A020F0",
+          backgroundColor: "#add8e6",
           borderRadius: "4px",
           color: "#FFFFFF",
           cursor: "pointer",

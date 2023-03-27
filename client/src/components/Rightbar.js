@@ -5,6 +5,7 @@ import { authContext } from '../providers/AuthProvider';
 import SuggestedUser from './SuggestedUser';
 import SearchBar from './Searchbar';
 import ConversationProfile from './ConversationProfile';
+import Weather from './Weather';
 
 const Div = styled(Box)(({ theme }) => ({
   flex: "2",
@@ -21,8 +22,9 @@ const Rightbar = () => {
   return (
     <Div sx={{ bgcolor: "DAE0E6" }}>
       <Box position="fixed" sx={{ bgcolor: "white", width: "20%", top: 0, right: 0, height: "100%", p: 5 }}>
-        {auth && <ConversationProfile />}
         {<SuggestedUser />}
+        <Weather />
+        {auth && <ConversationProfile />}
       </Box>
     </Div>
   );

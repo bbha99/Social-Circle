@@ -49,6 +49,7 @@ const Navbar = () => {
           Discussit
         </Typography>
         <Api sx={{ display: { xs: "block", sm: "none" } }} />
+        <PostSearchBar />
 
         <Stack
           direction="row"
@@ -56,7 +57,6 @@ const Navbar = () => {
           alignItems="center"
           spacing={2}
         >
-          <PostSearchBar />
           <IconButton
             onClick={handleClick}
             size="small"
