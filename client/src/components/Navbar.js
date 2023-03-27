@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { Api } from '@mui/icons-material/';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { authContext } from '../providers/AuthProvider';
+import PostSearchBar from './TopSearchBar';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -55,7 +56,7 @@ const Navbar = () => {
           alignItems="center"
           spacing={2}
         >
-
+          <PostSearchBar />
           <IconButton
             onClick={handleClick}
             size="small"
