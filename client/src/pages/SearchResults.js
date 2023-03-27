@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { authContext } from "../providers/AuthProvider";
 import Navbar from "../components/Navbar";
+import moment from "moment";
 
 const SearchResults = () => {
   const { searchInput} = useParams();
@@ -52,7 +53,8 @@ const SearchResults = () => {
             borderRadius: "4px",
           }}
         >
-          <Typography variant="h6">{result.postsDetails.title}</Typography>
+          <Typography variant="h4">{result.postsDetails.title} </Typography>
+          <Typography variant="h6">Posted By {result.postsDetails.user.username} {moment(result.postsDetails.user.created_at).fromNow()}</Typography>
           <Typography>{result.postsDetails.description}</Typography>
         </Box>
       ))}
