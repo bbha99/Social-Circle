@@ -7,7 +7,7 @@ class PostsController < ApplicationController
     end
     @posts = Post.all
     postsDetails = []
-
+    
     # Create a list of posts
     for post in @posts do
       userLikedPost = false
