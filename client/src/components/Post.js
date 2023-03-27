@@ -45,7 +45,7 @@ const Post = (props) => {
           throw new Error(response.status);
         });
     }
-  }
+  };
 
   // Allow user to like or unlike a post
   function changeLikedPostState(liked) {
@@ -232,7 +232,7 @@ const Post = (props) => {
               value={newComment}
               onChange={(event) => { setNewComment(event.target.value); }}
             />
-            <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
+            <Button type='submit' variant="contained" sx={{ marginLeft: 2 }}>
               Comment
             </Button>
           </Box>

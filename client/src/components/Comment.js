@@ -11,7 +11,7 @@ const Comment = (props) => {
 
   // Current user
   const { user } = useContext(authContext);
-  
+
   // Delete post action
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -27,36 +27,37 @@ const Comment = (props) => {
     setNestedCommentVisibility(!nestedCommentVisibility);
   };
 
-    // Allows user to create a new comment for a post
-    const handleCommentSubmit = (event) => {
-      event.preventDefault();
-  
-      if (user) {
-        const newCommentDetails = {
-          "description": newNestedComment,
-          "post_id": props.commentDetails.post_id,
-          "user_id": user.id,
-          "deleted": null,
-          "parent_comment_id": props.commentDetails.id
-        };
-        axios.post('http://localhost:3001/comments', null, { params: { newCommentDetails: newCommentDetails } })
-          .then((newCommentData) => {
-            props.setPosts((prev) => {
-              const newPost = [...prev];
-              newPost.forEach((post) => {
-                if (props.commentDetails.post_id === post.postsDetails.id) {
-                  post.postComments.push(newCommentData.data.userCommentOnPost);
-                }
-              });
-              return newPost;
+  // Allows user to create a new comment for a post
+  const handleCommentSubmit = (event) => {
+    event.preventDefault();
+
+    if (user) {
+      const newCommentDetails = {
+        "description": newNestedComment,
+        "post_id": props.commentDetails.post_id,
+        "user_id": user.id,
+        "deleted": null,
+        "parent_comment_id": props.commentDetails.id
+      };
+      axios.post('http://localhost:3001/comments', null, { params: { newCommentDetails: newCommentDetails } })
+        .then((newCommentData) => {
+          props.setPosts((prev) => {
+            const newPost = [...prev];
+            newPost.forEach((post) => {
+              if (props.commentDetails.post_id === post.postsDetails.id) {
+                post.postComments.push(newCommentData.data.userCommentOnPost);
+              }
             });
-          })
-          .catch((response) => {
-            throw new Error(response.status);
+            return newPost;
           });
-      }
-      setNewNestedComment("")
-    };
+        })
+        .catch((response) => {
+          throw new Error(response.status);
+        });
+    }
+    setNewNestedComment("");
+    setNestedCommentVisibility(!nestedCommentVisibility);
+  };
 
   return (
     <Card sx={{ marginBottom: 2, borderLeft: 3, marginLeft: props.marginLeft }}>
@@ -92,7 +93,7 @@ const Comment = (props) => {
               value={newNestedComment}
               onChange={(event) => { setNewNestedComment(event.target.value); }}
             />
-            <Button type='submit' variant="contained" sx={{ marginRight: 2, marginLeft: 2 }}>
+            <Button type='submit' variant="contained" sx={{ marginLeft: 2 }}>
               Comment
             </Button>
           </Box>
