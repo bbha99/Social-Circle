@@ -24,8 +24,11 @@ const Post = (props) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    if (user) {
+  };
 
+  // Deletes logged in users post
+  const handleDeletePost = () => {
+    if (user) {
       return axios.post(`http://localhost:3001/post/delete`, null, { params: { id: user.id, post_id: props.post.id } })
         .then((result) => {
           props.setPosts((prev) => {
@@ -42,7 +45,7 @@ const Post = (props) => {
           throw new Error(response.status);
         });
     }
-  };
+  }
 
   // Allow user to like or unlike a post
   function changeLikedPostState(liked) {
@@ -178,7 +181,7 @@ const Post = (props) => {
               onClose={handleClose}
               TransitionComponent={Fade}
             >
-              <MenuItem onClick={handleClose} sx={{ color: "red", fontWeight: 500 }}>Delete</MenuItem>
+              <MenuItem onClick={handleDeletePost} sx={{ color: "red", fontWeight: 500 }}>Delete</MenuItem>
             </Menu>
           </div>
         }

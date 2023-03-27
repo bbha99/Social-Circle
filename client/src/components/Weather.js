@@ -7,8 +7,8 @@ import SearchIcon from "@mui/icons-material/Search";
 const CardContainer = styled(Card)(({ theme }) => ({
   backgroundImage:
     "url('https://images.unsplash.com/photo-1445462657202-a0893228a1e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')",
-  height: '400px',
-  marginTop: '10px',
+  height: '40%',
+  marginTop: '20px',
   backgroundSize: 'cover',
   display: "flex",
   // flexDirection: "column",

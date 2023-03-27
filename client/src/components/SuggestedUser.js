@@ -28,7 +28,7 @@ const SuggestedUser = (props) => {
       axios
       .get(`http://localhost:3001/users`)
       .then((response) => {
-        setSearchResults(response.data.users.slice(0, 5));
+        setSearchResults(response.data.users.slice(0, 3));
       })
       .catch((error) => {
         console.error(error);
@@ -38,14 +38,14 @@ const SuggestedUser = (props) => {
     axios
       .get(`http://localhost:3001/users`)
       .then((response) => {
-        setReceivers(response.data.users.slice(0, 5));
+        setReceivers(response.data.users.slice(0, 3));
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
   
-  const suggestedPeople = receivers.slice(0, 5).map((person) => {
+  const suggestedPeople = receivers.slice(0, 3).map((person) => {
     return (
       <Box key={person.id}>
         <Link to={`/users/${person.id}`}>
@@ -55,7 +55,7 @@ const SuggestedUser = (props) => {
   });
 
   return (
-    <Card sx={{ marginTop: "40px" }}>
+    <Card sx={{ marginTop: "60px", height: "28%" }}>
       <CardContent>
         <Typography variant="h5">
           {user ? "Meet New People" : "Meet People"}
