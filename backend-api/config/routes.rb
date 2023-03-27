@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :galleries
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   mount ActionCable.server => '/cable'
@@ -12,7 +13,10 @@ Rails.application.routes.draw do
   get '/admin' => 'admin/topics#index'
   
   resources :posts, only: [:index, :create]
-
+  post '/post/delete' => 'posts#update_show'
+  resources :images_gallery, only: [:index]
+  get 'latest', to: 'galleries#index'
+  
   resources :post_likes, only: [:create]
   post '/post_likes/delete' => 'post_likes#destroy'
 

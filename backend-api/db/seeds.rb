@@ -88,7 +88,7 @@ puts "Creating Posts..."
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
-    image: Faker::LoremFlickr.colorized_image,
+    image: "/images/shrine.png",
     user_id: 1,
     topic_id: rand(1..3)
   })
@@ -98,7 +98,7 @@ end
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
-    image: Faker::LoremFlickr.colorized_image,
+    image: "/images/shrine.png",
     deleted: false,
     user_id: 2,
     topic_id: rand(1..3)
@@ -251,3 +251,38 @@ puts "Creating blocked_posts"
 end
 
 puts "Done creating blocked_posts"
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 8,
+    image: "/images/art.png"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 6,
+    image: "/images/flowers.png"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 3,
+    image: "/images/shrine.png"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 1,
+    image: "/images/flower.png"
+  })
+end
+
+1.times do |n|
+  ImageGallery.create!({
+    user_id: 2,
+    image: "/images/art.png"
+  })
+end

@@ -39,6 +39,13 @@ class PostsController < ApplicationController
     end
 
   end
+
+  def update_show
+    @post = Post.find_by(user_id: params[:id], id: params[:post_id])
+    if @post.update(deleted: true)
+      render json: @post, status: 200
+    end
+  end
   
 
 end

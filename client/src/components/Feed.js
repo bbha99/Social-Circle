@@ -1,12 +1,13 @@
 import { Avatar, Box, Card, Tab, Tabs, TextField } from '@mui/material';
 import { styled } from '@mui/system';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import React from 'react';
 import Post from './Post';
 import PostForm from './PostForm';
 import axios from "axios";
 import { authContext } from '../providers/AuthProvider';
 import { topicContext } from '../providers/TopicProvider';
+import ImageGallery from './ImageGallery';
 
 const Div = styled(Box)({
   backgroundColor: "#DAE0E6",
@@ -17,6 +18,7 @@ const Div = styled(Box)({
 const Feed = (props) => {
   const [open, setOpen] = React.useState(false);
   const [sortValue, setSortValue] = React.useState(0);
+  const [gallery, setGallery] = React.useState([]);
   // const [newCommentList, setNewCommentList] = React.useState({});
 
   // Current user
@@ -27,6 +29,15 @@ const Feed = (props) => {
   if (user) {
     user_session_id = user.id;
   }
+
+  useEffect(() => {
+    if (user) {
+      axios.get('http://localhost:3001/images_gallery')
+        .then((response) => {
+          setGallery(response.data.imageGallery);
+        });
+    }
+  }, []);
 
   // Sort filtering
   const handleSort = (event, newValue) => {
@@ -41,6 +52,8 @@ const Feed = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  // console.log("gallery", gallery)
 
   // Adds the created post to the list of posts
   function save(title, topicId, description, image) {
@@ -156,25 +169,29 @@ const Feed = (props) => {
   arr = filterTopic(arr, selectedTopicId);
 
   postList = arr.map(post => {
-    return (
-      <Post
-        key={post.postsDetails.id}
-        totalLikes={post.totalLikes}
-        post={post.postsDetails}
-        userLikedPost={post.userLikedPost}
-        likePost={likePost}
-        unlikePost={unlikePost}
-        userDetails={post.postsDetails.user}
-        postComments={post.postComments}
-        setPosts={props.setPosts}
-      />);
+    if (post.postsDetails.deleted === null || post.postsDetails.deleted === false) {
+      return (
+        <Post
+          key={post.postsDetails.id}
+          totalLikes={post.totalLikes}
+          post={post.postsDetails}
+          userLikedPost={post.userLikedPost}
+          likePost={likePost}
+          unlikePost={unlikePost}
+          userDetails={post.postsDetails.user}
+          postComments={post.postComments}
+          setPosts={props.setPosts}
+        />);
+
+    }
   });
 
-  // console.log("post.props", props.posts)
+  // console.log("post.props", props.posts);
 
   return (
     <Div p={2}>
-      {user && <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
+      {user && <ImageGallery gallery={gallery} setGallery={setGallery} />}
+      {user && <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2, marginTop: 6 }}>
         <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src={user.image} />
         <TextField
           id="outlined-textarea"
