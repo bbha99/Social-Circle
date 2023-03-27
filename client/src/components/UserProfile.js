@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Avatar,Box, Grid, Paper, Typography, Container, Button} from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Grid,
+  Paper,
+  Typography,
+  Container,
+  Button,
+} from "@mui/material";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
 import UserEditForm from "./UserEditForm";
+import { authContext } from "../providers/AuthProvider";
+import { useContext } from "react";
 
 const UserProfile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
+  const { user: loggedInUser } = useContext(authContext);
 
   useEffect(() => {
     axios
@@ -38,7 +49,7 @@ const UserProfile = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
-
+  const isOwnProfile = loggedInUser && loggedInUser.id === user.user.id;
   return (
     <Box sx={{ bgcolor: "#EAF6FF", py: "2rem" }}>
       <Container maxWidth="md">
@@ -66,9 +77,15 @@ const UserProfile = () => {
               />
             ) : (
               <>
-                <Button variant="outlined" onClick={handleEdit} startIcon={<EditIcon />}>
-                  Edit Profile
-                </Button>
+                {isOwnProfile && ( 
+                  <Button
+                    variant="outlined"
+                    onClick={handleEdit}
+                    startIcon={<EditIcon />}
+                  >
+                    Edit Profile
+                  </Button>
+                )}
               </>
             )}
           </Box>
