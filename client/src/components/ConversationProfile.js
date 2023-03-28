@@ -1,13 +1,8 @@
-import styled from '@emotion/styled';
 import { Avatar, Card, CardContent, List, ListItemText, Typography, ListItem, ListItemIcon } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { authContext } from '../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-
-const Div = styled('div')({
-  margin: (theme) => theme.spacing(1),
-});
 
 const ConversationProfile = (props) => {
   const [receivers, setReceivers] = useState([]);

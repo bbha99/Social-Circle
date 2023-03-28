@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, styled, Typography, InputBase, Avatar, Menu, MenuItem, Stack, IconButton } from '@mui/material';
+import { AppBar, Toolbar, styled, Typography, Avatar, Menu, MenuItem, Stack, IconButton } from '@mui/material';
 import React, { useState, useContext } from 'react';
 import { Api } from '@mui/icons-material/';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -9,13 +9,6 @@ const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between"
 });
-
-const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "white",
-  padding: "0 10px",
-  borderRadius: theme.shape.borderRadius,
-  width: "40%"
-}));
 
 const Navbar = () => {
   const { auth, user, logout } = useContext(authContext);

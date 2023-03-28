@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
+import { Button, Card, CardContent, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import SearchIcon from "@mui/icons-material/Search";
@@ -31,15 +31,15 @@ const Weather = (props) => {
 
   let weatherIcon = null;
   if (typeof data.main != "undefined") {
-    if (data.weather[0].main == "Clouds") {
+    if (data.weather[0].main === "Clouds") {
       weatherIcon = "bi-cloud";
-    } else if (data.weather[0].main == "Thunderstorm") {
+    } else if (data.weather[0].main === "Thunderstorm") {
       weatherIcon = "bi-cloud-lightning";
-    } else if (data.weather[0].main == "Drizzle") {
+    } else if (data.weather[0].main === "Drizzle") {
       weatherIcon = "bi-cloud-drizzle";
-    } else if (data.weather[0].main == "Rain") {
+    } else if (data.weather[0].main === "Rain") {
       weatherIcon = "bi-cloud-rain";
-    } else if (data.weather[0].main == "Snow") {
+    } else if (data.weather[0].main === "Snow") {
       weatherIcon = "bi-cloud-snow";
     } else {
       weatherIcon = "bi-cloud-sun";

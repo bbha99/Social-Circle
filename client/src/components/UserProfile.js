@@ -69,10 +69,10 @@ const UserProfile = () => {
           />
           <Typography variant="h4">{user.user.username}</Typography>
           <br></br>
-          <Button
+          {!isOwnProfile && <Button
             variant="contained"
             onClick={() => { auth ? navigate('/chats', { state: user.user }) : navigate('/login'); }}
-          >Start conversation</Button>
+          >Start conversation</Button>}
           <br></br>
           <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>
             {editing ? (
@@ -97,39 +97,44 @@ const UserProfile = () => {
           </Box>
         </Box>
         <Grid container spacing={2}>
-          {user.post.map((post) => (
-            <Grid item key={post.id} xs={12}>
-              <Paper
-                sx={{
-                  p: "1rem",
-                  borderRadius: "1rem",
-                  border: "2px solid #9CA3AF",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>
-                  <Avatar
-                    src={post.image}
-                    alt={post.username}
-                    sx={{ width: "50px", height: "50px", mr: "1rem" }}
-                  />
-                  <Box sx={{ display: "flex", flexDirection: "column" }}>
-                    <Typography variant="subtitle2">{post.username}</Typography>
-                    <Typography variant="caption">
-                      {moment(post.created_at).fromNow()}
+          {user.post.map((post) => {
+            if (post.deleted !== true) {
+              return (
+                <Grid item key={post.id} xs={12}>
+                  <Paper
+                    sx={{
+                      p: "1rem",
+                      borderRadius: "1rem",
+                      border: "2px solid #9CA3AF",
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>
+                      <Avatar
+                        src={post.image}
+                        alt={post.username}
+                        sx={{ width: "50px", height: "50px", mr: "1rem" }}
+                      />
+                      <Box sx={{ display: "flex", flexDirection: "column" }}>
+                        <Typography variant="subtitle2">{post.username}</Typography>
+                        <Typography variant="caption">
+                          {moment(post.created_at).fromNow()}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Typography variant="body1" sx={{ mb: "1rem" }}>
+                      {post.description}
                     </Typography>
-                  </Box>
-                </Box>
-                <Typography variant="body1" sx={{ mb: "1rem" }}>
-                  {post.description}
-                </Typography>
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  style={{ maxWidth: "100%", borderRadius: "1rem" }}
-                />
-              </Paper>
-            </Grid>
-          ))}
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      style={{ maxWidth: "100%", borderRadius: "1rem" }}
+                    />
+                  </Paper>
+                </Grid>
+              );
+            }
+          }
+          )}
         </Grid>
       </Container>
     </Box>
