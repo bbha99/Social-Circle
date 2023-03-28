@@ -62,9 +62,9 @@ const SuggestedUser = (props) => {
   });
 
   return (
-    <Card sx={{ marginTop: "60px", height: "28%" }}>
+    <Card sx={{ marginTop: "70px", height: "28%" }}>
       <CardContent>
-        <Typography variant="h5">
+        <Typography variant="h5" sx={{marginBottom: 1}}>
           {user ? "Meet New People" : "Meet People"}
         </Typography>
         <SearchBar />

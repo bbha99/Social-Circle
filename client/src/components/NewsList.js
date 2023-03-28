@@ -13,12 +13,12 @@ function NewsList() {
         setArticles(response.data.articles);
       });
   }, []);
-  console.log("response news: ", articles);
+
   return (
     <Card style={{ maxHeight: "68%", overflow: 'auto', maxWidth: "100%" }}>
       <Typography variant="h5" component="div" sx={{ m: 3 }}>Top Headlines</Typography>
-      {articles.map(({ title, description, url, urlToImage }) => {
-        return <NewsItem title={title} description={description} url={url} urlToImage={urlToImage} />;
+      {articles.map((article, index) => {
+        return <NewsItem key={index} title={article.title} description={article.description} url={article.url} urlToImage={article.urlToImage} />;
       })}
     </Card>
   );

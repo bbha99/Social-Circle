@@ -63,14 +63,16 @@ const Comment = (props) => {
   };
 
   return (
-    <Card sx={{ marginBottom: 2, borderLeft: 3, marginLeft: props.marginLeft }}>
+    <Card sx={{ marginBottom: 2, borderLeft: 3, marginLeft: props.marginLeft, paddingLeft: 2, paddingRight: 2 }}>
       <CardHeader
-        sx={{ cursor: 'pointer' }}
         avatar={
-          <Avatar sx={{ width: 30, height: 30 }} src={props.commentDetails.user.image} />
+          <Avatar sx={{ width: 30, height: 30 }} src={props.commentDetails.user.image} sx={{ cursor: 'pointer' }} onClick={() => navigate(`/users/${props.commentDetails.user.id}`)}/>
         }
-        subheader={props.commentDetails.user.username + " " + moment(props.commentDetails.created_at).fromNow()}
-        onClick={() => navigate(`/users/${props.commentDetails.user.id}`)}
+        subheader={
+          <Box>
+            <Box component="span" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/users/${props.commentDetails.user.id}`)}>{props.commentDetails.user.username}</Box> {moment(props.commentDetails.created_at).fromNow()}
+          </Box>
+        }
       />
       <CardContent>
         <Typography component="p">
@@ -86,7 +88,6 @@ const Comment = (props) => {
           Reply
         </Button>
       </CardActions>}
-      <Divider />
       {nestedCommentVisibility === true && <CardContent>
         {user && <form onSubmit={handleCommentSubmit}>
           <Box sx={{ display: 'flex', marginBottom: 2 }}>
