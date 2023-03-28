@@ -47,27 +47,35 @@ const SearchResults = () => {
     }
   });
 
+  console.log("se", searchResults);
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Navbar />
         <Box sx={{ maxWidth: "800px", mx: "auto", p: 2 }}>
-          {searchResults.map((result) => (
-            <Box
-              key={result.id}
-              sx={{
-                my: 2,
-                p: 2,
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              <Typography variant="h4">{result.postsDetails.title} </Typography>
-              <Typography variant="h6">Posted By {result.postsDetails.user.username} {moment(result.postsDetails.user.created_at).fromNow()}</Typography>
-              <Typography>{result.postsDetails.description}</Typography>
-            </Box>
-          ))}
+          {searchResults.map((result) => {
+            {
+              if (result.postsDetails.deleted !== true) {
+                return (
+                  <Box
+                    key={result.id}
+                    sx={{
+                      my: 2,
+                      p: 2,
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <Typography variant="h4">{result.postsDetails.title} </Typography>
+                    <Typography variant="h6">Posted By {result.postsDetails.user.username} {moment(result.postsDetails.user.created_at).fromNow()}</Typography>
+                    <Typography>{result.postsDetails.description}</Typography>
+                  </Box>
+                );
+              }
+            }
+          })}
         </Box>
       </ThemeProvider>
     </>

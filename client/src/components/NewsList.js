@@ -7,7 +7,7 @@ function NewsList() {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`)
+    axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`)
       .then((response) => {
 
         setArticles(response.data.articles);
