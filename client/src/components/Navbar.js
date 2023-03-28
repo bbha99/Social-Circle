@@ -40,7 +40,7 @@ const Navbar = () => {
           sx={{ display: { xs: "none", sm: "block" }, textDecoration: 'none' }}
           color="common.white"
         >
-          Discussit
+          Social Circle
         </Typography>
         <Api sx={{ display: { xs: "block", sm: "none" } }} />
         <PostSearchBar />

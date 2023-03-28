@@ -40,7 +40,7 @@ const ConversationProfile = (props) => {
   });
 
   return (
-    <Card sx={{ marginTop: "20px", height: "24%" }}>
+    <Card sx={{ marginTop: "20px", height: "20%" }}>
       <CardContent>
         <Typography variant="h5">
           My conversations
