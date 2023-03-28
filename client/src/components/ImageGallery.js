@@ -7,7 +7,6 @@ import axios from "axios";
 export const AppContext = createContext(null);
 
 const ImageGallery = (props) => {
-  const dataItems = props.gallery.slice(0, 4);
   const [stories, setStories] = useState([]);
 
   useEffect(() => {

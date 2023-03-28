@@ -1,4 +1,4 @@
-import { Card, List, Paper, Typography } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import NewsItem from './NewsItem';

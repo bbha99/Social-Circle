@@ -47,8 +47,6 @@ const SearchResults = () => {
     }
   });
 
-  console.log("se", searchResults);
-
   return (
     <>
       <ThemeProvider theme={theme}>

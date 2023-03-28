@@ -100,7 +100,6 @@ const Post = (props) => {
     setCommentVisibility(!commentVisibility);
   };
 
-  const postId = props.post.id;
   // Checks whether post has been liked during user session or defaults to state onload
   let likeButton;
   if (props.userLikedPost) {
@@ -114,6 +113,11 @@ const Post = (props) => {
     likeButton = <Button
       fullWidth={true}
       disabled={!user ? true : false}
+      sx={{
+        "&.Mui-disabled": {
+          color: "#1976d2"
+        }
+      }}
       onClick={() => { changeLikedPostState(true); }}>
       <FavoriteBorder />
       {props.totalLikes} Likes

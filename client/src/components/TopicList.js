@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { List, ListItemText } from '@mui/material';
 import { styled } from '@mui/system';
 import { useContext } from "react";
 import * as React from 'react';
@@ -8,17 +8,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 const Div = styled('div')({
   margin: (theme) => theme.spacing(1),
 });
-
-const TitleTypography = styled(Typography)(({ theme }) => ({
-  fontSize: theme.typography.h4.fontSize,
-}));
-
-const ListTopics = styled(ListItem)(({ theme }) => ({
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: theme.palette.info.main,
-  },
-}));
 
 const TopicList = (props) => {
   const { topicList, setSelectedTopicId, selectedTopicId } = useContext(topicContext);

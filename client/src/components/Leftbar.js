@@ -1,10 +1,8 @@
-import { Height } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import NewsList from './NewsList';
 import TopicList from './TopicList';
-import Weather from './Weather';
 
 const Div = styled(Box)(({ theme }) => ({
   backgroundColor: "white",

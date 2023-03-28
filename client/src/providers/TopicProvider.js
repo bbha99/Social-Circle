@@ -17,10 +17,6 @@ const TopicProvider = (props) => {
       });
   };
 
-  const displayTopicPosts = (topicChosen) => {
-    setSelectedTopicId(topicChosen);
-  };
-
   const topicData = { topicList, getTopics, selectedTopicId, setSelectedTopicId };
 
   return (
