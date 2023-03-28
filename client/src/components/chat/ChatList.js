@@ -33,6 +33,7 @@ const ChatList = ({ cable }) => {
         userList.push(
           <ListItem button
             key={r.id}
+            selected={receiver ? receiver.id === r.id : false}
             onClick={() => setReceiver(r)}
           >
             <ListItemIcon>

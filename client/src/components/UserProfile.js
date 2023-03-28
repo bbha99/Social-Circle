@@ -20,7 +20,7 @@ const UserProfile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
-  const { user: loggedInUser } = useContext(authContext);
+  const { user: loggedInUser, auth } = useContext(authContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const UserProfile = () => {
           <br></br>
           <Button
             variant="contained"
-            onClick={() => navigate('/chats', { state: user.user })}
+            onClick={() => { auth ? navigate('/chats', { state: user.user }) : navigate('/login'); }}
           >Start conversation</Button>
           <br></br>
           <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>

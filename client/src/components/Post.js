@@ -7,11 +7,13 @@ import moment from 'moment';
 import Comment from './Comment';
 import { Box } from '@mui/system';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 // Individual post component
 const Post = (props) => {
   const [newComment, setNewComment] = React.useState("");
   const [commentVisibility, setCommentVisibility] = React.useState(false);
+  const navigate = useNavigate();
 
   // Current user
   const { user } = useContext(authContext);
@@ -166,6 +168,7 @@ const Post = (props) => {
   return (
     <Card sx={{ marginBottom: 2 }}>
       <CardHeader
+        sx={{ cursor: 'pointer' }}
         avatar={
           <Avatar sx={{ width: 50, height: 50 }} src={props.userDetails.image} />
         }
@@ -188,6 +191,7 @@ const Post = (props) => {
 
         title={props.post.title}
         subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow()}
+        onClick={() => navigate(`/users/${props.userDetails.id}`)}
       />
 
       <CardContent>
