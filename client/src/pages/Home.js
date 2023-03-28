@@ -22,10 +22,8 @@ const Home = () => {
   if (user) {
     user_session_id = user.id;
   }
-  // console.log("posts details: ", posts)
-
-  // Retrieve all the posts onload
   
+  // Retrieve all the posts onload
   useEffect(() => {
     if (changeMiddleView === "feed") {
       axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
@@ -37,17 +35,15 @@ const Home = () => {
 
   }, [changeMiddleView]);
 
-  // useEffect(() => {
-  //   console.log("post details here: ", posts);
-
-  // }, [posts]);
-
   const theme = createTheme({
     palette: {
       // mode: "dark",
       customColor: {
         main: "red"
       }
+    },
+    typography: {
+      fontSize: 18
     }
   });
 

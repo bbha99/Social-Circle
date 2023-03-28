@@ -166,11 +166,10 @@ const Post = (props) => {
   }
 
   return (
-    <Card sx={{ marginBottom: 2 }}>
+    <Card sx={{ marginBottom: 2, p: 2 }}>
       <CardHeader
-        sx={{ cursor: 'pointer' }}
         avatar={
-          <Avatar sx={{ width: 50, height: 50 }} src={props.userDetails.image} />
+          <Avatar sx={{ width: 50, height: 50, cursor: 'pointer' }} src={props.userDetails.image} onClick={() => navigate(`/users/${props.userDetails.id}`)}/>
         }
         action={user && user.id === props.userDetails.id &&
           <div>
@@ -189,9 +188,15 @@ const Post = (props) => {
           </div>
         }
 
-        title={props.post.title}
-        subheader={props.userDetails.username + " " + moment(props.post.created_at).fromNow()}
-        onClick={() => navigate(`/users/${props.userDetails.id}`)}
+        title={
+          props.post.title
+        }
+        subheader={
+          <Box>
+            {`[${props.topicName}]`} <Box component="span" sx={{ cursor: 'pointer' }} onClick={() => navigate(`/users/${props.userDetails.id}`)}>{props.userDetails.username}
+            </Box> {moment(props.post.created_at).fromNow()}
+          </Box>
+        }
       />
 
       <CardContent>
@@ -206,7 +211,7 @@ const Post = (props) => {
           height="400"
           image={props.post.image}
           alt="alternate"
-          sx={{ objectFit: "contain" }}
+          sx={{ objectFit: "contain", marginBottom: 2 }}
         />
       }
 
@@ -224,7 +229,7 @@ const Post = (props) => {
         </Button>
       </CardActions>
 
-      <Divider />
+      <Divider sx={{ marginLeft: 2, marginRight: 2 }} />
       {commentVisibility === true && <CardContent>
         {user && <form onSubmit={handleCommentSubmit}>
           <Box sx={{ display: 'flex', marginBottom: 2 }}>

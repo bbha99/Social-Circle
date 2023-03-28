@@ -32,6 +32,7 @@ const PostForm = (props) => {
     }
     props.handleClose();
     setError("");
+    reset();
     props.onSave(title, topic, description, image);
   };
 

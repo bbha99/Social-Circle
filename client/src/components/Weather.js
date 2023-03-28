@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 const CardContainer = styled(Card)(({ theme }) => ({
   backgroundImage:
     "url('https://images.unsplash.com/photo-1445462657202-a0893228a1e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')",
-  height: '40%',
+  height: '35%',
   marginTop: '20px',
   backgroundSize: 'cover',
   display: "flex",
@@ -24,7 +24,6 @@ const Weather = (props) => {
   useEffect(() => {
     axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
       .then((response) => {
-        // console.log("response.data: ", response.data);
         setData(response.data);
       });
 
@@ -74,32 +73,27 @@ const Weather = (props) => {
           <TextField
             placeholder="Search a city"
             value={input}
-            sx={{ bgcolor: "white" }}
+            size="small"
+            sx={{ bgcolor: "white", width: "190px" }}
             onChange={(event) => { setInput(event.target.value); }}
             required
           />
 
-          <Button type='submit' variant="contained">
-          <SearchIcon />
+          <Button type='submit' variant="contained" size='large'>
+            <SearchIcon />
           </Button>
         </form>
-        <Typography variant="h4">
+        <Typography variant="h5">
           {data.name}
         </Typography>
-        <Typography variant="h5">
+        <Typography variant="body1">
           {day}, {month} {date}, {year}
         </Typography>
-        <div>
-          <i className={`bi ${weatherIcon}`}></i>
-        </div>
         <Typography variant="body1">
-          {temp} &deg;C
+          <i className={`bi ${weatherIcon}`}></i> {temp} &deg;C
         </Typography>
         <Typography variant="body1">
-          {data.length !== 0 && data.weather[0].main}
-        </Typography>
-        <Typography variant="body1">
-        H:{temp_max} &deg;C L:{temp_min} &deg;C
+          H:{temp_max} &deg;C L:{temp_min} &deg;C
         </Typography>
       </CardContent>
     </CardContainer>

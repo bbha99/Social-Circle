@@ -39,7 +39,11 @@ const Register = () => {
     );
   });
 
-  const theme = createTheme();
+  const theme = createTheme({
+    typography: {
+      fontSize: 18
+    }
+  });
 
   return (
     <ThemeProvider theme={theme}>

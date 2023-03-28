@@ -170,6 +170,14 @@ const Feed = (props) => {
 
   postList = arr.map(post => {
     if (post.postsDetails.deleted === null || post.postsDetails.deleted === false) {
+      let topicName = "";
+      for (const topic in topicList) {
+        if (post.postsDetails.topic_id === topicList[topic].id) {
+          topicName = topicList[topic].name;
+          break;
+        }
+      }
+
       return (
         <Post
           key={post.postsDetails.id}
@@ -181,25 +189,29 @@ const Feed = (props) => {
           userDetails={post.postsDetails.user}
           postComments={post.postComments}
           setPosts={props.setPosts}
+          topicName={topicName}
         />);
 
     }
   });
-
-  // console.log("post.props", props.posts);
 
   return (
     <Div p={2}>
       {user && <ImageGallery gallery={gallery} setGallery={setGallery} />}
       {user && <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2, marginTop: 6 }}>
         <Avatar sx={{ width: 50, height: 50, marginRight: 1 }} src={user.image} />
-        <TextField
-          id="outlined-textarea"
-          placeholder={`What's on your mind, ${user.username}?`}
-          rows={1}
-          fullWidth={true}
-          onClick={handleClickOpen}
-        />
+        <Box sx={{ cursor: 'pointer', width: "100%" }} >
+          <TextField
+            id="outlined-textarea"
+            placeholder={`What's on your mind, ${user.username}?`}
+            rows={1}
+            sx={{ input: { cursor: 'pointer' } }}
+            disabled
+            fullWidth={true}
+            onClick={handleClickOpen}
+          />
+
+        </Box>
       </Card>}
       <Card sx={{ display: 'flex', alignItems: "center", marginBottom: 2, padding: 2 }}>
         <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
