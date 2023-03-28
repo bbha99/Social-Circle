@@ -20,7 +20,7 @@ const ConversationProfile = (props) => {
       id: user.id
     }, { withCredentials: true })
       .then((response) => {
-        setReceivers(response.data.users.slice(0, 5));
+        setReceivers(response.data.users.slice(0, 3));
       });
   }, []);
 

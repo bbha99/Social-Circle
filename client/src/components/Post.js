@@ -169,7 +169,7 @@ const Post = (props) => {
     <Card sx={{ marginBottom: 2, p: 2 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ width: 50, height: 50, cursor: 'pointer' }} src={props.userDetails.image} onClick={() => navigate(`/users/${props.userDetails.id}`)}/>
+          <Avatar sx={{ width: 50, height: 50, cursor: 'pointer' }} src={props.userDetails.image} onClick={() => navigate(`/users/${props.userDetails.id}`)} />
         }
         action={user && user.id === props.userDetails.id &&
           <div>
@@ -177,6 +177,7 @@ const Post = (props) => {
               <MoreHoriz />
             </IconButton>
             <Menu
+              disableScrollLock={true}
               id="fade-menu"
               anchorEl={anchorEl}
               open={open}

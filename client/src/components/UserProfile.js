@@ -28,7 +28,6 @@ const UserProfile = () => {
       .get(`http://localhost:3001/users/${id}`)
       .then((response) => {
         setUser(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);

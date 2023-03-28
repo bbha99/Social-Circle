@@ -1,84 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
-import { Link } from "react-router-dom";
+import { TextField } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+import Autocomplete from '@mui/material/Autocomplete';
+import { useContext } from "react";
+import { authContext } from "../providers/AuthProvider";
 
 const SearchBar = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState({});
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    const searchTerm = event.target.value;
-    setSearch(searchTerm);
+  const { user } = useContext(authContext);
 
-    if (searchTerm === "") {
-      setSearchResults([]);
-      return;
+  useEffect(() => {
+    // Displays all users who user has not started a conversation with
+    if (user) {
+      axios.post(`http://localhost:3001/meet_people`, {
+        id: user.id
+      }, { withCredentials: true })
+        .then((response) => {
+          const filteredData = response.data.users.filter((curUser) => {
+            if (curUser.id !== user.id) {
+              return curUser.username.toLowerCase();
+            }
+          });
+          setSearchResults(filteredData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+    } else {
+      // Displays all users for not logged in user
+      axios
+        .get(`http://localhost:3001/users`)
+        .then((response) => {
+          const filteredData = response.data.users.filter((curUser) => {
+            return curUser.username.toLowerCase();
+          });
+          setSearchResults(filteredData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
+  }, []);
 
-    axios
-      .get(`http://localhost:3001/users`)
-      .then((response) => {
-        const filteredData = response.data.users.filter((user) =>
-          user.username.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setSearchResults(filteredData.slice(0, 5));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const clearClick = () => {
-    setSearch("");
-    setSearchResults([]);
-  };
+  const arr = searchResults.slice(0, 5).map((option) => {
+    return ({
+      id: option.id,
+      label: option.username
+    });
+  });
 
   return (
-    <Box
-      sx={{
-        // position: "relative",
-        backgroundColor: "#FFFFFF",
-        marginBottom: "10px"
-      }}
-    >
-      <TextField
-        placeholder="Search for users here..."
-        value={search}
-        onChange={handleChange}
-        InputProps={{
-          endAdornment: search ? (
-            <ClearIcon onClick={clearClick} />
-          ) : (
-            <SearchIcon />
-          ),
+    <div>
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={arr}
+        sx={{ width: 300 }}
+        onChange={(event, newValue) => {
+          setSearch(newValue);
+          if (search) {
+            navigate(`/users/${newValue.id}`);
+          }
         }}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        renderInput={(params) => <TextField {...params} label="Find a user" />}
       />
-      <Box
-        sx={{
-          // display: "inline",
-          position: "absolute",
-          width: "80%",
-          overflowY: "scroll",
-          overflow: "hidden",
-          backgroundColor: "#A020F0",
-          borderRadius: "4px",
-          color: "#FFFFFF",
-          cursor: "pointer",
-          "&:hover": {
-            borderRadius: "4px",
-          },
-        }}
-      >
-        {searchResults.map((result) => (
-          <Box key={result.id} p={2}>
-            <Link to={`/users/${result.id}`}>{result.username}</Link>
-          </Box>
-        ))}
-      </Box>
-    </Box>
+    </div>
+
   );
 };
 
