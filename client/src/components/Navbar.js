@@ -67,6 +67,7 @@ const Navbar = () => {
       </StyledToolbar>
 
       {!auth && <Menu
+        disableScrollLock={true}
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
@@ -109,6 +110,7 @@ const Navbar = () => {
       </Menu>}
 
       {auth && <Menu
+        disableScrollLock={true}
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}

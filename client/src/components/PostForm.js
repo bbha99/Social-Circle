@@ -49,7 +49,7 @@ const PostForm = (props) => {
   };
 
   return (
-    <Dialog open={props.open} onClose={cancel} component="form" onSubmit={handleSubmit}>
+    <Dialog open={props.open} onClose={cancel} component="form" onSubmit={handleSubmit} disableScrollLock={true}>
       <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         Create post
         <IconButton onClick={cancel} sx={{
