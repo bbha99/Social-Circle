@@ -4,10 +4,13 @@ import React from 'react';
 import axios from 'axios';
 import { useContext } from "react";
 import { authContext } from '../providers/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+
 const Comment = (props) => {
   const [newNestedComment, setNewNestedComment] = React.useState("");
   const [nestedCommentVisibility, setNestedCommentVisibility] = React.useState(false);
+  const navigate = useNavigate();
 
   // Current user
   const { user } = useContext(authContext);
@@ -62,10 +65,12 @@ const Comment = (props) => {
   return (
     <Card sx={{ marginBottom: 2, borderLeft: 3, marginLeft: props.marginLeft }}>
       <CardHeader
+        sx={{ cursor: 'pointer' }}
         avatar={
           <Avatar sx={{ width: 30, height: 30 }} src={props.commentDetails.user.image} />
         }
         subheader={props.commentDetails.user.username + " " + moment(props.commentDetails.created_at).fromNow()}
+        onClick={() => navigate(`/users/${props.commentDetails.user.id}`)}
       />
       <CardContent>
         <Typography component="p">
