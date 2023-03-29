@@ -9,7 +9,9 @@ import {
   Typography,
   Container,
   Button,
+  
 } from "@mui/material";
+import { sizing } from "@mui/system";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
 import UserEditForm from "./UserEditForm";
@@ -69,10 +71,18 @@ const UserProfile = () => {
           />
           <Typography variant="h4">{user.user.username}</Typography>
           <br></br>
-          {!isOwnProfile && <Button
-            variant="contained"
-            onClick={() => { auth ? navigate('/chats', { state: user.user }) : navigate('/login'); }}
-          >Start conversation</Button>}
+          {!isOwnProfile && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                auth
+                  ? navigate("/chats", { state: user.user })
+                  : navigate("/login");
+              }}
+            >
+              Start conversation
+            </Button>
+          )}
           <br></br>
           <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>
             {editing ? (
@@ -108,14 +118,19 @@ const UserProfile = () => {
                       border: "2px solid #9CA3AF",
                     }}
                   >
-                    <Box sx={{ display: "flex", alignItems: "center", mb: "1rem" }}>
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", mb: "1rem" }}
+                    >
                       <Avatar
                         src={post.image}
                         alt={post.username}
                         sx={{ width: "50px", height: "50px", mr: "1rem" }}
                       />
                       <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <Typography variant="subtitle2">{post.username}</Typography>
+                        <Typography variant="subtitle2">
+                          {post.username}
+                        </Typography>
+                        <Typography variant="h6">{post.title}</Typography>
                         <Typography variant="caption">
                           {moment(post.created_at).fromNow()}
                         </Typography>
@@ -127,14 +142,13 @@ const UserProfile = () => {
                     <img
                       src={post.image}
                       alt={post.title}
-                      style={{ maxWidth: "100%", borderRadius: "1rem" }}
+                      style={{ width: "60%", height: "50%", borderRadius: "1rem" }}
                     />
                   </Paper>
                 </Grid>
               );
             }
-          }
-          )}
+          })}
         </Grid>
       </Container>
     </Box>
