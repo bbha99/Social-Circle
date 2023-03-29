@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Box,
-  Grid,
-  Paper,
-  Typography,
-  Container,
-  Button,
-  
-} from "@mui/material";
-import { sizing } from "@mui/system";
+import {Avatar, Box, Grid, Paper, Typography, Container, Button } from "@mui/material";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
 import UserEditForm from "./UserEditForm";
@@ -30,6 +20,7 @@ const UserProfile = () => {
       .get(`http://localhost:3001/users/${id}`)
       .then((response) => {
         setUser(response.data);
+        console.log("user profile", response.data)
       })
       .catch((error) => {
         console.error(error);

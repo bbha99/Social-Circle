@@ -26,6 +26,7 @@ const SearchResults = () => {
       })
       .then((response) => {
         const postData = response.data.postDetails;
+        console.log(postData);
         const filteredPosts = postData.filter((post) => {
           const title = post.postsDetails.title.toLowerCase();
           const description = post.postsDetails.description.toLowerCase();
@@ -42,7 +43,7 @@ const SearchResults = () => {
 
   const theme = createTheme({
     typography: {
-      fontSize: 18,
+      fontSize: 16,
     },
   });
 
@@ -75,6 +76,17 @@ const SearchResults = () => {
                       {moment(result.postsDetails.user.created_at).fromNow()}
                     </Typography>
                     <Typography>{result.postsDetails.description}</Typography>
+                    <br></br>
+                    <Typography>
+                      <img
+                        src={result.postsDetails.image}
+                        style={{
+                          width: "50%",
+                          height: "50%",
+                          borderRadius: "1rem",
+                        }}
+                      />
+                    </Typography>
                   </Box>
                 );
               }
