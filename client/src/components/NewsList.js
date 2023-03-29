@@ -15,7 +15,7 @@ function NewsList() {
   }, []);
 
   return (
-    <Card style={{ maxHeight: "65%", overflow: 'auto', maxWidth: "100%" }}>
+    <Card style={{ maxHeight: "60%", overflow: 'auto', maxWidth: "100%" }}>
       <Typography variant="h5" component="div" sx={{ m: 3 }}>Top Headlines</Typography>
       {articles.map((article, index) => {
         return <NewsItem key={index} title={article.title} description={article.description} url={article.url} urlToImage={article.urlToImage} />;

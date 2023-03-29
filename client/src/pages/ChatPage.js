@@ -16,7 +16,7 @@ const ChatPage = ({ cable }) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Navbar />
-        <Grid container component={Paper} sx={{ height: "calc( 100vh - 64px )", }}>
+        <Grid container component={Paper} sx={{ height: "calc( 100vh - 110px )", }}>
           <ChatList cable={cable} />
         </Grid>
       </ThemeProvider>

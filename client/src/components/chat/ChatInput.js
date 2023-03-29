@@ -26,7 +26,7 @@ function ChatInput({ receiver, messages, setMessages }) {
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
-      <Grid container sx={{ padding: '20px', position: "fixed", bottom: "0px", width: '75%', alignItems: 'flex-end' }} spacing={1} >
+      <Grid container sx={{ padding: '20px', position: "fixed", bottom: "0px", width: '75%', alignItems: 'center' }} spacing={1} >
         <Grid item xs>
           <TextField
             multiline
