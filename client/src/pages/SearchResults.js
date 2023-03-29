@@ -7,7 +7,7 @@ import { authContext } from "../providers/AuthProvider";
 import Navbar from "../components/Navbar";
 import moment from "moment";
 import { createTheme, CssBaseline } from "@mui/material";
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from "@emotion/react";
 
 const SearchResults = () => {
   const { searchInput } = useParams();
@@ -43,8 +43,7 @@ const SearchResults = () => {
   const theme = createTheme({
     typography: {
       fontSize: 18,
-      
-    }
+    },
   });
 
   return (
@@ -65,16 +64,17 @@ const SearchResults = () => {
                       p: 2,
                       borderRadius: "8px",
                       border: "2px solid #E0E0E0",
-                      bgcolor: "#FFFFFF"
+                      bgcolor: "#FFFFFF",
                     }}
                   >
-                    <Typography variant="h5">{result.postsDetails.title} </Typography>
+                    <Typography variant="h5">
+                      {result.postsDetails.title}{" "}
+                    </Typography>
                     <Typography variant="h6">
                       Posted By {result.postsDetails.user.username}{" "}
                       {moment(result.postsDetails.user.created_at).fromNow()}
                     </Typography>
                     <Typography>{result.postsDetails.description}</Typography>
-                    <Typography>{result.postsDetails.image}</Typography>
                   </Box>
                 );
               }

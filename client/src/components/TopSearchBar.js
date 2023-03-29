@@ -53,6 +53,12 @@ const TopSearchBar = () => {
     window.location.href = `/search/${search}`;
   };
 
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      handleSearchClick();
+    }
+  };
+
   return (
     <Grid
       container
@@ -61,38 +67,26 @@ const TopSearchBar = () => {
       sx={{
         backgroundColor: "white",
         width: "25%",
-        height: "50", 
+        height: "50",
       }}
     >
-      
-        <TextField
-          fullWidth
-          placeholder="Search for posts here..."
-          value={search}
-          onChange={handleChange}
-          InputProps={{
-            endAdornment: search ? (
-              <ClearIcon
-                sx={{ ":hover": { cursor: "pointer", color: "#007bff" } }}
-                onClick={clearClick}
-              />
-            ) : (
-              <SearchIcon />
-            ),
-          }}
-        />
-      
-      
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleSearchClick}
-          size="-large"
-          sx={{ maxHeight: "100%" }}
-        >
-          Search
-        </Button>
-      
+      <TextField
+        fullWidth
+        placeholder="Search for posts here..."
+        value={search}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        InputProps={{
+          endAdornment: search ? (
+            <ClearIcon
+              sx={{ ":hover": { cursor: "pointer", color: "#007bff" } }}
+              onClick={clearClick}
+            />
+          ) : (
+            <SearchIcon />
+          ),
+        }}
+      />
     </Grid>
   );
 };
