@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { Box, TextField, Button } from "@mui/material";
+import { Grid, TextField, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Link } from "react-router-dom";
@@ -54,52 +54,46 @@ const TopSearchBar = () => {
   };
 
   return (
-    <Box
+    <Grid
+      container
+      alignItems="center"
+      justifyContent="center"
       sx={{
-        backgroundColor: "white"
+        backgroundColor: "white",
+        width: "25%",
+        height: "50", 
       }}
     >
-      <TextField
-        placeholder="Search for posts here..."
-        value={search}
-        onChange={handleChange}
-        InputProps={{
-          endAdornment: search ? (
-            <ClearIcon onClick={clearClick} />
-          ) : (
-            <SearchIcon />
-          ),
-        }}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          width: "312px",
-          overflowY: "scroll",
-          overflow: "hidden",
-          backgroundColor: "#add8e6",
-          borderRadius: "4px",
-          color: "#FFFFFF",
-          cursor: "pointer",
-          "&:hover": {
-            borderRadius: "4px",
-          },
-        }}
-      >
-        {searchResults.map((result) => (
-          <>
-            <Link to={`/search/${result.postsDetails.title}`}>
-              <Box key={result.id} p={2}>
-                {result.postsDetails.title}
-              </Box>
-            </Link>
-          </>
-        ))}
-      </Box>
-      <Button variant="contained" onClick={handleSearchClick}>
-        Search
-      </Button>
-    </Box>
+      
+        <TextField
+          fullWidth
+          placeholder="Search for posts here..."
+          value={search}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: search ? (
+              <ClearIcon
+                sx={{ ":hover": { cursor: "pointer", color: "#007bff" } }}
+                onClick={clearClick}
+              />
+            ) : (
+              <SearchIcon />
+            ),
+          }}
+        />
+      
+      
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleSearchClick}
+          size="-large"
+          sx={{ maxHeight: "100%" }}
+        >
+          Search
+        </Button>
+      
+    </Grid>
   );
 };
 

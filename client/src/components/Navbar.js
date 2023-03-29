@@ -7,7 +7,8 @@ import PostSearchBar from './TopSearchBar';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
+  height: "110px"
 });
 
 const Search = styled("div")(({ theme }) => ({
