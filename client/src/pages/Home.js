@@ -13,7 +13,6 @@ import { useEffect, useContext } from "react";
 
 const Home = () => {
   const [posts, setPosts] = React.useState([]);
-  const [changeMiddleView, setChangeMiddleView] = React.useState("feed");
 
   const { user } = useContext(authContext);
   const { getTopics } = useContext(topicContext);
@@ -22,18 +21,16 @@ const Home = () => {
   if (user) {
     user_session_id = user.id;
   }
-  
+
   // Retrieve all the posts onload
   useEffect(() => {
-    if (changeMiddleView === "feed") {
-      axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
+    axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
       .then((response) => {
         setPosts(response.data.postDetails);
       });
     getTopics();
-    }
 
-  }, [changeMiddleView]);
+  }, []);
 
   const theme = createTheme({
     palette: {
@@ -50,12 +47,11 @@ const Home = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box className="App" sx={{bgcolor: "#DAE0E6"}}>
+      <Box className="App" sx={{ bgcolor: "#DAE0E6" }}>
         <Navbar />
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Leftbar />
-          {changeMiddleView === "feed" && <Feed posts={posts} setPosts={setPosts} />}
-          {/* {changeMiddleView === "feed" ? <Feed posts={posts} setPosts={setPosts} /> : <Weather />} */}
+          <Feed posts={posts} setPosts={setPosts} />
           <Rightbar />
         </Stack>
       </Box>

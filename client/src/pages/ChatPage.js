@@ -2,7 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import ChatList from '../components/chat/ChatList';
 import Navbar from '../components/Navbar';
 
-import { Box, createTheme, CssBaseline, Stack } from "@mui/material";
+import { createTheme, CssBaseline } from "@mui/material";
 import { ThemeProvider } from '@emotion/react';
 const ChatPage = ({ cable }) => {
   const theme = createTheme({

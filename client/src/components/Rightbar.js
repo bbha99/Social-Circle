@@ -1,9 +1,8 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { authContext } from '../providers/AuthProvider';
 import SuggestedUser from './SuggestedUser';
-import SearchBar from './Searchbar';
 import ConversationProfile from './ConversationProfile';
 import Weather from './Weather';
 

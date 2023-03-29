@@ -1,5 +1,5 @@
-import { ChatBubbleOutline, MoreHoriz } from '@mui/icons-material';
-import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Fade, IconButton, Menu, MenuItem, TextField, Typography } from '@mui/material';
+import { ChatBubbleOutline } from '@mui/icons-material';
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, TextField, Typography } from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useContext } from "react";
@@ -14,16 +14,6 @@ const Comment = (props) => {
 
   // Current user
   const { user } = useContext(authContext);
-
-  // Delete post action
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   // Toggle comment display
   const handleCommentVisibility = () => {
@@ -66,7 +56,7 @@ const Comment = (props) => {
     <Card sx={{ marginBottom: 2, borderLeft: 3, marginLeft: props.marginLeft, paddingLeft: 2, paddingRight: 2 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ width: 30, height: 30 }} src={props.commentDetails.user.image} sx={{ cursor: 'pointer' }} onClick={() => navigate(`/users/${props.commentDetails.user.id}`)}/>
+          <Avatar sx={{ width: 30, height: 30, cursor: 'pointer' }} src={props.commentDetails.user.image} onClick={() => navigate(`/users/${props.commentDetails.user.id}`)}/>
         }
         subheader={
           <Box>

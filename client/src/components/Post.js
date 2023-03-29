@@ -100,7 +100,6 @@ const Post = (props) => {
     setCommentVisibility(!commentVisibility);
   };
 
-  const postId = props.post.id;
   // Checks whether post has been liked during user session or defaults to state onload
   let likeButton;
   if (props.userLikedPost) {
@@ -114,6 +113,11 @@ const Post = (props) => {
     likeButton = <Button
       fullWidth={true}
       disabled={!user ? true : false}
+      sx={{
+        "&.Mui-disabled": {
+          color: "#1976d2"
+        }
+      }}
       onClick={() => { changeLikedPostState(true); }}>
       <FavoriteBorder />
       {props.totalLikes} Likes
@@ -169,7 +173,7 @@ const Post = (props) => {
     <Card sx={{ marginBottom: 2, p: 2 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ width: 50, height: 50, cursor: 'pointer' }} src={props.userDetails.image} onClick={() => navigate(`/users/${props.userDetails.id}`)}/>
+          <Avatar sx={{ width: 50, height: 50, cursor: 'pointer' }} src={props.userDetails.image} onClick={() => navigate(`/users/${props.userDetails.id}`)} />
         }
         action={user && user.id === props.userDetails.id &&
           <div>
@@ -177,6 +181,7 @@ const Post = (props) => {
               <MoreHoriz />
             </IconButton>
             <Menu
+              disableScrollLock={true}
               id="fade-menu"
               anchorEl={anchorEl}
               open={open}
