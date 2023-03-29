@@ -26,6 +26,7 @@ const Home = () => {
   useEffect(() => {
     axios.get('http://localhost:3001/posts', { params: { id: user_session_id } })
       .then((response) => {
+        console.log(response.data)
         setPosts(response.data.postDetails);
       });
     getTopics();

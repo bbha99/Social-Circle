@@ -84,7 +84,7 @@ puts "Done creating Topics"
 
 puts "Creating Posts..."
 
-2.times do 
+1.times do 
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
@@ -94,11 +94,43 @@ puts "Creating Posts..."
   })
 end
 
-3.times do 
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: "/images/art.png",
+    user_id: 1,
+    topic_id: rand(1..3)
+  })
+end
+
+1.times do 
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
     image: "/images/shrine.png",
+    deleted: false,
+    user_id: 2,
+    topic_id: rand(1..3)
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: "/images/flowers.png",
+    deleted: false,
+    user_id: 2,
+    topic_id: rand(1..3)
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: "/images/river.png",
     deleted: false,
     user_id: 2,
     topic_id: rand(1..3)

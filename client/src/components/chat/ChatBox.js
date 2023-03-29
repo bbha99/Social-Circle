@@ -46,7 +46,7 @@ const ChatBox = ({ cable, receiver }) => {
 
   return (
     <Grid item xs={9}>
-      <List sx={{ height: "calc( 100vh - 200px )", overflowY: 'scroll' }} xs="true" >
+      <List sx={{ height: "calc( 100vh - 250px )", overflowY: 'scroll' }} xs="true" >
         {messages.map((message, index) => {
           return (
             message.sender_id === user.id
