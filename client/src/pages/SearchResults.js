@@ -77,16 +77,18 @@ const SearchResults = () => {
                     </Typography>
                     <Typography>{result.postsDetails.description}</Typography>
                     <br></br>
-                    <Typography>
-                      <img
-                        src={result.postsDetails.image}
-                        style={{
-                          width: "50%",
-                          height: "50%",
-                          borderRadius: "1rem",
-                        }}
-                      />
-                    </Typography>
+                    {result.postsDetails.image && (
+                      <Typography>
+                        <img
+                          src={result.postsDetails.image}
+                          style={{
+                            width: "50%",
+                            height: "50%",
+                            borderRadius: "1rem",
+                          }}
+                        />
+                      </Typography>
+                    )}
                   </Box>
                 );
               }
