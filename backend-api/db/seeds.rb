@@ -34,22 +34,29 @@ puts "Creating Users"
 end
 
 User.create!({
-  username: 'john',
-  email: 'ngoxd97@gmail.com',
-  password: '1234567890',
-  password_confirmation: '1234567890',
+  username: Faker::Name.unique.name,
+  email: 'test@gmail.com',
+  password: 'password',
+  password_confirmation: 'password',
 })
 
 User.create!({
-  username: 'euna',
-  email: 'euna@howe.org',
-  password: '1234567890',
-  password_confirmation: '1234567890',
+  username: 'Peter Lan',
+  email: 'Peterl@howe.org',
+  password: 'password',
+  password_confirmation: 'password',
 })
 
 User.create!({
   username: 'bbha',
   email: 'bran@gmail.com',
+  password: 'password',
+  password_confirmation: 'password',
+})
+
+User.create!({
+  username: Faker::Name.unique.name,
+  email: Faker::Internet.email,
   password: 'password',
   password_confirmation: 'password',
 })
@@ -87,10 +94,80 @@ puts "Creating Posts..."
 1.times do 
   Post.create!({
     title: Faker::Quote.singular_siegler,
-    description: Faker::Quote.matz,
-    image: "/images/shrine.png",
+    description: Faker::Quote.yoda,
+    image: "/images/movies/theatre.jpg",
     user_id: 1,
-    topic_id: rand(1..3)
+    topic_id: 5
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.yoda,
+    image: "/images/movies/starwars.jpg",
+    user_id: 3,
+    topic_id: 5
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.yoda,
+    image: "/images/movies/yoda.jpg",
+    user_id: 2,
+    topic_id: 5
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Movies::StarWars.call_sign,
+    description: Faker::Movies::StarWars.quote,
+    image: "/images/gaming/smiling.jpg",
+    user_id: 3,
+    topic_id: 3
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Movies::StarWars.call_sign,
+    description: Faker::Movies::StarWars.quote,
+    image: "/images/gaming/controller.jpg",
+    user_id: 3,
+    topic_id: 3
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Movies::StarWars.call_sign,
+    description: Faker::Movies::StarWars.quote,
+    image: "/images/gaming/arcade.jpg",
+    user_id: 5,
+    topic_id: 3
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    image: "/images/pets/dog.jpg",
+    user_id: 5,
+    topic_id: 4
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    image: "/images/pets/pug2.jpg",
+    user_id: 4,
+    topic_id: 4
   })
 end
 
@@ -98,9 +175,19 @@ end
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
-    image: "/images/art.png",
+    image: "/images/music/dj.jpg",
+    user_id: 4,
+    topic_id: 1
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    image: "/images/pets/pug.jpg",
     user_id: 1,
-    topic_id: rand(1..3)
+    topic_id: 4
   })
 end
 
@@ -108,10 +195,9 @@ end
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
-    image: "/images/shrine.png",
-    deleted: false,
-    user_id: 2,
-    topic_id: rand(1..3)
+    image: "/images/music/night.jpg",
+    user_id: 8,
+    topic_id: 1
   })
 end
 
@@ -119,10 +205,19 @@ end
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
-    image: "/images/flowers.png",
-    deleted: false,
+    image: "/images/sports/gym.jpg",
     user_id: 2,
-    topic_id: rand(1..3)
+    topic_id: 2
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    image: "/images/pets/hamster.jpg",
+    user_id: 8,
+    topic_id: 4
   })
 end
 
@@ -130,12 +225,32 @@ end
   Post.create!({
     title: Faker::Quote.singular_siegler,
     description: Faker::Quote.matz,
-    image: "/images/river.png",
-    deleted: false,
-    user_id: 2,
-    topic_id: rand(1..3)
+    image: "/images/sports/football.jpg",
+    user_id: 8,
+    topic_id: 2
   })
 end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: "/images/sports/volleyball.jpg",
+    user_id: 6,
+    topic_id: 2
+  })
+end
+
+1.times do 
+  Post.create!({
+    title: Faker::Quote.singular_siegler,
+    description: Faker::Quote.matz,
+    image: "/images/music/studio.jpg",
+    user_id: 8,
+    topic_id: 1
+  })
+end
+
 
 puts "Done creating posts"
 
@@ -145,22 +260,127 @@ puts "creating post_likes"
 
 5.times do |n|
   PostLike.create!({
-    post_id: 1,
+    post_id: 3,
+    user_id: n + 1
+  })
+end
+
+4.times do |n|
+  PostLike.create!({
+    post_id: 13,
     user_id: n + 1
   })
 end
 
 3.times do |n|
   PostLike.create!({
-    post_id: 3,
+    post_id: 11,
+    user_id: n + 1
+  })
+end
+
+3.times do |n|
+  PostLike.create!({
+    post_id: 2,
     user_id: n + 1 + 1
+  })
+end
+
+2.times do |n|
+  PostLike.create!({
+    post_id: 10,
+    user_id: n + 1
+  })
+end
+
+4.times do |n|
+  PostLike.create!({
+    post_id: 14,
+    user_id: n + 1
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 1,
+    user_id: 8
   })
 end
 
 1.times do |n|
   PostLike.create!({
     post_id: 2,
-    user_id: n + 1 + 1
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 3,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 4,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 5,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 6,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 6,
+    user_id: 7
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 8,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 9,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 10,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 13,
+    user_id: 8
+  })
+end
+
+1.times do |n|
+  PostLike.create!({
+    post_id: 16,
+    user_id: 8
   })
 end
 
@@ -170,11 +390,45 @@ puts "done creating post_likes"
 
 puts "Creating Comments"
 
-5.times do |n|
+1.times do |n|
   Comment.create!({
     description: Faker::Quotes::Shakespeare.hamlet_quote,
     user_id: 1,
-    post_id: n + 1
+    post_id: 13
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 5,
+    post_id: 13
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 4,
+    post_id: 13
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    parent_comment_id: 2,
+    user_id: 1,
+    post_id: 13
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    parent_comment_id: 3,
+    user_id: 3,
+    post_id: 13
   })
 end
 
@@ -186,30 +440,67 @@ end
   })
 end
 
-1.times do |n|
+5.times do |n|
   Comment.create!({
-    description: "Testing this nested comment.",
-    parent_comment_id: 1,
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
     user_id: 1,
-    post_id: 1
+    post_id: n + 1
   })
 end
 
 1.times do |n|
   Comment.create!({
-    description: "Testing this nested comment2.",
-    parent_comment_id: 1,
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 5,
+    post_id: 10
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 7,
+    post_id: 10
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 5,
+    post_id: 8
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 5,
+    post_id: 14
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
     user_id: 3,
-    post_id: 1
+    post_id: 15
   })
 end
 
 1.times do |n|
   Comment.create!({
-    description: "Testing this nested nested comment.",
-    parent_comment_id: 9,
-    user_id: 2,
-    post_id: 1
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 6,
+    post_id: 16
+  })
+end
+
+1.times do |n|
+  Comment.create!({
+    description: Faker::Quotes::Shakespeare.hamlet_quote,
+    user_id: 3,
+    post_id: 16
   })
 end
 
@@ -237,6 +528,14 @@ puts "Creating chats"
     message: Faker::Quote.yoda,
     sender_id: 6,
     receiver_id: 7
+  })
+end
+
+2.times do |n|
+  Chat.create!({
+    message: Faker::Quote.yoda,
+    sender_id: 8,
+    receiver_id: 6
   })
 end
 
@@ -283,38 +582,3 @@ puts "Creating blocked_posts"
 end
 
 puts "Done creating blocked_posts"
-
-1.times do |n|
-  ImageGallery.create!({
-    user_id: 8,
-    image: "/images/art.png"
-  })
-end
-
-1.times do |n|
-  ImageGallery.create!({
-    user_id: 6,
-    image: "/images/flowers.png"
-  })
-end
-
-1.times do |n|
-  ImageGallery.create!({
-    user_id: 3,
-    image: "/images/shrine.png"
-  })
-end
-
-1.times do |n|
-  ImageGallery.create!({
-    user_id: 1,
-    image: "/images/flower.png"
-  })
-end
-
-1.times do |n|
-  ImageGallery.create!({
-    user_id: 2,
-    image: "/images/art.png"
-  })
-end
